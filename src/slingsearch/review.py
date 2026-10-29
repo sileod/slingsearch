@@ -10,7 +10,7 @@ from .fusion import canonical_url, equivalent, fuse, normalize, normalize_doi, t
 from .graph import FIELDS, citation_graph, paper_result
 from .models import Result
 from .output import tokens
-from .passages import select
+from .passages import select, prepare as prepare_evidence
 from .prior_art import OverlapJudge
 from .providers import PROVIDERS
 from .providers.queries import scholar_keywords
@@ -194,7 +194,9 @@ def bound_findings(report, token_budget):
 async def review(client, config, *, workflow, contribution=None, papers=(), claims=None, queries=None,
                  providers=None, ranker='jev', judge='jev', max_queries=8, max_seeds=5, graph_limit=5,
                  max_candidates=20, max_results=5, max_covered=3, per_provider=5, token_budget=3000,
-                 year=None, expand_graph=True, min_relevance=.5, checks=None, check_threshold=.7):
+                 year=None, expand_graph=True, min_relevance=.5, checks=None, check_threshold=.7, snippet_search=False, enrich_snippets=False):
+    if not isinstance(snippet_search, bool) or not isinstance(enrich_snippets, bool):
+        raise ValueError("snippet_search and enrich_snippets must be boolean")
     from .checks import validate_checks
     validate_checks(checks, check_threshold)
     from .threshold import validate_min_relevance
@@ -249,7 +251,8 @@ async def review(client, config, *, workflow, contribution=None, papers=(), clai
         adapter = PROVIDERS[name](client, key, 'scholar', year)
         start = perf_counter()
         try:
-            docs = await adapter.search(plan['question'], per_provider)
+            docs = await (adapter.search_snippets(plan['question'], per_provider) if name == 'semantic_scholar' and snippet_search else adapter.search(plan['question'], per_provider))
+            if name == 'semantic_scholar' and snippet_search:report.warnings.extend(adapter.snippet_warnings)
             row.update(status='success', count=len(docs))
             if adapter.cost_usd is not None: report.cost_usd = (report.cost_usd or 0) + adapter.cost_usd
             return docs
@@ -287,8 +290,16 @@ async def review(client, config, *, workflow, contribution=None, papers=(), clai
     new = [r for r in pool if not known(r)]
     anchors = covered[:min(max_covered, max_candidates)]
     candidates = anchors + reserve_shortlist(new, max_candidates - len(anchors), config.scholar_provider_weights)
+    if enrich_snippets:
+        from .snippets import enrich
+        async def enrich_operation(operation): return await operation
+        detail = await enrich(client, config, query_question, candidates, enrich_operation, year)
+        report.usage['snippet_enrichment'] = detail
+        report.warnings.extend(detail['warnings'])
+        if detail['status'] != 'complete':report.warnings.append('Snippet enrichment unavailable; existing passages retained')
+    report.usage['semantic_scholar_retrieval'] = 'snippets' if snippet_search else 'papers'
     for result in candidates:
-        result.passages = select(query_question, [result.abstract] if result.abstract else result.passages)
+        prepare_evidence(result, query_question)
     report.usage.update(unique_candidates=len(pool), shortlist=len(candidates), known_candidates=len(covered), new_candidates=len(new),
                         fusion={'k':60, 'weights':config.scholar_provider_weights, 'reserved_providers':list(config.scholar_provider_weights)},
                         graph_seed_limit=max_seeds, query_limit=max_queries, providers=names)

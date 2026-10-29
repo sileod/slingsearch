@@ -80,7 +80,9 @@ class ReviewReport:
                 refs = ', '.join(f'passage {n + 1}' for n in judgment.get('passage_indices', []))
                 lines.append(f"{judgment['claim_id']}: {label}" + (f' ({refs})' if refs else '') + ('; inspect more source text' if judgment.get('inspection_required') else ''))
             for n, passage in enumerate(paper.passages, 1):
-                lines += [f'Passage {n}: "{passage}"']
+                sections = list(dict.fromkeys(m['section'] for m in paper.passage_metadata if m.get('index') == n - 1 and m.get('section')))
+                label = f'Passage {n}' + (f" ({'; '.join(sections)})" if sections else '')
+                lines += [f'{label}: "{passage}"']
             if paper.code_urls: lines.append('Code: ' + ', '.join(paper.code_urls))
             origins = []
             for origin in finding.origins:

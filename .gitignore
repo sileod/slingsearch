@@ -40,3 +40,5 @@ benchmarks/reports/**/budget.lock
 !benchmarks/reports/academic-sources/results.json
 
 !benchmarks/reports/provider-audit/results.json
+
+!benchmarks/reports/snippet-pilot/summary.json

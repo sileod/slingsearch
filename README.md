@@ -105,6 +105,34 @@ there are no guaranteed final provider slots. This policy is exploratory.
 Citation counts never boost relevance. Packing is opt-in through
 `Config(decision_batch_size=5)`; the default remains one pending broader validation.
 
+## Paper-body snippets (experimental)
+
+```python
+papers = search(
+    "How do retrieval systems generalize across domains?", mode="scholar",
+    snippet_search=True,    # S2 snippet search instead of its paper search
+    enrich_snippets=True,   # restricted snippet lookup for the combined shortlist
+)
+```
+
+Both flags are opt-in and also work in review APIs, CLI (`--snippet-search`,
+`--enrich-snippets`) and MCP. Snippet discovery remains the same Semantic Scholar
+provider, not an extra fusion vote. Enrichment adds text without changing provider
+ranks, before the one global ranking stage and relevance checks. This avoids
+filtering papers against abstracts before the body evidence is available.
+
+[Semantic Scholar's snippet endpoint](https://api.semanticscholar.org/api-docs/snippets)
+returns source passages with sections and corpus identifiers; text may come from
+the title, abstract or body. Results retain snippet kind, section, original
+character offsets and retrieval version in `passage_metadata`. Selected excerpts
+preserve source wording. Metadata lookup supplies DOI/year when available.
+Restricted enrichment can miss papers because of index coverage or its global
+snippet limit. Failures retain existing passages and report coverage warnings.
+Search, snippet, metadata and graph calls share client-side rate pacing.
+
+See the [six-query pilot](benchmarks/reports/snippet-pilot/README.md). It measures
+retrieval and body-text coverage, not a proven gain in answer usefulness.
+
 ## Existing related work and novelty checks
 
 ```python

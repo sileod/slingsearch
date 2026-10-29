@@ -10,7 +10,7 @@
     "api.exa.ai": 61,
     "api.parallel.ai": 61,
     "api.openalex.org": 53,
-    "api.semanticscholar.org": 270,
+    "api.semanticscholar.org": 367,
     "independent_gpt4o_judge": 301,
     "api.search.brave.com": 8,
     "api.tavily.com": 8,
@@ -22,13 +22,13 @@
     "huggingface.co": 34,
     "api.github.com": 70
   },
-  "cache_hits": 512,
+  "cache_hits": 637,
   "scope": "Session-wide experiments including academic evaluation and Semforge novelty/related-work validation; total authorized ceiling USD10",
   "http_errors": {
-    "api.semanticscholar.org:429": 124,
+    "api.semanticscholar.org:429": 179,
     "voyage:429": 84,
     "api.github.com:403": 6,
-    "api.semanticscholar.org:400": 1,
+    "api.semanticscholar.org:400": 5,
     "~typesafe/jev-latest:403": 12
   },
   "session_limit_usd": 10

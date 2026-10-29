@@ -63,3 +63,13 @@ and failures. They are additional packed Jev calls, not free metadata filters.
 Missing evidence is not a pass. Do not invent extra requirements that narrow
 the user's scope. Check scores concern the supplied excerpts, not full-paper
 verification.
+
+When abstracts are too broad to verify the requested evidence, consider
+`enrich_snippets=True` (CLI `--enrich-snippets`) in scholar mode. It fetches
+question-matched snippets restricted to the combined shortlist before ranking.
+`snippet_search=True` / `--snippet-search` instead discovers papers through S2's
+snippet index. Both are experimental, may hit rate/coverage limits, and use the
+same Semantic Scholar provenance rather than adding an independent vote.
+Inspect `usage.snippet_enrichment`, warnings, section and snippet-kind metadata;
+not every returned snippet is body text. Missing snippets do not establish absence
+of evidence.

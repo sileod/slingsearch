@@ -46,3 +46,18 @@ async def extract(client, url):
             if len(content) > 2_000_000:
                 raise ValueError('Page exceeds extraction size limit')
     return trafilatura.extract(content.decode('utf-8', errors='replace')) or ''
+
+
+def prepare(result, question, count=2):
+    """Select from both abstracts and provider passages, retaining attribution."""
+    original = list(result.passages)
+    metadata = result.passage_metadata
+    texts = [*original, *([result.abstract] if result.abstract else [])]
+    result.passages = select(question, texts, count)
+    result.passage_metadata = []
+    for index, passage in enumerate(result.passages):
+        for entry in metadata:
+            source = entry.get('index', -1)
+            if 0 <= source < len(original) and passage in original[source]:
+                mapped = {**entry, 'index':index}
+                if mapped not in result.passage_metadata:result.passage_metadata.append(mapped)

@@ -30,6 +30,7 @@ class Result:
     code_urls: list[str] = field(default_factory=list)
     tasks: list[str] = field(default_factory=list)
     dataset_urls: list[str] = field(default_factory=list)
+    passage_metadata: list[dict] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, value):

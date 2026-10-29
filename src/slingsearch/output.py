@@ -18,7 +18,10 @@ def markdown(results):
         if r.code_urls: parts.append('Code: ' + ', '.join(r.code_urls))
         if r.tasks: parts.append('Tasks: ' + ', '.join(r.tasks))
         if r.dataset_urls: parts.append('Datasets: ' + ', '.join(r.dataset_urls))
-        parts.extend(f'\nRelevant passage:\n"{p}"' for p in r.passages)
+        for index, passage in enumerate(r.passages):
+            sections = list(dict.fromkeys(m['section'] for m in r.passage_metadata if m.get('index') == index and m.get('section')))
+            label = 'Relevant passage' + (f" ({'; '.join(sections)})" if sections else '')
+            parts.append(f'\n{label}:\n"{passage}"')
         blocks.append('\n'.join(parts))
     return '\n\n'.join(blocks)
 
@@ -43,6 +46,7 @@ def budget_results(results, max_results, token_budget):
     originals = originals[:len(selected)]
     if not selected:
         return []
+    kept_indices = [[] for _ in selected]
     max_passages = max((len(r.passages) for r in originals), default=0)
     for passage_index in range(max_passages):
         eligible = [i for i, r in enumerate(originals) if len(r.passages) > passage_index]
@@ -60,9 +64,15 @@ def budget_results(results, max_results, token_budget):
                 selected[i].passages[-1] = text
             if not text:
                 selected[i].passages.pop()
-    for original, item in zip(originals, selected):
+            else:
+                kept_indices[i].append(passage_index)
+    for original, item, indices in zip(originals, selected, kept_indices):
+        item.passage_metadata = [{**entry,'index':index}
+            for index, source in enumerate(indices) for entry in original.passage_metadata
+            if entry.get('index') == source]
         if original.abstract and item.passages:
-            item.abstract = item.passages[0]
+            abstract_excerpts = [p for p in item.passages if p and p in original.abstract]
+            item.abstract = abstract_excerpts[0] if abstract_excerpts else None
             if evidence_tokens(selected) > token_budget:
                 item.abstract = None
     return selected

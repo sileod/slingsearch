@@ -8,9 +8,11 @@ def main():
     @server.tool()
     async def search(question: str, mode: str = 'web', ranker: str = 'jev',
                      max_results: int = 5, token_budget: int = 1500, min_relevance: float | None = .5,
-                     checks: list[str] | None = None, check_threshold: float = .7) -> dict:
+                     checks: list[str] | None = None, check_threshold: float = .7,
+                     snippet_search: bool = False, enrich_snippets: bool = False) -> dict:
         return (await asearch(question, mode=mode, ranker=ranker,
                               max_results=max_results, token_budget=token_budget, min_relevance=min_relevance,
-                              checks=checks, check_threshold=check_threshold)).to_dict()
+                              checks=checks, check_threshold=check_threshold,
+                              snippet_search=snippet_search, enrich_snippets=enrich_snippets)).to_dict()
 
     server.run()

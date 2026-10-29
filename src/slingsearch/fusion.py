@@ -38,6 +38,12 @@ def normalize(result):
             result.identifiers[key] = result.identifiers[key].rstrip('/').rsplit('/', 1)[-1]
     if 'openalex' in result.identifiers:
         result.identifiers['openalex'] = result.identifiers['openalex'].rstrip('/').rsplit('/', 1)[-1].upper()
+    if urlsplit(result.url).hostname in ('semanticscholar.org', 'www.semanticscholar.org'):
+        tail = urlsplit(result.url).path.rstrip('/').rsplit('/',1)[-1]
+        if re.fullmatch(r'[a-fA-F0-9]{40}',tail):
+            result.identifiers.setdefault('semantic_scholar',tail.lower())
+        corpus = re.fullmatch(r'CorpusID:(\d+)',tail,re.I)
+        if corpus:result.identifiers.setdefault('corpusid',corpus[1])
     arxiv = re.search(r'arxiv\.org/(?:abs|pdf)/([^?#]+)', result.url)
     if arxiv:
         result.identifiers.setdefault('arxiv', arxiv[1].removesuffix('.pdf'))
@@ -77,6 +83,15 @@ def equivalent(a, b):
 
 
 def merge(a, b):
+    combined = list(dict.fromkeys([*a.passages, *b.passages]))
+    annotations = []
+    for result in (a, b):
+        for metadata in result.passage_metadata:
+            index = metadata.get('index', -1)
+            if 0 <= index < len(result.passages):
+                mapped = {**metadata, 'index':combined.index(result.passages[index])}
+                if mapped not in annotations: annotations.append(mapped)
+    a.passage_metadata = annotations
     for name in ('passages', 'authors', 'sources', 'related_urls', 'code_urls', 'tasks', 'dataset_urls'):
         target = getattr(a, name)
         target.extend(x for x in getattr(b, name) if x not in target)

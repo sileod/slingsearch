@@ -1,0 +1,62 @@
+{
+  "queries": 6,
+  "retrieval": {
+    "papers": {
+      "successful": 6,
+      "unique_papers": 4,
+      "body_snippets": 0,
+      "sage_short": {
+        "paired_queries": 2,
+        "metric": "Hit@10",
+        "mean": 0.0
+      },
+      "sage_open": {
+        "paired_queries": 2,
+        "metric": "WeightedRecall@10",
+        "mean": 0.0
+      },
+      "litqa2": {
+        "paired_queries": 2,
+        "metric": "Recall@30",
+        "mean": 0.0
+      }
+    },
+    "snippets": {
+      "successful": 6,
+      "unique_papers": 51,
+      "body_snippets": 50,
+      "sage_short": {
+        "paired_queries": 2,
+        "metric": "Hit@10",
+        "mean": 0.5
+      },
+      "sage_open": {
+        "paired_queries": 2,
+        "metric": "WeightedRecall@10",
+        "mean": 0.0
+      },
+      "litqa2": {
+        "paired_queries": 2,
+        "metric": "Recall@30",
+        "mean": 0.5
+      }
+    }
+  },
+  "enrichment": {
+    "successful": 6,
+    "requested_papers": 26,
+    "enriched_papers": 12,
+    "selected_body_passages": 11,
+    "changed_papers": 9
+  },
+  "limitations": [
+    "Six reused questions; not independent validation or an established improvement",
+    "Live provider results can change; raw normalized snapshots retained privately",
+    "Paper search uses existing ten-term lexical cleanup; snippets use the full question with an explicit literal-asterisk HTTP-400 retry. This changes query strategy as well as index",
+    "Equal limit=10 counts papers in paper search but snippets in snippet search; fewer unique snippet papers are possible",
+    "LitQA historical filtering conservatively excludes 2024 and later papers; no publication-date lookup in this pilot",
+    "No model-based relevance or passage usefulness assessment; key lifetime limit blocks fresh model calls",
+    "Enrichment uses a fixed five-paper frozen shortlist and one restricted request; papers may receive no snippet",
+    "Body-text availability and changed excerpts are coverage measurements, not evidence-quality judgments"
+  ]
+}

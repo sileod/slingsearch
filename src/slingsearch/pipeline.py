@@ -5,7 +5,7 @@ from .config import MODELS
 from .models import SearchResponse
 from .providers import PROVIDERS
 from .fusion import fuse
-from .passages import extract, select
+from .passages import extract, select, prepare as prepare_evidence
 from .output import budget_results, evidence_tokens, tokens
 from .rankers import make_ranker
 from .deadline import collect
@@ -16,7 +16,11 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
               max_results=5, token_budget=1500, per_provider=10, shortlist=20,
               passages_per_result=2, fetch_pages=False, year=None, diversity=False, anchor_provider=None,
               fast=False, deadline=None, fast_min_results=None, fast_grace=.15,
-              assess=False, assessment_threshold=.7, min_relevance=.5, checks=None, check_threshold=.7):
+              assess=False, assessment_threshold=.7, min_relevance=.5, checks=None, check_threshold=.7, snippet_search=False, enrich_snippets=False):
+    if not isinstance(snippet_search, bool) or not isinstance(enrich_snippets, bool):
+        raise ValueError("snippet_search and enrich_snippets must be boolean")
+    if mode != "scholar" and (snippet_search or enrich_snippets):
+        raise ValueError("Snippets require scholar mode")
     from .checks import validate_checks
     validate_checks(checks, check_threshold)
     from .threshold import validate_min_relevance
@@ -78,7 +82,10 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
         adapter = PROVIDERS[name](client, key, mode, year, **({'resource': config.huggingface_resource} if name == 'huggingface' else {}))
         start = perf_counter()
         try:
-            result = await adapter.search(question, per_provider)
+            result = await (adapter.search_snippets(question, per_provider) if name == 'semantic_scholar' and snippet_search else adapter.search(question, per_provider))
+            if name == 'semantic_scholar' and snippet_search:
+                response.usage['snippet_retrieval_version'] = adapter.snippet_version
+                response.warnings.extend(adapter.snippet_warnings)
             response.successful.append(name)
             if adapter.cost_usd is not None:
                 response.cost_usd = (response.cost_usd or 0) + adapter.cost_usd
@@ -100,18 +107,27 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
         candidates = [r for r in candidates if r.year is not None and year[0] <= r.year <= year[1]]
         response.warnings.append('Year filter excludes papers without a known publication year')
     candidates = balanced_shortlist(candidates, shortlist) if diversity else reserve_shortlist(candidates, shortlist, weights)
+    response.usage['semantic_scholar_retrieval'] = 'snippets' if snippet_search else 'papers'
+    if enrich_snippets:
+        from .snippets import enrich
+        start = perf_counter()
+        detail = await enrich(client, config, question, candidates, bounded, year)
+        response.usage['snippet_enrichment'] = detail
+        response.warnings.extend(detail['warnings'])
+        if detail['status'] != 'complete':response.warnings.append('Snippet enrichment unavailable; existing passages retained')
+        response.timings['snippet_enrichment'] = perf_counter() - start
     start = perf_counter()
     semaphore = asyncio.Semaphore(5)
     async def prepare(candidate):
-        texts = [candidate.abstract] if mode == 'scholar' and candidate.abstract else candidate.passages
+        texts = [*candidate.passages, *([candidate.abstract] if candidate.abstract else [])]
         if fetch_pages and mode == 'web' and tokens(''.join(texts)) < 80:
             try:
                 async with semaphore:
                     body = await extract(client, candidate.url)
-                texts = [*texts, body]
+                candidate.passages.append(body)
             except Exception as error:
                 response.warnings.append(f'Page extraction failed for {candidate.id} ({type(error).__name__})')
-        candidate.passages = select(question, texts, passages_per_result)
+        prepare_evidence(candidate, question, passages_per_result)
     try:
         await bounded(asyncio.gather(*(prepare(c) for c in candidates)))
     except TimeoutError:
