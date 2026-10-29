@@ -194,11 +194,11 @@ def bound_findings(report, token_budget):
 async def review(client, config, *, workflow, contribution=None, papers=(), claims=None, queries=None,
                  providers=None, ranker='jev', judge='jev', max_queries=8, max_seeds=5, graph_limit=5,
                  max_candidates=20, max_results=5, max_covered=3, per_provider=5, token_budget=3000,
-                 year=None, expand_graph=True, min_relevance=3, checks=None, check_threshold=.7):
+                 year=None, expand_graph=True, min_relevance=.5, checks=None, check_threshold=.7):
     from .checks import validate_checks
     validate_checks(checks, check_threshold)
-    if min_relevance is not None and (type(min_relevance) is not int or not 1 <= min_relevance <= 5):
-        raise ValueError("min_relevance must be an integer from 1 to 5")
+    from .threshold import validate_min_relevance
+    validate_min_relevance(min_relevance)
     started = perf_counter()
     if workflow not in ('novelty','related_work'): raise ValueError('Unknown review workflow')
     if contribution is not None and (not isinstance(contribution, str) or not contribution.strip()): raise ValueError('Contribution must be nonempty')

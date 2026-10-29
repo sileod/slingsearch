@@ -21,6 +21,7 @@ class Result:
     sources: list[Source] = field(default_factory=list)
     rrf_score: float = 0.0
     model_score: float | None = None
+    relevance_score: float | None = None
     identifiers: dict[str, str] = field(default_factory=dict)
     venue: str | None = None
     citation_count: int | None = None
@@ -69,7 +70,7 @@ class SearchResponse:
         statuses = []
         cutoff = self.usage.get('relevance_filter')
         if cutoff:
-            statuses.append(f"Relevance cutoff ≥{cutoff['minimum']}/5: {cutoff['kept']} qualified sources before checks and output limits."
+            statuses.append(f"Relevance cutoff ≥{cutoff['minimum']:g}: {cutoff['kept']} qualified sources before checks and output limits."
                             if cutoff['status'] == 'complete' else
                             'Relevance scoring unavailable; no sources qualified. This is not evidence that no relevant sources exist.')
         checks = self.usage.get('checks')

@@ -12,11 +12,11 @@ never infer that all providers ran successfully.
 For ordinary evidence searches:
 
 ```sh
-slingsearch "The user's specific question" --mode scholar --min-relevance 4 --format json
+slingsearch "The user's specific question" --mode scholar --min-relevance 0.75 --format json
 ```
 
 Use `--mode web` for general web questions. Jev Latest is the default global
-ranker. The default 1–5 relevance cutoff is 3 (partial supporting evidence). Use 4
+ranker. The default normalized 0–1 relevance cutoff is 0.5 (partial supporting evidence). Use 0.75
 for directly useful sources, or `--no-relevance-filter` when deliberately surveying
 weak leads. Omitting the option keeps the default cutoff. A strict
 cutoff can miss useful papers. Do not interpret scores as calibrated probabilities.

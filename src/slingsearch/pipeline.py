@@ -16,11 +16,11 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
               max_results=5, token_budget=1500, per_provider=10, shortlist=20,
               passages_per_result=2, fetch_pages=False, year=None, diversity=False, anchor_provider=None,
               fast=False, deadline=None, fast_min_results=None, fast_grace=.15,
-              assess=False, assessment_threshold=.7, min_relevance=3, checks=None, check_threshold=.7):
+              assess=False, assessment_threshold=.7, min_relevance=.5, checks=None, check_threshold=.7):
     from .checks import validate_checks
     validate_checks(checks, check_threshold)
-    if min_relevance is not None and (type(min_relevance) is not int or not 1 <= min_relevance <= 5):
-        raise ValueError("min_relevance must be an integer from 1 to 5")
+    from .threshold import validate_min_relevance
+    validate_min_relevance(min_relevance)
     if not isinstance(assess, bool) or isinstance(assessment_threshold, bool) or not isinstance(assessment_threshold, (int, float)) or not math.isfinite(assessment_threshold) or not 0 <= assessment_threshold <= 1:
         raise ValueError('assess must be boolean and assessment_threshold must be between zero and one')
     if not isinstance(fast, bool):

@@ -123,4 +123,5 @@ def fuse(results, weights=None):
             ranks[source.provider] = min(source.rank, ranks.get(source.provider, source.rank))
         item.rrf_score = sum((weights or {}).get(provider, 1.0) / (60 + rank) for provider, rank in ranks.items())
         item.model_score = None
+        item.relevance_score = None
     return sorted(groups, key=lambda r: (-r.rrf_score, r.id))

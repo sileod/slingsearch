@@ -1,5 +1,12 @@
 """Ordinal relevance gating; native reranker scores are never probabilities."""
+import math
 from .assessment import assessor
+
+
+def validate_min_relevance(value):
+    if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float))
+                              or not math.isfinite(value) or not 0 <= value <= 1):
+        raise ValueError("min_relevance must be a finite number between zero and one, or None")
 
 
 async def qualify(client, config, question, candidates, minimum, ranking_backend, bounded):
@@ -19,10 +26,14 @@ async def qualify(client, config, question, candidates, minimum, ranking_backend
             scores, model = {}, None
         if any(score is None or not 1 <= score <= 5 for score in scores.values()):
             raise ValueError('Relevance scores unavailable')
+        raw_scores = scores
+        scores = {identifier: (score - 1) / 4 for identifier, score in raw_scores.items()}
+        for result in candidates:
+            result.relevance_score = scores[result.id]
         kept = [r for r in candidates if scores[r.id] >= minimum]
-        detail = {'status':'complete', 'minimum':minimum, 'scale':'ordinal_1_to_5',
+        detail = {'status':'complete', 'minimum':minimum, 'scale':'normalized_0_to_1',
                   'model':model, 'scored':len(candidates), 'kept':len(kept),
-                  'scores':scores, 'scope':'Model judgments on shortlist excerpts, not calibrated probabilities'}
+                  'scores':scores, 'raw_scores':raw_scores, 'normalization':'(rubric_score - 1) / 4', 'scope':'Model judgments on shortlist excerpts, not calibrated probabilities'}
         return kept, detail, backend
     except Exception as error:
         return [], {'status':'unavailable', 'minimum':minimum, 'error_type':type(error).__name__,

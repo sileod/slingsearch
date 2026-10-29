@@ -1,4 +1,4 @@
-> Search now defaults to Jev ranking and a >=3/5 relevance cutoff, including
+> Search now defaults to Jev ranking and a >=0.5 normalized relevance cutoff, including
 > novelty/related-work workflows. Use `min_relevance=None` (CLI
 > `--no-relevance-filter`) for the unfiltered behavior in older examples below.
 > RRF is fully free only with the cutoff disabled. See the [quick start](../README.md).

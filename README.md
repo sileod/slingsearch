@@ -25,7 +25,7 @@ print(web.to_markdown())
 papers = search(
     "What limits diffusion models for time-series forecasting?",
     mode="scholar",
-    min_relevance=4,
+    min_relevance=0.75,
     max_results=5,
     token_budget=1500,
 )
@@ -38,21 +38,24 @@ usage, reported costs and warnings.
 
 ## Only keep useful sources
 
-`min_relevance=4` / `--min-relevance 4` filters the combined shortlist using:
+`min_relevance=0.75` / `--min-relevance 0.75` filters the combined shortlist using:
 
 | Score | Meaning |
 |---|---|
-| 1 | Unrelated |
-| 2 | Topically related; unlikely to help |
-| 3 | Partial supporting evidence |
-| 4 | Directly addresses a substantial part of the question |
-| 5 | Directly answers the question with substantial evidence |
+| 0.00 | Unrelated |
+| 0.25 | Topically related; unlikely to help |
+| 0.50 | Partial supporting evidence |
+| 0.75 | Directly addresses a substantial part of the question |
+| 1.00 | Directly answers the question with substantial evidence |
 
-The default cutoff is **3/5**: sources need at least partial supporting evidence.
-Use **4/5** for stricter searches. Searches can return fewer than `max_results`,
+The default cutoff is **0.5**: sources need at least partial supporting evidence.
+Use **0.75** for stricter searches. Searches can return fewer than `max_results`,
 including zero. Set `min_relevance=None` or `--no-relevance-filter` to opt out.
-Scores are model judgments, **not calibrated probabilities**. Inspect
-`usage.relevance_filter` for scores and qualification status. The judgment uses
+Scores map the internal rubric with `(rubric_score - 1) / 4`; any finite cutoff
+from 0 to 1 is accepted. Scores are model judgments, **not calibrated probabilities**. Inspect
+`result.relevance_score` for normalized relevance and `usage.relevance_filter`
+for qualification status and raw rubric scores. `model_score` remains the
+backend-native score, including Voyage’s own scale. The judgment uses
 bounded shortlist excerpts; output budgeting may shorten them further.
 
 Jev, D1 and Decider reuse their rubric scores without another model call.
