@@ -46,6 +46,21 @@ def test_doris_rejects_incomplete_or_unresolved_judgments(tmp_path):
     with pytest.raises(ValueError,match='unresolved'):doris.load(path,[0])
 
 
+def test_doris_only_checks_judgments_needed_by_each_query(tmp_path):
+    path,data=native(tmp_path)
+    data['aspect_id2aspect']['c']='Other requirement'
+    data['Corpus'].append({'abstract_id':2,'title':'Third','original_abstract':'Other evidence',
+                           'url':'https://arxiv.org/abs/3'})
+    data['Query'].append({'query_text':'Other question','candidate_pool':[2],'aspects':{'c':[]}})
+    data['Annotation'].extend([{'aspect_id':'c','abstract_id':pid,'score':score}
+                               for pid,score in [(2,2),(0,0),(0,1)]])
+    path.write_text(json.dumps(data))
+    assert len(doris.load(path,[0,1]))==2  # c/0 is not in either question's evaluated pairs.
+    data['Annotation'].append({'aspect_id':'a','abstract_id':0,'score':0})
+    path.write_text(json.dumps(data))
+    with pytest.raises(ValueError,match='Conflicting'):doris.load(path,[0,1])
+
+
 def test_paperfinding_does_not_treat_known_positives_as_exhaustive(tmp_path):
     p=tmp_path/'pf.json'
     p.write_text(json.dumps([
@@ -155,8 +170,10 @@ async def test_paperfinding_rank_judge_and_report_replay(tmp_path,monkeypatch):
             'usage':{'prompt_tokens':100,'completion_tokens':20,'cost':.00045},
             'choices':[{'message':{'content':json.dumps({'criteria':{
                 'task':{'relevance':'Perfectly Relevant','relevant_snippet':'task'}}})}}]})
-    monkeypatch.setattr(pf.httpx,'AsyncClient',lambda **kwargs:actual_client(
-        transport=httpx.MockTransport(handle),**kwargs))
+    def fixture_client(**kwargs):
+        kwargs['transport']=httpx.MockTransport(handle)
+        return actual_client(**kwargs)
+    monkeypatch.setattr(pf.httpx,'AsyncClient',fixture_client)
     await pf.judge(out,'fixture-secret',source)
     await pf.judge(out,'fixture-secret',source)
     assert len(calls)==2  # One judgment per unique paper; replay makes no requests.

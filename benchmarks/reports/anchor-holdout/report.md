@@ -1,5 +1,12 @@
 # Exa-preserving fusion: development and query-held-out evaluation
 
+Subsequent best-individual audit: Parallel scores 0.7356 nDCG@5 on the same
+57-question holdout, above Exa's 0.5798. RRF trio's advantage over Parallel is
+only 0.0180, with paired bootstrap 95% interval [-0.0273, 0.0617]. The large
+Exa-relative improvement below must not be described as a demonstrated win
+over the strongest individual provider. This audit reused frozen results and
+labels without paid API calls.
+
 No paid requests. Parameters selected on the previously exposed 20 queries; earlier smoke-check questions KI02/KI03 are also excluded from holdout. Heuristic relevance labels limit the conclusion.
 
 Selected rule: preserve Exa top 1; supplementary rank-support weight 2.

@@ -1,0 +1,72 @@
+{
+  "summary": {
+    "jev_single": {
+      "queries": 12,
+      "nDCG@5": 0.7597525447253652,
+      "latency_p50_s": 5.257661461830139,
+      "mean_reported_cost_usd": 0.0006900249999999999,
+      "mean_input_tokens": 16429.166666666668,
+      "mean_requests": 20,
+      "cache_telemetry_reported": false
+    },
+    "jev_packed5": {
+      "queries": 12,
+      "nDCG@5": 0.7581299242115993,
+      "latency_p50_s": 1.1940295631065965,
+      "mean_reported_cost_usd": 0.00039955300000000003,
+      "mean_input_tokens": 9513.166666666666,
+      "mean_requests": 4,
+      "cache_telemetry_reported": false
+    },
+    "jev_three_judgments": {
+      "queries": 12,
+      "nDCG@5": 0.7633975016832689,
+      "latency_p50_s": 5.380782823078334,
+      "mean_reported_cost_usd": 0.000772345,
+      "mean_input_tokens": 18389.166666666668,
+      "mean_requests": 20,
+      "cache_telemetry_reported": false
+    },
+    "voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7677746672439174,
+      "latency_p50_s": 0.5806671977043152,
+      "mean_reported_cost_usd": 0.00015581666666666667,
+      "mean_input_tokens": 7790.833333333333,
+      "mean_requests": 1,
+      "cache_telemetry_reported": false
+    }
+  },
+  "paired_vs_single": {
+    "jev_packed5": {
+      "mean_delta": -0.001622620513765947,
+      "ci95": [
+        -0.02111664252493913,
+        0.01214302615938694
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_three_judgments": {
+      "mean_delta": 0.003644956957903641,
+      "ci95": [
+        0.00014819899349681012,
+        0.00765016832649983
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "voyage": {
+      "mean_delta": 0.008022122518552213,
+      "ci95": [
+        -0.028898542267290207,
+        0.03871469577851075
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    }
+  }
+}

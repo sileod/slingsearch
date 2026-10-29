@@ -210,7 +210,7 @@ def judge_prompt(source,criteria,doc):
         'document':representation(doc,400)})
 
 
-async def judge(out,openrouter_key,source):
+async def judge(out,openrouter_key,source,*,transport=None):
     import tiktoken
     manifest=json.loads((out/'manifest.json').read_text()) if (out/'manifest.json').exists() else {}
     checks=[('snapshot_sha256',out/'frozen.jsonl'),
@@ -234,7 +234,7 @@ async def judge(out,openrouter_key,source):
         'scope':'Independent relevance evaluation via OpenRouter GPT-4o, outside core rankers; no query or answer generation; token-based cost estimate without cached-input discount'}
     # Reservations and ledger writes happen synchronously before requests yield.
     semaphore=asyncio.Semaphore(8)
-    async with httpx.AsyncClient(timeout=60) as client:
+    async with httpx.AsyncClient(timeout=60,transport=transport) as client:
         for qid,q in qs.items():
             pool=fuse(q.candidates)
             for r in pool:r.passages=select(q.question,[r.abstract] if r.abstract else r.passages)

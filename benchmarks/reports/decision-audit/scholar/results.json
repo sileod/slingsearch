@@ -1,0 +1,801 @@
+{
+  "mode": "scholar",
+  "summary": {
+    "single:exa": {
+      "queries": 8,
+      "P@5": 0.7000000000000001,
+      "aspect_coverage": 0.9833333333333334,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    "single:parallel": {
+      "queries": 8,
+      "P@5": 0.325,
+      "aspect_coverage": 0.9416666666666668,
+      "useful_non_exa": 0.5,
+      "output_tokens": 1188.25
+    },
+    "single:openalex": {
+      "queries": 8,
+      "P@5": 0.2,
+      "aspect_coverage": 0.8041666666666667,
+      "useful_non_exa": 0.875,
+      "output_tokens": 1500
+    },
+    "single:semantic_scholar": {
+      "queries": 8,
+      "P@5": 0.17500000000000002,
+      "aspect_coverage": 0.7083333333333334,
+      "useful_non_exa": 0.5,
+      "output_tokens": 1500
+    },
+    "rrf": {
+      "queries": 8,
+      "P@5": 0.625,
+      "aspect_coverage": 0.9833333333333334,
+      "useful_non_exa": 0.5,
+      "output_tokens": 1500
+    },
+    "jev_single": {
+      "queries": 8,
+      "P@5": 0.775,
+      "aspect_coverage": 0.9833333333333334,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    "jev_packed5": {
+      "queries": 8,
+      "P@5": 0.75,
+      "aspect_coverage": 0.9833333333333334,
+      "useful_non_exa": 0.875,
+      "output_tokens": 1500
+    },
+    "voyage": {
+      "queries": 8,
+      "P@5": 0.725,
+      "aspect_coverage": 0.9833333333333334,
+      "useful_non_exa": 0.875,
+      "output_tokens": 1500
+    },
+    "exa+voyage": {
+      "queries": 8,
+      "P@5": 0.775,
+      "aspect_coverage": 0.9833333333333334,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    "parallel+voyage": {
+      "queries": 8,
+      "P@5": 0.325,
+      "aspect_coverage": 0.9416666666666668,
+      "useful_non_exa": 0.5,
+      "output_tokens": 1193.625
+    }
+  },
+  "best_single_selected_on_sample": "single:exa",
+  "comparisons": {
+    "rrf_vs_single:exa": {
+      "mean_delta": -0.07500000000000001,
+      "ci95": [
+        -0.2,
+        0.049999999999999975
+      ],
+      "queries": 8,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_single_vs_single:exa": {
+      "mean_delta": 0.075,
+      "ci95": [
+        0.024999999999999994,
+        0.15
+      ],
+      "queries": 8,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_packed5_vs_single:exa": {
+      "mean_delta": 0.05,
+      "ci95": [
+        0.0,
+        0.12499999999999999
+      ],
+      "queries": 8,
+      "seed": 0,
+      "samples": 2000
+    },
+    "voyage_vs_single:exa": {
+      "mean_delta": 0.02500000000000001,
+      "ci95": [
+        -0.07499999999999997,
+        0.10000000000000003
+      ],
+      "queries": 8,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_packed5_vs_jev_single": {
+      "mean_delta": -0.024999999999999994,
+      "ci95": [
+        -0.07499999999999998,
+        0.0
+      ],
+      "queries": 8,
+      "seed": 0,
+      "samples": 2000
+    },
+    "voyage_vs_exa+voyage": {
+      "mean_delta": -0.049999999999999996,
+      "ci95": [
+        -0.14999999999999997,
+        0.04999999999999999
+      ],
+      "queries": 8,
+      "seed": 0,
+      "samples": 2000
+    },
+    "voyage_vs_parallel+voyage": {
+      "mean_delta": 0.4,
+      "ci95": [
+        0.275,
+        0.525
+      ],
+      "queries": 8,
+      "seed": 0,
+      "samples": 2000
+    }
+  },
+  "records": [
+    {
+      "query_id": "semantic_22",
+      "method": "single:exa",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "single:parallel",
+      "P@5": 0.0,
+      "aspect_coverage": 0.6666666666666666,
+      "useful_non_exa": 0,
+      "output_tokens": 863
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "single:openalex",
+      "P@5": 0.0,
+      "aspect_coverage": 0.6666666666666666,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "single:semantic_scholar",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "rrf",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "jev_single",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "jev_packed5",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "voyage",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "exa+voyage",
+      "P@5": 0.4,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_22",
+      "method": "parallel+voyage",
+      "P@5": 0.0,
+      "aspect_coverage": 0.6666666666666666,
+      "useful_non_exa": 0,
+      "output_tokens": 868
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "single:exa",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "single:parallel",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "single:openalex",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 3,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "single:semantic_scholar",
+      "P@5": 0.0,
+      "aspect_coverage": 0.5333333333333333,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "rrf",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "jev_single",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "jev_packed5",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "voyage",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "exa+voyage",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_91",
+      "method": "parallel+voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "single:exa",
+      "P@5": 0.6,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "single:parallel",
+      "P@5": 0.2,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 0,
+      "output_tokens": 1406
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "single:openalex",
+      "P@5": 0.4,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "single:semantic_scholar",
+      "P@5": 0.2,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "rrf",
+      "P@5": 0.4,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "jev_single",
+      "P@5": 0.8,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "jev_packed5",
+      "P@5": 0.8,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "exa+voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_104",
+      "method": "parallel+voyage",
+      "P@5": 0.2,
+      "aspect_coverage": 0.8666666666666667,
+      "useful_non_exa": 0,
+      "output_tokens": 1415
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "single:exa",
+      "P@5": 0.4,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "single:parallel",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 863
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "single:openalex",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "single:semantic_scholar",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "rrf",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "jev_single",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "jev_packed5",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "voyage",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "exa+voyage",
+      "P@5": 0.4,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_174",
+      "method": "parallel+voyage",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 868
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "single:exa",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "single:parallel",
+      "P@5": 0.4,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1392
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "single:openalex",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "single:semantic_scholar",
+      "P@5": 0.0,
+      "aspect_coverage": 0.33333333333333337,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "rrf",
+      "P@5": 0.4,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "jev_single",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 3,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "jev_packed5",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "exa+voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_189",
+      "method": "parallel+voyage",
+      "P@5": 0.4,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1402
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "single:exa",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "single:parallel",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1323
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "single:openalex",
+      "P@5": 0.0,
+      "aspect_coverage": 0.3,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "single:semantic_scholar",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 2,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "rrf",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "jev_single",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "jev_packed5",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "exa+voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_221",
+      "method": "parallel+voyage",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0,
+      "useful_non_exa": 0,
+      "output_tokens": 1333
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "single:exa",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "single:parallel",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "single:openalex",
+      "P@5": 0.2,
+      "aspect_coverage": 0.7333333333333334,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "single:semantic_scholar",
+      "P@5": 0.0,
+      "aspect_coverage": 0.4000000000000001,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "rrf",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "jev_single",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "jev_packed5",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "exa+voyage",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_226",
+      "method": "parallel+voyage",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 1,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "single:exa",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "single:parallel",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 659
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "single:openalex",
+      "P@5": 0.0,
+      "aspect_coverage": 0.8666666666666668,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "single:semantic_scholar",
+      "P@5": 0.0,
+      "aspect_coverage": 0.5333333333333334,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "rrf",
+      "P@5": 0.6,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "jev_single",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "jev_packed5",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "voyage",
+      "P@5": 0.8,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "exa+voyage",
+      "P@5": 1.0,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 1500
+    },
+    {
+      "query_id": "semantic_229",
+      "method": "parallel+voyage",
+      "P@5": 0.2,
+      "aspect_coverage": 1.0000000000000002,
+      "useful_non_exa": 0,
+      "output_tokens": 663
+    }
+  ],
+  "paired_queries": [
+    "semantic_104",
+    "semantic_174",
+    "semantic_189",
+    "semantic_22",
+    "semantic_221",
+    "semantic_226",
+    "semantic_229",
+    "semantic_91"
+  ],
+  "judgment_pairs": 130
+}

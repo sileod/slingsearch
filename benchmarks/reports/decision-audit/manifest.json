@@ -1,0 +1,73 @@
+{
+  "seed": 20261030,
+  "prior_session_cost_estimate_usd": 1.890692856,
+  "new_spend_reservation_ceiling_usd": 2.5,
+  "session_ceiling_usd": 5,
+  "doris_indices": [
+    10,
+    44,
+    59,
+    61,
+    63,
+    64,
+    70,
+    76,
+    87,
+    89,
+    90,
+    96
+  ],
+  "doris_candidate_policy": "Fixed BM25 top20 from native pools; original full question and 400 token document bound",
+  "decision_methods": [
+    "jev_single",
+    "jev_packed5",
+    "jev_three_judgments",
+    "voyage"
+  ],
+  "decision_budget_reservation_usd": 0.25,
+  "fresh_paperfinding_query_ids": [
+    "semantic_104",
+    "semantic_174",
+    "semantic_189",
+    "semantic_22",
+    "semantic_221",
+    "semantic_226",
+    "semantic_229",
+    "semantic_91"
+  ],
+  "scholar_providers": [
+    "exa",
+    "parallel",
+    "openalex",
+    "semantic_scholar"
+  ],
+  "web_providers": [
+    "exa",
+    "parallel",
+    "brave",
+    "tavily",
+    "firecrawl"
+  ],
+  "quality_judge": "openai/gpt-4o-2024-11-20 with released PaperFindingBench criteria or original web information need",
+  "no_default_changes": true,
+  "precommitted_before_new_scores": true,
+  "doris_sha256": "7811007a1251e1cf754b95f190b73fb54096cb9e1aeff994cb209ac2dd4ccbce",
+  "web_query_ids": [
+    "EX05",
+    "KI06",
+    "MC08",
+    "ML07",
+    "PS02",
+    "PS03",
+    "PS04",
+    "SM02"
+  ],
+  "web_scope": "Previously seen benchmark questions, newly collected live outputs and independent relevance judgments. Not query-held-out validation.",
+  "requested_models": {
+    "jev": "typesafe/jev-1.14",
+    "decider": "perplexity/pplx-decider-v1.2",
+    "voyage": "voyageai/rerank-3-lite"
+  },
+  "cache_telemetry": "No cached-token fields reported by the live Decisions responses; benchmark exact replay is separate.",
+  "retry_policy_actual": "One failed native Voyage request and two live scholar Voyage requests retried once; original attempts retained; all final paired queries complete."
+}

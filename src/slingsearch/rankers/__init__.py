@@ -14,4 +14,5 @@ def make_ranker(name, client, config):
         raise ValueError('OPENROUTER_API_KEY is missing')
     if name == 'voyage':
         return Voyage(client, key, MODELS[name], config.candidate_tokens)
-    return Decisions(client, key, MODELS[name], config.ranking_concurrency, config.candidate_tokens)
+    return Decisions(client, key, MODELS[name], config.ranking_concurrency, config.candidate_tokens,
+                     batch_size=config.decision_batch_size, evidence_checks=config.decision_evidence_checks)

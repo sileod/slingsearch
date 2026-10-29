@@ -24,3 +24,10 @@ benchmarks/reports/**/*.py
 !benchmarks/reports/scholar-benchmarks/paperfinding/manifest.json
 !benchmarks/reports/scholar-benchmarks/paperfinding/results.json
 !benchmarks/reports/scholar-benchmarks/paperfinding/diagnostics.json
+benchmarks/reports/decision-audit/cache/
+benchmarks/reports/**/budget.lock
+!benchmarks/reports/decision-audit/manifest.json
+!benchmarks/reports/decision-audit/doris-summary.json
+!benchmarks/reports/decision-audit/api-budget.json
+!benchmarks/reports/decision-audit/scholar/results.json
+!benchmarks/reports/decision-audit/web/results.json

@@ -33,16 +33,18 @@ def load(path, indices):
         raise ValueError('Missing candidate abstracts')
     aspects = {str(a) for q in selected for a, children in q['aspects'].items()
                for a in [a, *children]}
+    needed = {(str(a),int(pid)) for q in selected for parent,children in q['aspects'].items()
+              for a in [parent,*children] for pid in q['candidate_pool']}
     annotations = {}
     with path.open('rb') as f:
         for row in ijson.items(f, 'Annotation.item'):
             key = (str(row['aspect_id']), int(row['abstract_id']))
-            if key[0] in aspects and key[1] in wanted:
+            if key in needed:
                 score = int(row['score'])
                 if score not in (0, 1, 2):
                     raise ValueError('Invalid or unresolved DORIS judgment')
                 if key in annotations and annotations[key] != score:
-                    raise ValueError('Conflicting DORIS judgments')
+                    raise ValueError(f'Conflicting DORIS judgments for aspect {key[0]}, abstract {key[1]}')
                 annotations[key] = score
     with path.open('rb') as f:
         texts = dict(ijson.kvitems(f, 'aspect_id2aspect'))

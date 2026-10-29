@@ -137,6 +137,26 @@ Both receive the same title and selected passages, bounded by
 ties use RRF. No OpenRouter calls generate queries, search, extract passages,
 embed text or synthesize answers.
 
+Decision calls can optionally pack independent candidate questions:
+
+```python
+config = Config(decision_batch_size=5, decision_evidence_checks=True)
+```
+
+The default batch size remains one. Packing shares the original user question;
+each typed question contains only its own bounded document. Candidates never see
+other candidate texts. `decision_evidence_checks=True` also asks whether the text
+contains useful answer evidence and whether more source text would help assess
+it. These probabilities appear in `response.usage["decision_evidence"]` alongside
+available relevance confidence/probabilities. They are diagnostics: they do not
+automatically fetch pages, filter sources, or change the relevance ranking.
+
+`usage.ranking_requests` and `usage.decision_questions` distinguish HTTP calls
+from typed judgments. `cached_tokens` and `cache_write_tokens` are included only
+when the upstream API reports them; absence means unknown, not zero. Shared-input
+batching and exact-response replay are distinct from verified provider prompt-cache
+hits. See the [decision packing evaluation](benchmarks/reports/decision-audit/README.md).
+
 Partial decision failures settle all in-flight requests and discard partial
 model scores before RRF fallback. The response records the actual backend,
 requested backend/model, resolved model when available, usage, reported costs,

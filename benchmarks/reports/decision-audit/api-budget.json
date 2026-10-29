@@ -1,0 +1,21 @@
+{
+  "prior_session_estimated_usd": 1.890692856,
+  "new_limit_usd": 2.5,
+  "uncertainty_allowance_usd": 0.1,
+  "charged_usd": 1.8299394959999993,
+  "outstanding": {},
+  "calls": {
+    "typesafe/jev-1.14": 906,
+    "voyage": 63,
+    "api.exa.ai": 16,
+    "api.parallel.ai": 16,
+    "api.openalex.org": 8,
+    "api.semanticscholar.org": 24,
+    "independent_gpt4o_judge": 301,
+    "api.search.brave.com": 8,
+    "api.tavily.com": 8,
+    "api.firecrawl.dev": 8
+  },
+  "cache_hits": 0,
+  "scope": "New decision audit only; unreported provider charges use conservative per-call allowances"
+}
