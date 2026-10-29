@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
 import os
+import math
 
 WEB = ('exa', 'parallel', 'brave')
-SCHOLAR = ('openalex', 'semantic_scholar', 'exa')
+SCHOLAR = ('exa', 'parallel', 'openalex', 'semantic_scholar', 'serpapi')
 NAMES = ('exa', 'parallel', 'brave', 'tavily', 'firecrawl', 'semantic_scholar', 'openalex', 'serpapi', 'github', 'papers_with_code', 'huggingface')
 MODELS = {'jev': '~typesafe/jev-latest', 'd1': '~liquid/d1-ultra-latest', 'decider': 'perplexity/pplx-decider-v1.2', 'voyage': 'voyageai/rerank-3-lite'}
 
@@ -19,6 +20,7 @@ class Config:
     api_keys: dict[str, str] = field(default_factory=environment_keys, repr=False)
     web_providers: tuple[str, ...] = WEB
     scholar_providers: tuple[str, ...] = SCHOLAR
+    scholar_provider_weights: dict[str, float] = field(default_factory=lambda: {'semantic_scholar': .5, 'serpapi': .5})
     huggingface_resource: str = 'papers'
     timeout: float = 30.0
     ranking_concurrency: int = 5
@@ -28,6 +30,9 @@ class Config:
     decision_evidence_checks: bool = False
 
     def __post_init__(self):
+        if any(name not in NAMES or not isinstance(weight, (int, float)) or not math.isfinite(weight) or weight <= 0
+               for name, weight in self.scholar_provider_weights.items()):
+            raise ValueError("Scholar provider weights must be finite positive values for known providers")
         if self.huggingface_resource not in ('papers', 'models', 'datasets'):
             raise ValueError('huggingface_resource must be papers, models or datasets')
         if self.timeout <= 0 or self.ranking_concurrency < 1 or self.candidate_tokens < 1:

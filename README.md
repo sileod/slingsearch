@@ -61,8 +61,8 @@ response = await asearch(
 print(response.to_markdown())
 ```
 
-Scholar defaults are OpenAlex, Semantic Scholar, Exa. Web defaults are Exa,
-Parallel, Brave. Override either with `providers=[...]` or `Config`.
+Scholar defaults are Exa, Parallel, OpenAlex, Semantic Scholar and Google Scholar
+(via SerpAPI). Web defaults are Exa, Parallel, Brave. Override either with `providers=[...]` or `Config`.
 Scholar metadata includes DOI, identifiers, authors, year, venue and citation
 count when supplied by providers. OpenAlex uses its native `search.semantic`
 endpoint for natural-language questions; sending the entire question to keyword
@@ -352,8 +352,14 @@ results = search(
 )
 ```
 
-Default provider lists remain explicit and unchanged pending the expanded
-benchmark results. GitHub is opt-in for implementation discovery. Results expose
+Scholar fusion gives Semantic Scholar and SerpAPI half-weight votes, versus one
+for the other providers, and reserves one shortlist candidate for each. These
+are candidate opportunities, not guaranteed final results. The
+[provider contribution audit](benchmarks/reports/provider-audit/README.md) reports
+frozen comparisons; this policy is exploratory, not independently validated.
+Set `Config(scholar_provider_weights={})` for plain RRF without reservations,
+or supply your own positive provider weights. The response records this policy.
+GitHub is opt-in for implementation discovery. Results expose
 `kind`, `code_urls`, `tasks`, and `dataset_urls`; repository titles are not merged
 with papers merely because their titles coincide. Code/task/dataset metadata is
 also shown in Markdown and counted against the output budget. Citation counts
@@ -428,3 +434,104 @@ The model does not establish whether important unseen papers were missed.
 
 See the sampled [original academic evaluation](benchmarks/reports/academic-samples/README.md)
 and [expanded source evaluation](benchmarks/reports/academic-sources/README.md).
+
+## Contribution and related-work reviews
+
+Use the two bounded workflows to search for prior art, not to certify novelty:
+
+```python
+from slingsearch import novelty_search, related_work_search, Claim, load_papers
+
+claims = [
+    Claim("labels", "Generate synthetic training examples with verified labels"),
+    Claim("transfer", "Measure transfer while holding training difficulty fixed"),
+]
+papers = load_papers("related_work.md")  # stable DOI/arXiv/Semantic Scholar links
+
+idea_review = novelty_search(
+    "A proposed method for controlled synthetic training data",
+    claims=claims,
+    related_work=papers,
+    max_queries=6,
+    ranker="jev",
+)
+coverage_review = related_work_search(
+    papers,
+    contribution="A proposed method for controlled synthetic training data",
+    claims=claims,
+    max_queries=6,
+    ranker="jev",
+)
+print(coverage_review.to_markdown())
+# .discoveries, .covered, .query_plan, .searches, .graphs, .to_json()
+```
+
+Async equivalents are `anovelty_search` / `arelated_work_search`, also available
+on pooled `Client` objects. `related_work_search(papers)` without a contribution
+performs neighborhood discovery only; it does not invent contribution claims.
+Inputs can be DOI/arXiv/CorpusId strings, titles, `PaperSeed` objects, or normalized
+`Result` objects. `load_papers` supports a JSON seed list, JSONL, one entry per line,
+or Markdown **stable links only**. It does not infer all references from arbitrary
+bibliographic prose. Prefer stable identifiers over ambiguous title-only entries.
+
+Idea search prioritizes the combined contribution and explicit claim facets;
+seeded search prioritizes a seed title and the combined contribution, then other
+seed neighborhoods. Full-claim and local keyword variants are deterministic,
+recorded in `query_plan`, and can be overridden with `queries=[...]`. Optional
+`Claim.search_terms` provides user/agent terminology. No OpenRouter model generates
+queries, hypotheses or synthesized answers. Explicit claims are recommended;
+a single contribution string is treated as one claim, not silently decomposed by
+a model.
+
+Stable IDs for up to 200 bibliography entries are resolved in batches. Bounded
+title lookups require a unique exact title candidate (and a compatible supplied
+year); ambiguities and lookup failures remain explicit. `max_seeds` (default 5)
+bounds graph expansion, not the entire known-paper exclusion list. One-hop
+reference/citation links retain seed IDs, direction, truncation and failures.
+Known papers are excluded from `.discoveries` using confident identities, not
+fuzzy title matching. Unresolved entries can still be excluded by supplied IDs;
+an unresolved title cannot safely exclude every similar title.
+
+All query outputs and graph neighbors are deduplicated together. Repeated queries
+from one provider do not count as independent provider support: fusion uses the
+best original rank per provider. One optional global ranking stage sees the
+combined shortlist. Existing papers and discoveries have separate display slots,
+so known papers cannot consume every discovery slot.
+
+Packed Jev overlap judgments compare each displayed paper with each explicit claim:
+`same_contribution`, `partial_overlap`, `background`, or `insufficient_evidence`.
+They retain passage indices and a separate probability that more source text is
+needed. A background decision with that probability >= .7 is conservatively
+marked insufficient evidence (`model_relation` preserves the original label).
+This is an inspection heuristic, not a calibrated probability of novelty. A paper
+can overlap with a component without anticipating the complete proposed method.
+No-source-text records cannot receive an affirmative overlap label.
+
+The finding-aware output budget includes paper metadata, excerpts, judgments and
+discovery trails, using the same byte/3 estimate as search. Input claims, seed
+inventory and operational diagnostics are outside that evidence budget. It keeps
+roughly 160 tokens of source text when available, then drops lower-priority
+findings instead of reducing every paper to a title. Judgments are made **after**
+this allocation; any later excerpt reduction invalidates its judgment. Very small
+budgets can return no findings. `usage.output_evidence_tokens` reports the bound.
+
+Defaults: at most 8 query rounds, 5 results/provider/query, 5 graph seeds and
+5 neighbors per direction, 20 globally ranked candidates, 5 discoveries plus
+up to 3 covered papers, and 3,000 evidence tokens. Ordinary ranking defaults to
+free RRF; overlap judging defaults to Jev Latest. Set `judge=None` for a free
+model-free review; missing model credentials leave pairs explicitly unassessed.
+Remote retrieval itself may consume provider credits. Check `searches`, `graphs`,
+warnings and unresolved seeds before interpreting apparent gaps.
+
+```sh
+slingsearch novelty "Your contribution" --claim "Distinguishing claim" --papers related.md --ranker jev
+slingsearch related-work related.md --contribution "Your contribution" --ranker jev --format json
+# No model calls:
+slingsearch related-work related.md --judge none --ranker rrf
+```
+
+These workflows operate on retrieved excerpts, not a complete reading of all
+methods. They identify possible missing prior art and inspection needs. Neither
+an empty result set nor many background labels establishes novelty. Full-text
+inspection and an independent domain review remain necessary for substantive
+novelty claims.

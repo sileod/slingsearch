@@ -75,6 +75,22 @@ class Client:
         from .graph import citation_graph
         return self._sync_operation(citation_graph, paper_id=paper_id, direction=direction, limit=limit)
 
+    async def anovelty_search(self, contribution, *, related_work=(), **kwargs):
+        from .review import review
+        return await self._operation(review, workflow='novelty', contribution=contribution, papers=related_work, **kwargs)
+
+    def novelty_search(self, contribution, *, related_work=(), **kwargs):
+        from .review import review
+        return self._sync_operation(review, workflow='novelty', contribution=contribution, papers=related_work, **kwargs)
+
+    async def arelated_work_search(self, papers, *, contribution=None, **kwargs):
+        from .review import review
+        return await self._operation(review, workflow='related_work', contribution=contribution, papers=papers, **kwargs)
+
+    def related_work_search(self, papers, *, contribution=None, **kwargs):
+        from .review import review
+        return self._sync_operation(review, workflow='related_work', contribution=contribution, papers=papers, **kwargs)
+
     def __enter__(self):
         try:
             asyncio.get_running_loop()
@@ -108,3 +124,21 @@ async def asearch(question, *, config=None, **kwargs):
 
 def search(question, *, config=None, **kwargs):
     return _sync(lambda: asearch(question, config=config, **kwargs))
+
+
+async def anovelty_search(contribution, *, config=None, **kwargs):
+    async with Client(config) as client:
+        return await client.anovelty_search(contribution, **kwargs)
+
+
+def novelty_search(contribution, *, config=None, **kwargs):
+    return _sync(lambda: anovelty_search(contribution, config=config, **kwargs))
+
+
+async def arelated_work_search(papers, *, config=None, **kwargs):
+    async with Client(config) as client:
+        return await client.arelated_work_search(papers, **kwargs)
+
+
+def related_work_search(papers, *, config=None, **kwargs):
+    return _sync(lambda: arelated_work_search(papers, config=config, **kwargs))

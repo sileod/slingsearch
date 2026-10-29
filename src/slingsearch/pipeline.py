@@ -9,7 +9,7 @@ from .passages import extract, select
 from .output import budget_results, evidence_tokens, tokens
 from .rankers import make_ranker
 from .deadline import collect
-from .diversity import balanced_shortlist, diverse_order, preserve_provider_first
+from .diversity import reserve_shortlist, balanced_shortlist, diverse_order, preserve_provider_first
 
 
 async def run(client, config, question, *, mode='web', providers=None, ranker='jev',
@@ -89,11 +89,13 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
     batches = await collect(retrieve, names, response, stop_at=stop_at, fast=fast,
                             min_results=fast_min_results or max_results, grace_s=fast_grace,
                             year=year if mode == 'scholar' else None)
-    candidates = fuse([r for batch in batches for r in batch])
+    weights = config.scholar_provider_weights if mode == 'scholar' else {}
+    response.usage['fusion'] = {'k': 60, 'weights': weights, 'reserved_providers': list(weights)}
+    candidates = fuse([r for batch in batches for r in batch], weights)
     if year and mode == 'scholar':
         candidates = [r for r in candidates if r.year is not None and year[0] <= r.year <= year[1]]
         response.warnings.append('Year filter excludes papers without a known publication year')
-    candidates = balanced_shortlist(candidates, shortlist) if diversity else candidates[:shortlist]
+    candidates = balanced_shortlist(candidates, shortlist) if diversity else reserve_shortlist(candidates, shortlist, weights)
     start = perf_counter()
     semaphore = asyncio.Semaphore(5)
     async def prepare(candidate):

@@ -31,7 +31,7 @@ class Budget:
         token=uuid.uuid4().hex
         def change(d):
             reserved=d['charged_usd']+sum(v['allowance_usd'] for v in d['outstanding'].values())+amount
-            if reserved>d['new_limit_usd'] or d['prior_session_estimated_usd']+reserved+d['uncertainty_allowance_usd']>5:
+            if reserved>d['new_limit_usd'] or d['prior_session_estimated_usd']+reserved+d['uncertainty_allowance_usd']>d.get('session_limit_usd',5):
                 raise ValueError('Global experiment budget reservation stop')
             d['outstanding'][token]={'group':group,'allowance_usd':amount}
             d['calls'][group]=d['calls'].get(group,0)+1

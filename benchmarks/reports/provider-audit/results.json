@@ -1,0 +1,164 @@
+{
+  "provider_contributions": {
+    "exa": {
+      "known_positive_query_paper_pairs": 10,
+      "unique_pairs": 6,
+      "additional_pairs_beyond_exa_openalex": 0,
+      "successful_searches": 34,
+      "total_queries": 34
+    },
+    "parallel": {
+      "known_positive_query_paper_pairs": 2,
+      "unique_pairs": 1,
+      "additional_pairs_beyond_exa_openalex": 1,
+      "successful_searches": 34,
+      "total_queries": 34
+    },
+    "openalex": {
+      "known_positive_query_paper_pairs": 9,
+      "unique_pairs": 7,
+      "additional_pairs_beyond_exa_openalex": 0,
+      "successful_searches": 34,
+      "total_queries": 34
+    },
+    "semantic_scholar": {
+      "known_positive_query_paper_pairs": 0,
+      "unique_pairs": 0,
+      "additional_pairs_beyond_exa_openalex": 0,
+      "successful_searches": 24,
+      "total_queries": 34
+    },
+    "serpapi": {
+      "known_positive_query_paper_pairs": 1,
+      "unique_pairs": 0,
+      "additional_pairs_beyond_exa_openalex": 0,
+      "successful_searches": 34,
+      "total_queries": 34
+    },
+    "papers_with_code": {
+      "known_positive_query_paper_pairs": 0,
+      "unique_pairs": 0,
+      "additional_pairs_beyond_exa_openalex": 0,
+      "successful_searches": 34,
+      "total_queries": 34
+    },
+    "huggingface": {
+      "known_positive_query_paper_pairs": 0,
+      "unique_pairs": 0,
+      "additional_pairs_beyond_exa_openalex": 0,
+      "successful_searches": 34,
+      "total_queries": 34
+    }
+  },
+  "rrf_subsets": {
+    "exa": {
+      "sage_short": {
+        "queries": 12,
+        "metric": "Hit@10",
+        "mean": 0.16666666666666666
+      },
+      "sage_open": {
+        "queries": 12,
+        "metric": "WeightedRecall@10",
+        "mean": 0.06904761904761905
+      },
+      "litqa2": {
+        "queries": 10,
+        "metric": "Recall@30",
+        "mean": 0.5
+      }
+    },
+    "exa_openalex": {
+      "sage_short": {
+        "queries": 12,
+        "metric": "Hit@10",
+        "mean": 0.08333333333333333
+      },
+      "sage_open": {
+        "queries": 12,
+        "metric": "WeightedRecall@10",
+        "mean": 0.13548280423280423
+      },
+      "litqa2": {
+        "queries": 10,
+        "metric": "Recall@30",
+        "mean": 0.6
+      }
+    },
+    "previous_default": {
+      "sage_short": {
+        "queries": 12,
+        "metric": "Hit@10",
+        "mean": 0.08333333333333333
+      },
+      "sage_open": {
+        "queries": 12,
+        "metric": "WeightedRecall@10",
+        "mean": 0.13548280423280423
+      },
+      "litqa2": {
+        "queries": 10,
+        "metric": "Recall@30",
+        "mean": 0.6
+      }
+    },
+    "pruned_default": {
+      "sage_short": {
+        "queries": 12,
+        "metric": "Hit@10",
+        "mean": 0.16666666666666666
+      },
+      "sage_open": {
+        "queries": 12,
+        "metric": "WeightedRecall@10",
+        "mean": 0.12357804232804233
+      },
+      "litqa2": {
+        "queries": 10,
+        "metric": "Recall@30",
+        "mean": 0.6
+      }
+    },
+    "weighted_scholar": {
+      "sage_short": {
+        "queries": 12,
+        "metric": "Hit@10",
+        "mean": 0.16666666666666666
+      },
+      "sage_open": {
+        "queries": 12,
+        "metric": "WeightedRecall@10",
+        "mean": 0.12357804232804233
+      },
+      "litqa2": {
+        "queries": 10,
+        "metric": "Recall@30",
+        "mean": 0.6
+      }
+    },
+    "all_sources": {
+      "sage_short": {
+        "queries": 12,
+        "metric": "Hit@10",
+        "mean": 0.08333333333333333
+      },
+      "sage_open": {
+        "queries": 12,
+        "metric": "WeightedRecall@10",
+        "mean": 0.06041666666666667
+      },
+      "litqa2": {
+        "queries": 10,
+        "metric": "Recall@30",
+        "mean": 0.6
+      }
+    }
+  },
+  "decision": "Scholar defaults retain Exa, Parallel, OpenAlex, Semantic Scholar and Google Scholar via SerpAPI. The last two receive half-weight fusion votes and one candidate reservation each, with no final-result quota. This is an exploratory policy, not a validated optimum.",
+  "limitations": [
+    "Exploratory policy selection on 34 reused queries, not independent validation",
+    "SAGE positives are incomplete; zero observed label contributions does not establish general uselessness",
+    "Shared identity metadata is held constant; query wording and provider result depths are not equal-cost retrieval budgets",
+    "GitHub implementation discovery is separate from paper retrieval and is not assessed by these relevance labels"
+  ]
+}

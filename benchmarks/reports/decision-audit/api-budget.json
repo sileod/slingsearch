@@ -1,33 +1,35 @@
 {
   "prior_session_estimated_usd": 1.890692856,
-  "new_limit_usd": 3.0,
+  "new_limit_usd": 8.0,
   "uncertainty_allowance_usd": 0.1,
-  "charged_usd": 2.9665462019999786,
+  "charged_usd": 3.2250802899999744,
   "outstanding": {},
   "calls": {
     "typesafe/jev-1.14": 906,
     "voyage": 389,
-    "api.exa.ai": 50,
-    "api.parallel.ai": 50,
-    "api.openalex.org": 42,
-    "api.semanticscholar.org": 214,
+    "api.exa.ai": 61,
+    "api.parallel.ai": 61,
+    "api.openalex.org": 53,
+    "api.semanticscholar.org": 270,
     "independent_gpt4o_judge": 301,
     "api.search.brave.com": 8,
     "api.tavily.com": 8,
     "api.firecrawl.dev": 8,
     "~liquid/d1-ultra-latest": 474,
-    "~typesafe/jev-latest": 186,
-    "serpapi.com": 64,
+    "~typesafe/jev-latest": 256,
+    "serpapi.com": 75,
     "paperswithcode.co": 162,
     "huggingface.co": 34,
     "api.github.com": 70
   },
-  "cache_hits": 173,
-  "scope": "New decision audit only; unreported provider charges use conservative per-call allowances",
+  "cache_hits": 512,
+  "scope": "Session-wide experiments including academic evaluation and Semforge novelty/related-work validation; total authorized ceiling USD10",
   "http_errors": {
-    "api.semanticscholar.org:429": 91,
+    "api.semanticscholar.org:429": 124,
     "voyage:429": 84,
     "api.github.com:403": 6,
-    "api.semanticscholar.org:400": 1
-  }
+    "api.semanticscholar.org:400": 1,
+    "~typesafe/jev-latest:403": 12
+  },
+  "session_limit_usd": 10
 }

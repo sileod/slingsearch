@@ -89,7 +89,7 @@ def merge(a, b):
     normalize(a)
 
 
-def fuse(results):
+def fuse(results, weights=None):
     groups = []
     for raw in results:
         item = normalize(deepcopy(raw))
@@ -121,6 +121,6 @@ def fuse(results):
             if source.rank < 1:
                 raise ValueError('Provider ranks must start at one')
             ranks[source.provider] = min(source.rank, ranks.get(source.provider, source.rank))
-        item.rrf_score = sum(1 / (60 + r) for r in ranks.values())
+        item.rrf_score = sum((weights or {}).get(provider, 1.0) / (60 + rank) for provider, rank in ranks.items())
         item.model_score = None
     return sorted(groups, key=lambda r: (-r.rrf_score, r.id))

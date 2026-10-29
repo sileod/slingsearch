@@ -2,9 +2,44 @@ import argparse
 import json
 import sys
 from .api import Client, search
+from .review_models import load_papers
+from .config import MODELS
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] in ('novelty', 'related-work'):
+        command = sys.argv[1]
+        parser = argparse.ArgumentParser(prog='slingsearch ' + command)
+        if command == 'novelty':
+            parser.add_argument('contribution')
+            parser.add_argument('--papers', help='Existing related-work Markdown, JSON, JSONL or one ID per line')
+        else:
+            parser.add_argument('papers')
+            parser.add_argument('--contribution')
+        parser.add_argument('--claim', dest='claims', action='append')
+        parser.add_argument('--query', dest='queries', action='append')
+        parser.add_argument('--providers', nargs='+')
+        parser.add_argument('--ranker', choices=['rrf', 'ensemble', *MODELS], default='rrf')
+        parser.add_argument('--judge', choices=['jev', 'none'], default='jev')
+        parser.add_argument('--no-graph', dest='expand_graph', action='store_false')
+        parser.add_argument('--max-queries', type=int, default=8)
+        parser.add_argument('--max-seeds', type=int, default=5)
+        parser.add_argument('--graph-limit', type=int, default=5)
+        parser.add_argument('--max-results', type=int, default=5)
+        parser.add_argument('--token-budget', type=int, default=3000)
+        parser.add_argument('--format', choices=['json','markdown'], default='markdown')
+        args = vars(parser.parse_args(sys.argv[2:]))
+        output_format = args.pop('format')
+        args['papers'] = load_papers(args['papers']) if args.get('papers') else []
+        args['judge'] = None if args['judge'] == 'none' else args['judge']
+        with Client() as client:
+            if command == 'novelty':
+                args['related_work'] = args.pop('papers')
+                report = client.novelty_search(**args)
+            else:
+                report = client.related_work_search(**args)
+        print(report.to_json(indent=2) if output_format == 'json' else report.to_markdown())
+        return
     # Preserve the original `slingsearch "question"` entry point.
     if len(sys.argv) > 1 and sys.argv[1] in ('doctor', 'usage', 'graph'):
         command = sys.argv[1]

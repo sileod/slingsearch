@@ -95,3 +95,24 @@ def preserve_provider_first(results, provider):
         return list(results)
     first = min(candidates, key=lambda r: (min(s.rank for s in r.sources if s.provider == provider), r.id))
     return [first] + [r for r in results if r.id != first.id]
+
+
+def reserve_shortlist(candidates, limit, providers=()):
+    """Reserve at most one original top-ranked candidate per named provider.
+
+    Reservations affect candidate admission only, never final result quotas.
+    Empty provider lists preserve the deterministic fused baseline.
+    """
+    if limit <= 0:
+        return []
+    selected = set()
+    for provider in providers:
+        available = [(min(s.rank for s in r.sources if s.provider == provider), i)
+                     for i, r in enumerate(candidates) if any(s.provider == provider for s in r.sources)]
+        if available and len(selected) < limit:
+            selected.add(min(available)[1])
+    for i in range(len(candidates)):
+        if len(selected) >= limit:
+            break
+        selected.add(i)
+    return [r for i, r in enumerate(candidates) if i in selected]
