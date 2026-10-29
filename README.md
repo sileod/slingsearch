@@ -124,9 +124,16 @@ selection → global ranking → bounded presentation. Modules are independent.
 | Ranker | OpenRouter model | Contract |
 |---|---|---|
 | `rrf` | none | sum of `1 / (60 + provider_rank)` |
-| `jev` (default) | `typesafe/jev-1.14` | typed Decisions score |
+| `jev` (default) | `~typesafe/jev-latest` | typed Decisions score |
+| `d1` | `~liquid/d1-ultra-latest` | typed Decisions score |
+| `ensemble` (experimental) | configured members | equal-weight RRF of model rankings |
 | `decider` | `perplexity/pplx-decider-v1.2` | typed Decisions score |
 | `voyage` | `voyageai/rerank-3-lite` | rerank document indices |
+
+The Jev default follows OpenRouter’s rolling latest alias (currently Jev 1.14).
+Historical benchmark records retain the pinned model actually evaluated; their
+scores do not automatically apply to future alias targets. Responses record the
+requested model and any resolved model identifiers reported by OpenRouter.
 
 Decisions use `POST /api/alpha/decisions`, a named score question, and five
 ordered criteria. The API's zero-based score is shifted to the public 1–5
@@ -136,6 +143,15 @@ Both receive the same title and selected passages, bounded by
 `Config.candidate_tokens`. Scores are only meaningful within their backend;
 ties use RRF. No OpenRouter calls generate queries, search, extract passages,
 embed text or synthesize answers.
+
+`ranker="d1"` uses the same bounded candidate representations and Decisions
+adapter as Jev. `ranker="ensemble"` runs Jev, D1 and Voyage concurrently on the
+same shortlist, then fuses **ranks** with RRF (`k=60`), never raw scores. Configure
+members with `Config(ensemble_rankers=("d1", "voyage"))`. Ensemble model scores
+are fusion scores, not relevance probabilities. Member costs add; member usage
+and failures are exposed in `usage.ensemble_members`. If any member fails, the
+whole stage falls back explicitly to retrieval RRF. Ensembling is experimental;
+complementary model errors and quality improvements are not assumed.
 
 Decision calls can optionally pack independent candidate questions:
 
@@ -275,3 +291,19 @@ Contract references: [OpenRouter OpenAPI](https://openrouter.ai/openapi.json),
 [Firecrawl Search](https://docs.firecrawl.dev/api-reference/endpoint/search),
 [Tavily Search](https://help.tavily.com/articles/4840311948-tavily-search-api),
 [Exa](https://docs.exa.ai/reference/search).
+
+## Next academic evaluations
+
+[SAGE](https://github.com/HughieHu/Sage) and
+[AstaBench LitQA2-FullText-Search](https://allenai.org/asta/bench) are priority
+retrieval evaluations. Prepare pinned samples without search/model charges:
+
+```sh
+python -m benchmarks.academic_samples --output benchmarks/reports/academic-samples
+```
+
+The default sample has 24 SAGE questions (three per task/domain stratum) plus
+the ten official LitQA validation questions. Query text is taken verbatim; reference
+answers, target titles and generation plans are not appended. Downloaded data and per-query labels
+stay local; the manifest records source revisions, hashes and selected IDs.
+See [the evaluation protocol](benchmarks/ACADEMIC_EVAL.md) for metrics and limits.

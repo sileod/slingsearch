@@ -7,6 +7,9 @@ from ..config import MODELS
 def make_ranker(name, client, config):
     if name == 'rrf':
         return RRF()
+    if name == 'ensemble':
+        from .ensemble import Ensemble
+        return Ensemble({member: make_ranker(member, client, config) for member in config.ensemble_rankers})
     if name not in MODELS:
         raise ValueError(f'Unknown ranker: {name}')
     key = config.api_keys.get('openrouter', '')

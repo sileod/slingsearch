@@ -1,0 +1,190 @@
+{
+  "summary": {
+    "jev_single": {
+      "queries": 12,
+      "nDCG@5": 0.7597525447253652,
+      "mean_reported_cost_usd": 0.0006900249999999999,
+      "mean_input_tokens": 16429.166666666668,
+      "latency_p50_s": 5.257661461830139
+    },
+    "jev_packed5": {
+      "queries": 12,
+      "nDCG@5": 0.7581299242115993,
+      "mean_reported_cost_usd": 0.00039955300000000003,
+      "mean_input_tokens": 9513.166666666666,
+      "latency_p50_s": 1.1940295631065965
+    },
+    "voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7677746672439174,
+      "mean_reported_cost_usd": 0.00015581666666666667,
+      "mean_input_tokens": 7790.833333333333,
+      "latency_p50_s": 0.5806671977043152
+    },
+    "d1_single": {
+      "queries": 12,
+      "nDCG@5": 0.763955116287318,
+      "mean_reported_cost_usd": 0.0004620595,
+      "mean_input_tokens": 11001.416666666666,
+      "latency_p50_s": 8.120610329322517
+    },
+    "d1_packed5": {
+      "queries": 12,
+      "nDCG@5": 0.7684387007726903,
+      "mean_reported_cost_usd": 0.0003432835,
+      "mean_input_tokens": 8173.416666666667,
+      "latency_p50_s": 1.8638025065883994
+    },
+    "jev_voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7789875473615115,
+      "mean_reported_cost_usd": 0.0008458416666666666,
+      "mean_input_tokens": 24220,
+      "latency_p50_s": null
+    },
+    "d1_voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7749802874395225,
+      "mean_reported_cost_usd": 0.0006178761666666666,
+      "mean_input_tokens": 18792.25,
+      "latency_p50_s": null
+    },
+    "jev_d1_voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7779407865841166,
+      "mean_reported_cost_usd": 0.0013079011666666666,
+      "mean_input_tokens": 35221.416666666664,
+      "latency_p50_s": null
+    },
+    "jev_packed_voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7773696330639492,
+      "mean_reported_cost_usd": 0.0005553696666666666,
+      "mean_input_tokens": 17304,
+      "latency_p50_s": null
+    },
+    "d1_packed_voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7801046586449507,
+      "mean_reported_cost_usd": 0.0004991001666666666,
+      "mean_input_tokens": 15964.25,
+      "latency_p50_s": null
+    },
+    "jev_d1_packed_voyage": {
+      "queries": 12,
+      "nDCG@5": 0.7845841307537851,
+      "mean_reported_cost_usd": 0.0008986531666666667,
+      "mean_input_tokens": 25477.416666666668,
+      "latency_p50_s": null
+    }
+  },
+  "paired_vs_voyage": {
+    "jev_single": {
+      "mean_delta": -0.008022122518552213,
+      "ci95": [
+        -0.03867267019799082,
+        0.02910313805775014
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_packed5": {
+      "mean_delta": -0.00964474303231816,
+      "ci95": [
+        -0.044759553623644414,
+        0.029122314744518485
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "d1_single": {
+      "mean_delta": -0.003819550956599388,
+      "ci95": [
+        -0.028621811300720407,
+        0.028512927762937696
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "d1_packed5": {
+      "mean_delta": 0.0006640335287727653,
+      "ci95": [
+        -0.023870041550658666,
+        0.02911929418186418
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_voyage": {
+      "mean_delta": 0.0112128801175941,
+      "ci95": [
+        -0.009628477475038977,
+        0.035537983602286306
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "d1_voyage": {
+      "mean_delta": 0.007205620195605038,
+      "ci95": [
+        -0.002407328999836885,
+        0.020883161348222972
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_d1_voyage": {
+      "mean_delta": 0.010166119340199092,
+      "ci95": [
+        -0.00893353944976207,
+        0.034302506462287524
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_packed_voyage": {
+      "mean_delta": 0.009594965820031767,
+      "ci95": [
+        -0.013095468376560143,
+        0.03571697271100501
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "d1_packed_voyage": {
+      "mean_delta": 0.012329991401033247,
+      "ci95": [
+        -0.009581293439995595,
+        0.035965499641068155
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    },
+    "jev_d1_packed_voyage": {
+      "mean_delta": 0.016809463509867673,
+      "ci95": [
+        -0.005376541793375165,
+        0.043842010412528616
+      ],
+      "queries": 12,
+      "seed": 0,
+      "samples": 2000
+    }
+  },
+  "limitations": [
+    "Same 12 previously evaluated questions; exploratory, not fresh holdout",
+    "Identical frozen BM25 top20 and 400-token document representations",
+    "Ensembles replay rankings; latency not measured; costs add member costs",
+    "Historical Jev and Voyage runs occurred at a different time than D1",
+    "Rank fusion k=60, equal weights; no score calibration assumed"
+  ]
+}

@@ -15,7 +15,7 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
               passages_per_result=2, fetch_pages=False, year=None, diversity=False, anchor_provider=None):
     if not isinstance(question, str) or not question.strip():
         raise ValueError('question must be nonempty')
-    if mode not in ('web', 'scholar') or ranker not in ('rrf', *MODELS):
+    if mode not in ('web', 'scholar') or ranker not in ('rrf', 'ensemble', *MODELS):
         raise ValueError('Unknown mode or ranker')
     for name, value in {'max_results': max_results, 'token_budget': token_budget, 'per_provider': per_provider,
                         'shortlist': shortlist, 'passages_per_result': passages_per_result}.items():
@@ -36,7 +36,8 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
         raise ValueError('anchor_provider must be one of the selected providers')
     if any(n not in PROVIDERS for n in names):
         raise ValueError('Unknown provider')
-    response = SearchResponse(question, mode, requested_ranker=ranker, requested_model=MODELS.get(ranker))
+    requested_model = ','.join(MODELS[name] for name in config.ensemble_rankers) if ranker == 'ensemble' else MODELS.get(ranker)
+    response = SearchResponse(question, mode, requested_ranker=ranker, requested_model=requested_model)
     started = perf_counter()
     async def retrieve(name):
         key = config.api_keys.get(name, '')

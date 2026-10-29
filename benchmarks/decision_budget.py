@@ -54,7 +54,7 @@ class Transport(httpx.AsyncBaseTransport):
         payload=json.loads(request.content) if request.content else {}
         group=host
         if host=='openrouter.ai':
-            if path=='/api/alpha/decisions' and payload.get('model') in ['typesafe/jev-1.14','perplexity/pplx-decider-v1.2']:
+            if path=='/api/alpha/decisions' and payload.get('model') in ['typesafe/jev-1.14','~typesafe/jev-latest','perplexity/pplx-decider-v1.2','liquid/d1-ultra','~liquid/d1-ultra-latest']:
                 group=payload['model'];amount=max(.0002,len(request.content)*.000000042*3)
             elif path=='/api/v1/rerank' and payload.get('model')=='voyageai/rerank-3-lite':
                 group='voyage';amount=max(.0001,len(request.content)*.00000002*3)

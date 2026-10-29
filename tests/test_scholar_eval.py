@@ -79,7 +79,8 @@ async def test_spend_guard_reserves_before_sending_and_persists(tmp_path):
     await guard.inner.aclose()
     guard.inner=httpx.MockTransport(lambda request:httpx.Response(200,json={'usage':{'cost':.00001}}))
     async with httpx.AsyncClient(transport=guard) as client:
-        body={'model':'typesafe/jev-1.14'}
+        from slingsearch.config import MODELS
+        body={'model':MODELS['jev']}
         response=await client.post('https://openrouter.ai/api/alpha/decisions',json=body)
         assert response.is_success
         # A replay is free and must not consume the reservation again.

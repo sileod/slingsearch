@@ -46,7 +46,7 @@ def test_passages_are_extracts_and_budgeted():
         assert all(p in text for r in selected for p in r.passages)
 
 
-@pytest.mark.parametrize('backend', ['jev', 'decider', 'voyage'])
+@pytest.mark.parametrize('backend', ['jev', 'decider', 'voyage', 'd1'])
 async def test_rank_contract_and_identical_text(backend):
     requests = []
     def handle(request):
@@ -127,10 +127,10 @@ async def test_all_rankers_receive_identical_candidate_text():
     config = Config(api_keys={'openrouter': 'fixture-only'}, candidate_tokens=20)
     pool = candidates()
     async with httpx.AsyncClient(transport=httpx.MockTransport(handle)) as client:
-        for name in ('jev', 'decider', 'voyage'):
+        for name in ('jev', 'decider', 'voyage', 'd1'):
             await make_ranker(name, client, config).rank('same question', pool)
     representations = list(texts_by_model.values())
-    assert representations[0] == representations[1] == representations[2]
+    assert all(texts == representations[0] for texts in representations)
     assert all(tokens(t) <= 20 for t in representations[0])
 
 

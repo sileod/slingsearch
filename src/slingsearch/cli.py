@@ -6,7 +6,7 @@ def main():
     parser = argparse.ArgumentParser(description='Retrieve question-focused evidence')
     parser.add_argument('question')
     parser.add_argument('--mode', choices=['web', 'scholar'], default='web')
-    parser.add_argument('--ranker', choices=['rrf', 'jev', 'decider', 'voyage'], default='jev')
+    parser.add_argument('--ranker', choices=['rrf', 'jev', 'decider', 'voyage', 'd1', 'ensemble'], default='jev')
     parser.add_argument('--providers', nargs='+')
     parser.add_argument('--anchor-provider', help='Preserve this provider’s best available original result')
     parser.add_argument('--diversity', action='store_true', help='Balance shortlist coverage and diversify near relevance ties')

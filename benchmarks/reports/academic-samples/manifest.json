@@ -1,0 +1,87 @@
+{
+  "seed": 20261029,
+  "per_stratum": 3,
+  "sources": {
+    "Sage_Short_Form_Questions/computer_science.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "63f1575f3db3e309b5fc2776d889257d7ae82cddce81f74a0faf29198ac09f06"
+    },
+    "Sage_Short_Form_Questions/healthcare.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "7739c02064d4df118b97786006f22713c807b7d3973d91b0f31d941977443d0a"
+    },
+    "Sage_Short_Form_Questions/humanities.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "9df2af0b18ccb4e61f78f05e667a1c8da28429e9583f727b652e6e917768a479"
+    },
+    "Sage_Short_Form_Questions/natural_science.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "905fc6bb8e22aa726615c37f79f11e2759213105d77e4f5c93985a8ce0bc9463"
+    },
+    "Sage_Open_Ended_Questions/computer_science.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "44867de83d8737fa8da8f2f32d9d4525ce5c38738aa16fbfb14dd3b94b4641b7"
+    },
+    "Sage_Open_Ended_Questions/healthcare.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "3a40df03030eb5d07e2812eabd2faaf06b9866f703ee1033bd19862c62b07179"
+    },
+    "Sage_Open_Ended_Questions/humanities.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "5916a424a9121cf2c7965b31b51d1dd7727f402567096bb3014f2a4706d85581"
+    },
+    "Sage_Open_Ended_Questions/natural_science.json": {
+      "revision": "1780c07d513239c753b57a2297eca3e69b5d586b",
+      "sha256": "60d163e7f32f65dc2ff92cd69c025fd73351c68233b16f76d1d4f9bbb490c19e"
+    },
+    "astabench/evals/paper_finder/paper_finder_utils.py": {
+      "revision": "eeb9bd72e95e56323bc283d215e302beff8b7007",
+      "sha256": "42c7424d55de5ca72b77a1c25799a34d2c1d8d9bb55db255f293ece82576abf6"
+    },
+    "futurehouse/lab-bench": {
+      "revision": "5c77cec648430f30611808808861eb86f81d5eaa",
+      "sha256": "9695bd196a291d38714ee9a9ba5b501bb2d5e88bfdeda1de63a8d8a0b33abd89"
+    }
+  },
+  "protocol": "Live API adaptation; not a closed-corpus leaderboard reproduction",
+  "query_ids": [
+    "sage_short_computer_science_136",
+    "sage_short_computer_science_113",
+    "sage_short_computer_science_57",
+    "sage_short_healthcare_89",
+    "sage_short_healthcare_117",
+    "sage_short_healthcare_72",
+    "sage_short_humanities_46",
+    "sage_short_humanities_117",
+    "sage_short_humanities_108",
+    "sage_short_natural_science_22",
+    "sage_short_natural_science_69",
+    "sage_short_natural_science_66",
+    "sage_open_computer_science_37",
+    "sage_open_computer_science_108",
+    "sage_open_computer_science_59",
+    "sage_open_healthcare_128",
+    "sage_open_healthcare_34",
+    "sage_open_healthcare_65",
+    "sage_open_humanities_92",
+    "sage_open_humanities_149",
+    "sage_open_humanities_26",
+    "sage_open_natural_science_62",
+    "sage_open_natural_science_21",
+    "sage_open_natural_science_80",
+    "litqa2_2",
+    "litqa2_11",
+    "litqa2_17",
+    "litqa2_26",
+    "litqa2_41",
+    "litqa2_53",
+    "litqa2_156",
+    "litqa2_162",
+    "litqa2_176",
+    "litqa2_188"
+  ],
+  "counts": {
+    "sage": 24,
+    "litqa2_validation": 10
+  }
+}
