@@ -73,7 +73,7 @@ async def test_pipeline_partial_failure_and_fallback():
         raise httpx.ConnectError('secret-leak', request=request)
     config = Config(api_keys={'exa': 'secret', 'parallel': 'secret', 'openrouter': 'secret'})
     async with Client(config, transport=httpx.MockTransport(handle)) as client:
-        result = await client.asearch('question', providers=['exa', 'parallel', 'brave'])
+        result = await client.asearch('question', providers=['exa', 'parallel', 'brave'], min_relevance=None)
     assert result.successful == ['exa']
     assert result.failed == {'parallel': 'ConnectError'}
     assert 'brave' in result.skipped
@@ -87,7 +87,7 @@ async def test_missing_ranking_key():
     def handle(request):
         return httpx.Response(200, json={'results': [{'id': 'https://openalex.org/W1', 'title': 'Paper', 'abstract_inverted_index': {'Useful': [0], 'evidence': [1]}}]})
     async with Client(Config(api_keys={}), transport=httpx.MockTransport(handle)) as client:
-        result = await client.asearch('question', mode='scholar', providers=['openalex'])
+        result = await client.asearch('question', mode='scholar', providers=['openalex'], min_relevance=None)
     assert result.ranking_backend == 'rrf'
     assert result.results[0].passages == ['Useful evidence']
 
@@ -98,7 +98,7 @@ async def test_invalid_rerank_mapping_falls_back():
             return httpx.Response(200, json={'results': [{'title': 'A', 'url': 'https://a.org'}, {'title': 'B', 'url': 'https://b.org'}]})
         return httpx.Response(200, json={'results': [{'index': 0, 'relevance_score': 1}, {'index': 0, 'relevance_score': 2}]})
     async with Client(Config(api_keys={'exa': 'x', 'openrouter': 'x'}), transport=httpx.MockTransport(handle)) as client:
-        result = await client.asearch('q', providers=['exa'], ranker='voyage')
+        result = await client.asearch('q', providers=['exa'], ranker='voyage', min_relevance=None)
     assert result.ranking_backend == 'rrf'
 
 
@@ -107,7 +107,7 @@ def test_sync_reuse():
         return httpx.Response(200, json={'results': []})
     with Client(Config(api_keys={'exa': 'x'}), transport=httpx.MockTransport(handle)) as client:
         for _ in range(2):
-            assert client.search('q', providers=['exa'], ranker='rrf').successful == ['exa']
+            assert client.search('q', providers=['exa'], ranker='rrf', min_relevance=None).successful == ['exa']
 
 
 async def test_sync_in_loop():
@@ -170,7 +170,7 @@ async def test_diversity_reserves_candidate_slots_before_one_ranking_stage():
         return httpx.Response(200,json={'results':[{'id':'https://openalex.org/W1','title':'different paper','abstract_inverted_index':{'different':[0],'evidence':[1]}}]})
     config=Config(api_keys={'exa':'fixture','openalex':'fixture'})
     async with Client(config,transport=httpx.MockTransport(handle)) as client:
-        response=await client.asearch('question',mode='scholar',providers=['exa','openalex'],ranker='rrf',shortlist=2,diversity=True)
+        response=await client.asearch('question',mode='scholar',providers=['exa','openalex'],ranker='rrf',shortlist=2,diversity=True, min_relevance=None)
     assert response.usage['diversity_enabled'] is True
     assert response.usage['candidate_providers'] == ['exa','openalex']
     assert response.usage['candidate_count'] == 2
@@ -182,7 +182,7 @@ async def test_invalid_diversity_option_fails_before_paid_retrieval():
         raise AssertionError('No retrieval should occur')
     async with Client(Config(api_keys={'exa':'fixture'}),transport=httpx.MockTransport(handle)) as client:
         with pytest.raises(ValueError,match='diversity must be a boolean'):
-            await client.asearch('question',providers=['exa'],diversity='yes')
+            await client.asearch('question',providers=['exa'],diversity='yes', min_relevance=None)
 
 
 async def test_anchor_must_be_a_selected_provider_before_retrieval():
@@ -190,4 +190,4 @@ async def test_anchor_must_be_a_selected_provider_before_retrieval():
         raise AssertionError('No network should be called')
     async with Client(Config(api_keys={'exa':'fixture'}),transport=httpx.MockTransport(handle)) as client:
         with pytest.raises(ValueError,match='anchor_provider'):
-            await client.asearch('question',providers=['exa'],anchor_provider='openalex')
+            await client.asearch('question',providers=['exa'],anchor_provider='openalex', min_relevance=None)

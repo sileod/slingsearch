@@ -16,7 +16,11 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
               max_results=5, token_budget=1500, per_provider=10, shortlist=20,
               passages_per_result=2, fetch_pages=False, year=None, diversity=False, anchor_provider=None,
               fast=False, deadline=None, fast_min_results=None, fast_grace=.15,
-              assess=False, assessment_threshold=.7):
+              assess=False, assessment_threshold=.7, min_relevance=3, checks=None, check_threshold=.7):
+    from .checks import validate_checks
+    validate_checks(checks, check_threshold)
+    if min_relevance is not None and (type(min_relevance) is not int or not 1 <= min_relevance <= 5):
+        raise ValueError("min_relevance must be an integer from 1 to 5")
     if not isinstance(assess, bool) or isinstance(assessment_threshold, bool) or not isinstance(assessment_threshold, (int, float)) or not math.isfinite(assessment_threshold) or not 0 <= assessment_threshold <= 1:
         raise ValueError('assess must be boolean and assessment_threshold must be between zero and one')
     if not isinstance(fast, bool):
@@ -131,6 +135,27 @@ async def run(client, config, question, *, mode='web', providers=None, ranker='j
                 if backend.cost_usd is not None:
                     response.cost_usd = (response.cost_usd or 0) + backend.cost_usd
     response.timings['ranking'] = perf_counter() - start
+    if min_relevance is not None:
+        from .threshold import qualify
+        start = perf_counter()
+        candidates, detail, gate = await qualify(client, config, question, candidates,
+                                                 min_relevance, response.ranking_backend, bounded)
+        detail['model'] = response.model if response.ranking_backend in ('jev', 'decider', 'd1') else detail.get('model')
+        response.usage['relevance_filter'] = detail
+        if gate:
+            response.usage['relevance_filter_usage'] = gate.usage
+            if gate.cost_usd is not None:
+                response.cost_usd = (response.cost_usd or 0) + gate.cost_usd
+        if detail['status'] != 'complete':
+            response.warnings.append('Relevance cutoff unavailable; no results qualified. Retry scoring or omit min_relevance for unfiltered retrieval.')
+        response.timings['relevance_filter'] = perf_counter() - start
+    if checks:
+        from .checks import check_sources
+        candidates, detail, check_usage, cost = await check_sources(client, config, question, candidates, checks, check_threshold, bounded)
+        response.usage['checks'] = detail
+        response.usage['check_usage'] = check_usage
+        if cost is not None: response.cost_usd = (response.cost_usd or 0) + cost
+        if detail['status'] != 'complete': response.warnings.append('Required source checks unavailable; no sources qualified')
     if diversity:
         candidates = diverse_order(candidates)
     if anchor_provider is not None:

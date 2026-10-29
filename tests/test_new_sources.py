@@ -13,7 +13,7 @@ async def test_github_unauthenticated_repository_contract():
         return httpx.Response(200, json={'items': [{'id': 1, 'full_name': 'org/repo', 'html_url': 'https://github.com/org/repo',
             'description': 'Original repository description', 'owner': {'login': 'org'}}]})
     async with Client(Config(api_keys={}), transport=httpx.MockTransport(handle)) as client:
-        response = await client.asearch('diffusion', providers=['github'], ranker='rrf')
+        response = await client.asearch('diffusion', providers=['github'], ranker='rrf', min_relevance=None)
     assert response.successful == ['github'] and response.results[0].kind == 'repository'
     assert response.results[0].code_urls == ['https://github.com/org/repo']
 
@@ -68,6 +68,6 @@ async def test_huggingface_hub_resources_use_original_cards(resource, kind, pref
         assert request.url.path == '/' + prefix + 'org/asset/raw/main/README.md'
         return httpx.Response(200, text='# Original source card\nUseful details.')
     async with Client(Config(api_keys={}, huggingface_resource=resource), transport=httpx.MockTransport(handle)) as client:
-        response = await client.asearch('diffusion', providers=['huggingface'], ranker='rrf')
+        response = await client.asearch('diffusion', providers=['huggingface'], ranker='rrf', min_relevance=None)
     assert response.results[0].kind == kind
     assert 'Original source card' in response.results[0].passages[0]

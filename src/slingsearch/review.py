@@ -192,9 +192,13 @@ def bound_findings(report, token_budget):
 
 
 async def review(client, config, *, workflow, contribution=None, papers=(), claims=None, queries=None,
-                 providers=None, ranker='rrf', judge='jev', max_queries=8, max_seeds=5, graph_limit=5,
+                 providers=None, ranker='jev', judge='jev', max_queries=8, max_seeds=5, graph_limit=5,
                  max_candidates=20, max_results=5, max_covered=3, per_provider=5, token_budget=3000,
-                 year=None, expand_graph=True):
+                 year=None, expand_graph=True, min_relevance=3, checks=None, check_threshold=.7):
+    from .checks import validate_checks
+    validate_checks(checks, check_threshold)
+    if min_relevance is not None and (type(min_relevance) is not int or not 1 <= min_relevance <= 5):
+        raise ValueError("min_relevance must be an integer from 1 to 5")
     started = perf_counter()
     if workflow not in ('novelty','related_work'): raise ValueError('Unknown review workflow')
     if contribution is not None and (not isinstance(contribution, str) or not contribution.strip()): raise ValueError('Contribution must be nonempty')
@@ -302,6 +306,29 @@ async def review(client, config, *, workflow, contribution=None, papers=(), clai
         if backend:
             report.usage['ranking'] = backend.usage
             if backend.cost_usd is not None: report.cost_usd = (report.cost_usd or 0) + backend.cost_usd
+    if min_relevance is not None:
+        from .threshold import qualify
+        async def await_operation(operation):
+            return await operation
+        candidates, detail, gate = await qualify(client, config, query_question, candidates,
+                                                 min_relevance, report.ranking_backend, await_operation)
+        if report.ranking_backend in ('jev', 'decider', 'd1'):
+            detail['model'] = report.model
+        report.usage['relevance_filter'] = detail
+        if gate:
+            report.usage['relevance_filter_usage'] = gate.usage
+            if gate.cost_usd is not None: report.cost_usd = (report.cost_usd or 0) + gate.cost_usd
+        if detail['status'] != 'complete':
+            report.warnings.append('Relevance cutoff unavailable; no papers qualified')
+    if checks:
+        from .checks import check_sources
+        async def check_operation(operation):
+            return await operation
+        candidates, detail, check_usage, cost = await check_sources(client, config, query_question, candidates, checks, check_threshold, check_operation)
+        report.usage['checks'] = detail
+        report.usage['check_usage'] = check_usage
+        if cost is not None: report.cost_usd = (report.cost_usd or 0) + cost
+        if detail['status'] != 'complete': report.warnings.append('Required source checks unavailable; no papers qualified')
     # Reserve separate slots so known papers cannot crowd all discoveries out of the evidence view.
     discoveries = [r for r in candidates if not known(r)][:max_results]
     existing = [r for r in candidates if known(r)][:max_covered]

@@ -23,7 +23,7 @@ async def test_packed_assessment_after_voyage_preserves_order_and_scores():
             answers[name] = {'score': 3} if item['type'] == 'score' else {'noul': .9 if name.endswith('has_answer_evidence') else .1}
         return httpx.Response(200, json={'model': 'typesafe/jev-1.14', 'answers': answers, 'usage': {'cost': .002}})
     async with Client(Config(api_keys={'exa': 'fixture', 'openrouter': 'fixture'}), transport=httpx.MockTransport(handle)) as client:
-        result = await client.asearch('question', providers=['exa'], ranker='voyage', assess=True)
+        result = await client.asearch('question', providers=['exa'], ranker='voyage', assess=True, min_relevance=None)
     assert len(calls) == 1 and len(calls[0]['questions']) == 6
     assert [r.title for r in result.results] == ['Paper A', 'Paper B']
     assert [r.model_score for r in result.results] == [.9, .8]
@@ -36,8 +36,8 @@ async def test_assessment_missing_key_is_unknown_and_empty_search_is_explicit():
     def handle(request):
         return httpx.Response(200, json={'results': [{'title': 'A', 'url': 'https://example.org/a', 'text': 'Original evidence'}]})
     async with Client(Config(api_keys={'exa': 'fixture'}), transport=httpx.MockTransport(handle)) as client:
-        result = await client.asearch('question', providers=['exa'], ranker='rrf', assess=True)
-        empty = await client.asearch('question', providers=[], ranker='rrf', assess=True)
+        result = await client.asearch('question', providers=['exa'], ranker='rrf', assess=True, min_relevance=None)
+        empty = await client.asearch('question', providers=[], ranker='rrf', assess=True, min_relevance=None)
     assert result.evidence_assessment['status'] == 'unavailable'
     assert 'has_potential_evidence' not in result.evidence_assessment
     assert empty.evidence_assessment['status'] == 'no_results'

@@ -17,7 +17,7 @@ async def test_fast_cancels_straggler_and_keeps_provenance():
         return httpx.Response(200, json={'results': [{'title': 'Paper B', 'url': 'https://example.org/b', 'excerpts': ['other evidence']}]})
     async with Client(Config(api_keys={p: 'fixture' for p in ['exa', 'parallel', 'brave']}), transport=httpx.MockTransport(handle)) as client:
         result = await client.asearch('question', providers=['exa', 'parallel', 'brave'], ranker='rrf',
-                                      fast=True, deadline=1, fast_min_results=2, fast_grace=0)
+                                      fast=True, deadline=1, fast_min_results=2, fast_grace=0, min_relevance=None)
     assert cancelled == ['brave']
     assert result.cancelled == {'brave': 'fast_results_ready'}
     assert set(result.successful) == {'exa', 'parallel'} and len(result.results) == 2
@@ -30,7 +30,7 @@ async def test_total_deadline_cancels_ranking_and_preserves_retrieval():
             return httpx.Response(200, json={'results': [{'title': 'Paper', 'url': 'https://example.org/p', 'text': 'actual evidence'}]})
         await asyncio.sleep(10)
     async with Client(Config(api_keys={'exa': 'fixture', 'openrouter': 'fixture'}), transport=httpx.MockTransport(handle)) as client:
-        result = await client.asearch('question', providers=['exa'], ranker='jev', deadline=.1)
+        result = await client.asearch('question', providers=['exa'], ranker='jev', deadline=.1, min_relevance=None)
     assert result.ranking_backend == 'rrf' and result.results and result.results[0].model_score is None
     assert any('returned RRF' in warning for warning in result.warnings)
     assert result.timings['total'] < .5
@@ -39,7 +39,7 @@ async def test_total_deadline_cancels_ranking_and_preserves_retrieval():
 @pytest.mark.parametrize('kwargs', [{'deadline': 0}, {'deadline': float('nan')}, {'fast': 1}, {'fast_min_results': True}])
 async def test_invalid_deadline_options(kwargs):
     async with Client(Config(api_keys={}), transport=httpx.MockTransport(lambda r: None)) as client:
-        with pytest.raises(ValueError): await client.asearch('question', **kwargs)
+        with pytest.raises(ValueError): await client.asearch('question', **kwargs, min_relevance=None)
 
 
 async def test_graph_edge_direction_and_partial_failure():

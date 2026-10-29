@@ -33,7 +33,7 @@ async def test_serpapi_error_does_not_leak_query_key():
     def handle(request):
         return httpx.Response(200, json={'error': 'private fixture-key'})
     async with Client(Config(api_keys={'serpapi': 'fixture-key'}), transport=httpx.MockTransport(handle)) as client:
-        response = await client.asearch('question', providers=['serpapi'], ranker='rrf')
+        response = await client.asearch('question', providers=['serpapi'], ranker='rrf', min_relevance=None)
     assert response.failed == {'serpapi': 'ValueError'}
     assert 'fixture-key' not in response.to_json()
 

@@ -67,7 +67,7 @@ async def test_ensemble_public_pipeline_provenance_and_fallback(failure):
         return httpx.Response(200, json={'model': 'liquid/d1-ultra', 'answers': {'relevance': {'score': 3}}})
     config = Config(api_keys={'exa': 'fixture', 'openrouter': 'fixture'}, ensemble_rankers=('d1', 'voyage'))
     async with Client(config, transport=httpx.MockTransport(handle)) as client:
-        response = await client.asearch('question', providers=['exa'], ranker='ensemble')
+        response = await client.asearch('question', providers=['exa'], ranker='ensemble', min_relevance=None)
     assert response.requested_ranker == 'ensemble'
     assert '~liquid/d1-ultra-latest' in response.requested_model
     assert response.usage['ensemble_members']['voyage']['success']

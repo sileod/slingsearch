@@ -43,7 +43,7 @@ async def test_seeded_review_excludes_known_variants_preserves_graph_trails_and_
     async with Client(Config(api_keys={'exa':'fixture','openrouter':'fixture','semantic_scholar':'fixture'}), transport=httpx.MockTransport(handle)) as client:
         report = await client.arelated_work_search(['DOI:10.1234/seed'], contribution='Certified proof structure',
             claims=[Claim('structure','Certified structure'), Claim('transfer','Matched transfer')],
-            providers=['exa'], max_queries=2, max_results=3, max_covered=1, token_budget=5000)
+            providers=['exa'], ranker='rrf', max_queries=2, max_results=3, max_covered=1, token_budget=5000, min_relevance=None)
     assert report.covered and report.discoveries
     assert all(f.paper.doi != '10.1234/seed' for f in report.discoveries)
     neighbor = next(f for f in report.discoveries if f.paper.doi == '10.1234/neighbor')
@@ -65,7 +65,7 @@ async def test_idea_only_missing_key_failure_and_budget_do_not_claim_novelty():
             'text':'Literal source evidence about proof construction. ' * 100}]})
     async with Client(Config(api_keys={'exa':'fixture'}),transport=httpx.MockTransport(handle)) as client:
         report = await client.anovelty_search('Certified proofs', claims=['Proof structure'],
-            providers=['exa'], max_queries=2, ranker='jev', token_budget=450, expand_graph=False)
+            providers=['exa'], max_queries=2, ranker='jev', token_budget=450, expand_graph=False, min_relevance=None)
     assert report.ranking_backend=='rrf'
     assert report_tokens(report)<=450
     assert all(j['relation']=='unassessed' for f in report.findings for j in f.judgments)
@@ -80,7 +80,7 @@ async def test_paper_list_without_contribution_is_coverage_only():
             return httpx.Response(200,json=[response_paper('seed')])
         return httpx.Response(200,json=response_paper('seed'))
     async with Client(Config(api_keys={'exa':'fixture'}),transport=httpx.MockTransport(handle)) as client:
-        report = await client.arelated_work_search(['ARXIV:2401.12345'],providers=['exa'],expand_graph=False,judge=None)
+        report = await client.arelated_work_search(['ARXIV:2401.12345'],providers=['exa'],expand_graph=False,judge=None, min_relevance=None)
     assert not report.claims and report.judgment_model is None
     assert report.query_plan[0]['kind']=='seed_title'
 
@@ -99,10 +99,10 @@ def test_markdown_import_and_query_limits(tmp_path):
 
 async def test_invalid_workflow_options_do_not_call_network():
     async with Client(Config(api_keys={}),transport=httpx.MockTransport(lambda request:pytest.fail('Unexpected network'))) as client:
-        with pytest.raises(ValueError):await client.anovelty_search('')
-        with pytest.raises(ValueError):await client.arelated_work_search([])
-        with pytest.raises(ValueError):await client.anovelty_search('idea',max_queries=0)
-        with pytest.raises(ValueError):await client.anovelty_search('idea',claims=[Claim('x','one'),Claim('x','two')])
+        with pytest.raises(ValueError):await client.anovelty_search('', min_relevance=None)
+        with pytest.raises(ValueError):await client.arelated_work_search([], min_relevance=None)
+        with pytest.raises(ValueError):await client.anovelty_search('idea',max_queries=0, min_relevance=None)
+        with pytest.raises(ValueError):await client.anovelty_search('idea',claims=[Claim('x','one'),Claim('x','two')], min_relevance=None)
 
 
 async def test_failed_overlap_is_unassessed_not_background_or_novel():
@@ -112,7 +112,7 @@ async def test_failed_overlap_is_unassessed_not_background_or_novel():
         return httpx.Response(503,json={'error':'private-key'})
     async with Client(Config(api_keys={'exa':'private-key','openrouter':'private-key'}),transport=httpx.MockTransport(handle)) as client:
         report = await client.anovelty_search('Contribution',claims='One claim',queries='One query',
-            providers=['exa'],expand_graph=False,token_budget=2000)
+            providers=['exa'],expand_graph=False,token_budget=2000, min_relevance=None)
     assert len(report.query_plan)==1 and len(report.claims)==1
     assert report.findings[0].judgments[0]['relation']=='unassessed'
     assert report.findings[0].judgments[0]['status']=='unavailable'
@@ -126,7 +126,7 @@ async def test_unresolved_seed_alias_still_excludes_existing_paper():
         return httpx.Response(429,json={'error':'rate limited'})
     async with Client(Config(api_keys={'exa':'fixture'}),transport=httpx.MockTransport(handle)) as client:
         report=await client.arelated_work_search('DOI:10.1234/known',contribution='Claim',queries=['query'],
-            providers=['exa'],expand_graph=False,judge=None)
+            providers=['exa'],expand_graph=False,judge=None, min_relevance=None)
     assert report.unresolved_seeds and not report.discoveries and report.covered
 
 
@@ -149,7 +149,7 @@ async def test_review_keeps_substantive_excerpts_under_multiclaim_budget():
         return httpx.Response(200,json={'answers':answers})
     async with Client(Config(api_keys={'exa':'fixture','openrouter':'fixture'}),transport=httpx.MockTransport(handle)) as client:
         report=await client.anovelty_search('Structured proofs',claims=['Claim one','Claim two','Claim three','Claim four'],
-            providers=['exa'],max_queries=1,max_results=8,token_budget=3000,expand_graph=False)
+            providers=['exa'],max_queries=1,max_results=8,token_budget=3000,expand_graph=False, min_relevance=None)
     assert 0 < len(report.findings) < 8
     assert report_tokens(report)<=3000
     assert all(sum(len(p) for p in f.paper.passages)>=250 for f in report.findings)

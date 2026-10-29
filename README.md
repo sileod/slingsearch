@@ -1,537 +1,165 @@
 # SlingSearch
 
-Small Python library for multi-provider evidence retrieval. Ask a question,
-search providers concurrently, merge duplicates, fuse ranks, and optionally
-rank one global shortlist. Returns source text and citations, never an answer.
+Multi-provider web and academic search for agents. Ask a question; get ranked,
+source-backed excerpts with URLs, identifiers and provider provenance. No generated answer.
 
-The hypothesis is measurable: an ensemble plus a global relevance model might
-produce better evidence per token than a single search provider. It might not.
-The included replay tools compare both without changing retrieval outputs.
+Search providers run concurrently. Results are deduplicated, fused with RRF,
+then ranked once against the original question. **Jev Latest is the default
+ranker**, including for novelty and related-work searches. Voyage, D1, Decider,
+ensembles and free RRF are explicit alternatives.
 
-Early release: the sampled evaluations do **not** show consistent superiority
-over the strongest individual provider. The 10-question LitQA validation sample
-recovered six target papers versus Exa's five; SAGE exposed harder retrieval and
-ranking failures. Adding all new sources reduced SAGE RRF quality, so ML/code
-sources stay opt-in. Read the [original](benchmarks/reports/academic-samples/README.md)
-and [expanded](benchmarks/reports/academic-sources/README.md) evaluation reports
-for sample sizes, paired comparisons and rate-limit failures.
-
-Requires Python 3.11+. Install the library from GitHub:
+## Install and search
 
 ```sh
-pip install 'slingsearch @ git+https://github.com/sileod/slingsearch.git'
+pip install 'git+https://github.com/sileod/slingsearch.git'
+# Set OPENROUTER_API_KEY and keys for your selected retrieval providers.
+slingsearch "What limits diffusion models for time-series forecasting?" --mode scholar
 ```
-
-Set the provider credentials below, then use the examples. Model ranking requires
-an OpenRouter key; `ranker="rrf"` works without one. No PyPI release is implied.
-For development from a checkout:
-
-```sh
-pip install -e '.[test,bench]'
-pytest -q
-```
-
-## Web example
 
 ```python
 from slingsearch import search
 
-response = search(
-    "How does Python cancellation propagate through an asyncio TaskGroup?",
-    providers=["exa", "parallel", "brave"],
-    ranker="rrf",  # free deterministic ranking
-)
-print(response.to_markdown())
-# response.to_json(indent=2) or response.to_dict() for structured output
-```
+web = search("What evidence supports incremental builds reducing CI latency?")
+print(web.to_markdown())
 
-## Scholar example
-
-```python
-from slingsearch import asearch
-
-response = await asearch(
-    "What are the limitations of diffusion models for time-series forecasting?",
+papers = search(
+    "What limits diffusion models for time-series forecasting?",
     mode="scholar",
-    ranker="jev",  # default; explicitly falls back to RRF if unavailable
-    year=(2020, 2026),
+    min_relevance=4,
     max_results=5,
     token_budget=1500,
 )
-print(response.to_markdown())
+print(papers.to_markdown())
 ```
 
-Scholar defaults are Exa, Parallel, OpenAlex, Semantic Scholar and Google Scholar
-(via SerpAPI). Web defaults are Exa, Parallel, Brave. Override either with `providers=[...]` or `Config`.
-Scholar metadata includes DOI, identifiers, authors, year, venue and citation
-count when supplied by providers. OpenAlex uses its native `search.semantic`
-endpoint for natural-language questions; sending the entire question to keyword
-AND search was a retrieval mismatch in the earlier experiment. Citation count never affects ranking.
-Abstracts are used for passage selection and ranking; the compact response
-includes an abstract excerpt only when it fits. Full normalized abstracts are
-retained in live benchmark snapshots.
+`asearch()` has the same options. Use `Client` for pooled connections and explicit
+`Config`. JSON includes provider status, actual ranking backend, model, timings,
+usage, reported costs and warnings.
 
-## Benchmarking example
+## Only keep useful sources
+
+`min_relevance=4` / `--min-relevance 4` filters the combined shortlist using:
+
+| Score | Meaning |
+|---|---|
+| 1 | Unrelated |
+| 2 | Topically related; unlikely to help |
+| 3 | Partial supporting evidence |
+| 4 | Directly addresses a substantial part of the question |
+| 5 | Directly answers the question with substantial evidence |
+
+The default cutoff is **3/5**: sources need at least partial supporting evidence.
+Use **4/5** for stricter searches. Searches can return fewer than `max_results`,
+including zero. Set `min_relevance=None` or `--no-relevance-filter` to opt out.
+Scores are model judgments, **not calibrated probabilities**. Inspect
+`usage.relevance_filter` for scores and qualification status. The judgment uses
+bounded shortlist excerpts; output budgeting may shorten them further.
+
+Jev, D1 and Decider reuse their rubric scores without another model call.
+Voyage, ensembles and RRF require an additional packed Jev assessment to use
+this cutoff; native scores are not interchangeable. This can increase cost and
+latency. If scoring fails, the default returns no qualified results and an explicit
+warning. To retrieve unscored leads deliberately, disable the cutoff; ranking
+failures then return RRF with a warning. For fully free search, use
+`ranker="rrf", min_relevance=None` (CLI: `--ranker rrf --no-relevance-filter`).
+
+## Optional source requirements
+
+```python
+papers = search(
+    "How do retrieval systems generalize across domains?", mode="scholar",
+    checks=[
+        "Does the paper evaluate on held-out datasets?",
+        "Does it report results against a named baseline?",
+    ],
+)
+```
+
+All checks must pass (`check_threshold=.7` by default). These separate packed
+Jev judgments use the source excerpts; missing evidence does not count as yes.
+They add model calls even when relevance scores are already available. Estimates
+are not calibrated probabilities or full-paper verification. Results preserve
+ranking order and expose per-check scores in `usage.checks`. Failed scoring
+returns no qualified sources. CLI: repeat `--check "..."`; works in the review
+APIs and MCP too. No checks are imposed by default.
+
+## Providers and defaults
+
+- **Web:** Exa, Parallel, Brave.
+- **Scholar:** Exa, Parallel, OpenAlex, Semantic Scholar, Google Scholar via SerpAPI.
+- **Opt-in:** Tavily, Firecrawl, GitHub, Papers with Code, Hugging Face.
+
+Missing credentials disable the corresponding provider with a warning. Set
+`EXA_API_KEY`, `PARALLEL_API_KEY`, `BRAVE_API_KEY`, `OPENALEX_API_KEY`,
+`SEMANTIC_SCHOLAR_API_KEY`, `SERPAPI_API_KEY`, `TAVILY_API_KEY`, or
+`FIRECRAWL_API_KEY`. GitHub and Hugging Face accept optional `GITHUB_TOKEN` and
+`HF_TOKEN`. No global configuration file is required.
+
+Override with `providers=["exa", "openalex"]`. Scholar fusion gives Semantic
+Scholar and SerpAPI half-weight votes and one shortlist opportunity each;
+there are no guaranteed final provider slots. This policy is exploratory.
+`Config(scholar_provider_weights={})` restores plain RRF without reservations.
+Citation counts never boost relevance. Packing is opt-in through
+`Config(decision_batch_size=5)`; the default remains one pending broader validation.
+
+## Existing related work and novelty checks
+
+```python
+from slingsearch import related_work_search, novelty_search, load_papers
+
+known = load_papers("related_work.md")  # stable paper links, or structured JSON
+report = related_work_search(known, contribution="Your precise research claim")
+print(report.to_markdown())
+
+report = novelty_search(
+    "Your precise research claim", related_work=known,
+    claims=["First contribution", "Second contribution"],
+)
+```
+
+These bounded workflows resolve known papers, search for missing work, optionally
+expand citation graphs, and judge claim overlap on displayed evidence. Known
+papers remain distinguished from discoveries. Missing results do not establish
+novelty. `min_relevance` also works here; overlap and relevance are separate judgments.
+
+## Evaluation
+
+Results are mixed; the blend is **not established as better than the best
+individual provider**. A frozen exploratory sample of 24 SAGE and 10 LitQA queries:
+
+| Retrieval/fusion method | SAGE known-paper Hit@10 | SAGE open weighted recall@10 | LitQA Recall@30 |
+|---|---:|---:|---:|
+| Exa | .167 | .069 | .500 |
+| Weighted scholar blend | .167 | .124 | .600 |
+
+OpenAlex alone scored .145 on the open-ended sample, above the blend.
+These are fusion results, not evidence that Jev or the cutoff improves quality.
+The half weights were explored on reused queries, not independently validated.
+A separate 12-query DORIS pilot scored Voyage .768 versus packed Jev .758 nDCG@10;
+it is too small to establish a winner. Jev is an operational default, not a proven best reranker.
 
 ```sh
-# Deterministic, synthetic smoke comparison (not evidence of search quality):
-python -m benchmarks.compare benchmarks/fixtures/smoke.jsonl --methods rrf --output smoke
-# Paid ranking comparison on exactly the same frozen shortlist:
-python -m benchmarks.compare frozen.jsonl --methods rrf jev decider voyage --output comparison
+pip install 'slingsearch[bench] @ git+https://github.com/sileod/slingsearch.git'
+python -m benchmarks.provider_audit  # free replay; requires saved private snapshots
 ```
 
-The command writes a Markdown table and JSON with per-query metrics, rankings,
-candidate-pool hashes, actual model identifiers, operational measurements and
-paired bootstrap intervals (2,000 resamples, seed 0). Web and scholar are
-reported separately. Missing keys or failed models produce failed rows with
-`NA` metrics, never a mislabeled RRF result. The comparison does not imply any
-backend is better before measurements exist.
+See the [provider audit](benchmarks/reports/provider-audit/README.md),
+[academic evaluation](benchmarks/reports/academic-samples/README.md), and
+[full reference](docs/reference.md) for datasets, reproduction, limitations,
+advanced options and benchmark commands. Benchmark datasets are never downloaded
+by ordinary searches. The default cutoff is a conservative product policy, not an empirically calibrated optimum; no new quality claim is made for it yet.
 
-See [benchmark instructions](benchmarks/README.md) for native dataset loading,
-live snapshots, scholarly ID matching and manual passage assessment.
+## Agent integration
 
-## Credentials and configuration
-
-Set only the keys you use in your shell or process environment:
-
-```text
-EXA_API_KEY
-PARALLEL_API_KEY
-BRAVE_API_KEY
-TAVILY_API_KEY
-FIRECRAWL_API_KEY
-SEMANTIC_SCHOLAR_API_KEY
-OPENALEX_API_KEY
-SERPAPI_API_KEY
-GITHUB_TOKEN       # optional, public repository search works without it
-HF_TOKEN           # optional, public Hugging Face search works without it
-OPENROUTER_API_KEY
-```
-
-Missing keys skip providers requiring authentication and produce response
-warnings. OpenAlex and Semantic Scholar can run keyless with lower limits.
-A free [OpenAlex key](https://help.openalex.org/api/authentication/) increases
-its available budget. Most keys are sent in headers; SerpAPI requires an `api_key` query parameter.
-Keys are never included in result envelopes or exception messages. Config representations omit the keys. The library does
-not log requests; avoid enabling HTTP header logging in your application.
-
-```python
-from slingsearch import Client, Config
-
-config = Config(
-    web_providers=("exa", "parallel"),
-    timeout=20,
-    ranking_concurrency=5,
-    candidate_tokens=400,
-)
-async with Client(config) as client:
-    first = await client.asearch("What is reciprocal rank fusion?", ranker="rrf")
-    second = await client.asearch("When does rank fusion fail?", ranker="voyage")
-```
-
-Use `with Client(...)` and `client.search(...)` for synchronous connection
-reuse. Use one client in one event loop; do not mix sync and async contexts.
-`search()` detects running event loops and directs notebooks to `asearch()`.
-No global configuration file is required. Explicit keys can be supplied via
-`Config(api_keys={"exa": "...", "openrouter": "..."})`.
-
-## Ranking and evidence budgets
-
-Pipeline: retrieval → normalization/deduplication → RRF → bounded local passage
-selection → global ranking → bounded presentation. Modules are independent.
-
-| Ranker | OpenRouter model | Contract |
-|---|---|---|
-| `rrf` | none | sum of `1 / (60 + provider_rank)` |
-| `jev` (default) | `~typesafe/jev-latest` | typed Decisions score |
-| `d1` | `~liquid/d1-ultra-latest` | typed Decisions score |
-| `ensemble` (experimental) | configured members | equal-weight RRF of model rankings |
-| `decider` | `perplexity/pplx-decider-v1.2` | typed Decisions score |
-| `voyage` | `voyageai/rerank-3-lite` | rerank document indices |
-
-The Jev default follows OpenRouter’s rolling latest alias (currently Jev 1.14).
-Historical benchmark records retain the pinned model actually evaluated; their
-scores do not automatically apply to future alias targets. Responses record the
-requested model and any resolved model identifiers reported by OpenRouter.
-
-Decisions use `POST /api/alpha/decisions`, a named score question, and five
-ordered criteria. The API's zero-based score is shifted to the public 1–5
-rubric. Candidates are judged independently with bounded concurrency. Voyage
-uses `POST /api/v1/rerank`; incomplete/duplicate mappings fail validation.
-Both receive the same title and selected passages, bounded by
-`Config.candidate_tokens`. Scores are only meaningful within their backend;
-ties use RRF. No OpenRouter calls generate queries, search, extract passages,
-embed text or synthesize answers.
-
-`ranker="d1"` uses the same bounded candidate representations and Decisions
-adapter as Jev. `ranker="ensemble"` runs Jev, D1 and Voyage concurrently on the
-same shortlist, then fuses **ranks** with RRF (`k=60`), never raw scores. Configure
-members with `Config(ensemble_rankers=("d1", "voyage"))`. Ensemble model scores
-are fusion scores, not relevance probabilities. Member costs add; member usage
-and failures are exposed in `usage.ensemble_members`. If any member fails, the
-whole stage falls back explicitly to retrieval RRF. Ensembling is experimental;
-complementary model errors and quality improvements are not assumed.
-
-Decision calls can optionally pack independent candidate questions:
-
-```python
-config = Config(decision_batch_size=5, decision_evidence_checks=True)
-```
-
-The default batch size remains one. Packing shares the original user question;
-each typed question contains only its own bounded document. Candidates never see
-other candidate texts. `decision_evidence_checks=True` also asks whether the text
-contains useful answer evidence and whether more source text would help assess
-it. These probabilities appear in `response.usage["decision_evidence"]` alongside
-available relevance confidence/probabilities. They are diagnostics: they do not
-automatically fetch pages, filter sources, or change the relevance ranking.
-
-`usage.ranking_requests` and `usage.decision_questions` distinguish HTTP calls
-from typed judgments. `cached_tokens` and `cache_write_tokens` are included only
-when the upstream API reports them; absence means unknown, not zero. Shared-input
-batching and exact-response replay are distinct from verified provider prompt-cache
-hits. See the [decision packing evaluation](benchmarks/reports/decision-audit/README.md).
-
-Partial decision failures settle all in-flight requests and discard partial
-model scores before RRF fallback. The response records the actual backend,
-requested backend/model, resolved model when available, usage, reported costs,
-per-stage timings and warnings. Costs may remain unknown and exclude costs
-not reported by upstream APIs. Pricing is not hard-coded.
-
-Defaults: 10 results per provider, a 20-document shortlist (up to 50), 5 final
-results, 2 passages per result, 180 estimated tokens per passage, and a 1,500
-estimated-token output budget. `per_provider`, `shortlist`,
-`passages_per_result`, `max_results` and `token_budget` are search arguments.
-Provider-side caps can return fewer results than requested.
-
-Tokens use a conservative UTF-8 byte/3 estimate, **not a model tokenizer**.
-The output budget applies to the larger of compact result-array JSON and
-citation Markdown, including titles, URLs, identifiers and provenance.
-Response-envelope diagnostics and pretty-print whitespace are outside that
-budget. Passages are shortened by taking literal prefixes; results are dropped
-if mandatory metadata does not fit. Very small budgets can return no results.
-`usage.output_tokens` reports this same estimate. Ranking text budgets are
-separate from presentation budgets.
-
-Passages remain literal source excerpts. Local term matching chooses among
-provider excerpts or scholarly abstracts. `fetch_pages=True` optionally fetches
-shortlisted web pages with insufficient text; install
-`pip install 'slingsearch[extract]'`. Extraction is size-limited, uses
-trafilatura, and failures leave available snippets intact. There is no crawler
-or model-based passage extraction. Provider snippets can themselves contain
-upstream processing; the library does not verify a snippet against its page.
-
-DOIs, canonical URLs, shared scholarly identifiers, then normalized scholarly
-titles with compatible years determine duplicates. ArXiv version IDs are
-linked through their common paper ID. Provenance retains every original rank;
-RRF counts each provider's best rank once. URL normalization retains paths,
-trailing slashes and nontracking query parameters. Scholar `year=2025` or
-`year=(2020, 2026)` uses native filters where available and a final metadata
-filter; papers without a known year are excluded with a warning.
-
-## Useful diversity in scholar search
-
-To preserve candidate coverage from independent providers while keeping a strong
-retrieval result visible:
-
-```python
-response = search(
-    "Which papers study multilingual semantic parsing without full parsers?",
-    mode="scholar",
-    providers=["exa", "openalex", "semantic_scholar", "parallel"],
-    ranker="jev",
-    diversity=True,
-    anchor_provider="exa",
-    shortlist=20,
-    max_results=5,
-    token_budget=1500,
-)
-```
-
-`diversity=True` reserves shortlist coverage by original provider ranks before
-one global model ranking. After scoring, local text-overlap and provenance
-novelty break narrow within-query relevance bands. It does not reserve final
-slots for weak providers or call a second model. `anchor_provider="exa"`
-explicitly preserves that provider's best available shortlisted result at #1;
-model scores are retained unchanged, and remaining sources keep the global
-ordering. Both settings appear in response usage metadata and are opt-in. The
-[fresh 16-query validation](benchmarks/reports/scholar-diversity/validation-16/report.md)
-did not beat Exa overall: the policy recovered one additional relevant paper but
-lost other coverage. Treat these as experimental controls, not a demonstrated
-quality improvement.
-
-Semantic Scholar gets a deterministic lexical version of the question, with
-conversational filler removed and hyphens split; scientific acronyms/dataset
-names are retained. The ranking model always sees the original full question.
-Parallel scholar mode asks for primary papers and abstracts. OpenAlex uses
-native semantic search. Scholarly APIs retry HTTP 429 once with a bounded wait;
-failures remain explicit if the retry fails.
-
-Presentation reserves citation metadata first and shares excerpt space across
-the selected papers. This helps complementary papers remain visible within the
-same 1,500-token budget. Useful diversity is measured as **known relevant papers
-not retrieved by Exa that survive into the final five**, not just the number of
-provider names. See the [scholar diversity experiment](benchmarks/reports/scholar-diversity/report.md).
-
-## CLI and optional MCP
+Use the Python API, JSON CLI (`--format json`), or optional stdio MCP server:
 
 ```sh
-slingsearch 'What limits diffusion forecasting?' --mode scholar --ranker rrf --format json
-pip install 'slingsearch[mcp]'
-slingsearch-mcp  # stdio; exposes search(question, mode, ranker, max_results, token_budget)
+pip install 'slingsearch[mcp] @ git+https://github.com/sileod/slingsearch.git'
+slingsearch-mcp
 ```
 
-The CLI uses standard-library argparse. The optional MCP server delegates to
-the same API; it adds no retrieval or ranking behavior.
+An installable [agent skill](skills/slingsearch/SKILL.md) covers mode selection,
+cutoffs, citation discipline and partial failures. Copy `skills/slingsearch/` into
+your agent's skill directory; Codex discovers it under `~/.codex/skills/`.
 
-## Validation status
-
-Tests use fixed HTTP responses and cover all eleven provider adapters, ranking
-contracts, failures, pooling, deduplication, budgets and all four dataset
-loaders. No paid API requests or model-quality claims are part of these tests.
-A live one-result smoke check on 2026-10-29 succeeded for all seven retrieval
-providers. Semantic Scholar returned no abstract for its first result. Live
-Jev, Decider and Voyage contract checks also passed on 2026-10-29. A six-question
-comparison and frozen inputs are in [the validation report](benchmarks/reports/live-validation/report.md);
-this small check does not establish ranking quality. A larger [sampled comparison](benchmarks/reports/sampled-comparison/report.md)
-now covers 20 web and 8 live scholar queries. Blending helped web in the sample
-but hurt scholar; Jev is not established as the best reranker. A further
-[57-question held-out web comparison](benchmarks/reports/anchor-holdout/report.md)
-finds gains for both the default RRF trio and an experimental Exa-preserving rule.
-[Scholar ablations](benchmarks/reports/semantic-scholar-ablation/report.md)
-separate native OpenAlex semantic retrieval from Exa-only reranking; the small
-scholar gains remain inconclusive. MCP requires its optional dependency.
-
-Contract references: [OpenRouter OpenAPI](https://openrouter.ai/openapi.json),
-[rerank API](https://openrouter.ai/docs/api/api-reference/rerank/create-rerank),
-[Parallel Search](https://parallel.ai/products/search),
-[Brave web search](https://api-dashboard.search.brave.com/app/documentation/web-search),
-[Semantic Scholar](https://api.semanticscholar.org/api-docs/snippets),
-[Firecrawl Search](https://docs.firecrawl.dev/api-reference/endpoint/search),
-[Tavily Search](https://help.tavily.com/articles/4840311948-tavily-search-api),
-[Exa](https://docs.exa.ai/reference/search).
-
-## Next academic evaluations
-
-[SAGE](https://github.com/HughieHu/Sage) and
-[AstaBench LitQA2-FullText-Search](https://allenai.org/asta/bench) are priority
-retrieval evaluations. Prepare pinned samples without search/model charges:
-
-```sh
-python -m benchmarks.academic_samples --output benchmarks/reports/academic-samples
-```
-
-The default sample has 24 SAGE questions (three per task/domain stratum) plus
-the ten official LitQA validation questions. Query text is taken verbatim; reference
-answers, target titles and generation plans are not appended. Downloaded data and per-query labels
-stay local; the manifest records source revisions, hashes and selected IDs.
-See [the evaluation protocol](benchmarks/ACADEMIC_EVAL.md) for metrics and limits.
-
-## Academic and implementation sources
-
-| Provider | Web mode | Scholar mode | Credentials |
-|---|---|---|---|
-| `serpapi` | Google organic search | Google Scholar papers, citations, author/year metadata and PDF links | `SERPAPI_API_KEY` |
-| `github` | Public repositories | Public repositories (kept as repositories) | optional `GITHUB_TOKEN` |
-| `papers_with_code` | Paper catalog | Abstracts, code links, tasks and linked datasets | none |
-| `huggingface` | Papers by default | Papers by default | optional `HF_TOKEN` |
-
-Papers with Code uses the **Hugging Face-maintained `paperswithcode.co` catalog**,
-not the retired `.com` API. It fetches details for each returned paper to obtain
-abstracts and linked repositories. Hugging Face passages use original abstracts
-or repository cards, never AI TLDRs. Its catalog is primarily AI/ML, so it cannot
-replace OpenAlex or Semantic Scholar for broad academic coverage.
-
-```python
-results = search(
-    "Limitations of diffusion models for time-series forecasting",
-    mode="scholar",
-    providers=["exa", "serpapi", "openalex", "semantic_scholar",
-               "papers_with_code", "huggingface"],
-    ranker="voyage",
-)
-```
-
-Scholar fusion gives Semantic Scholar and SerpAPI half-weight votes, versus one
-for the other providers, and reserves one shortlist candidate for each. These
-are candidate opportunities, not guaranteed final results. The
-[provider contribution audit](benchmarks/reports/provider-audit/README.md) reports
-frozen comparisons; this policy is exploratory, not independently validated.
-Set `Config(scholar_provider_weights={})` for plain RRF without reservations,
-or supply your own positive provider weights. The response records this policy.
-GitHub is opt-in for implementation discovery. Results expose
-`kind`, `code_urls`, `tasks`, and `dataset_urls`; repository titles are not merged
-with papers merely because their titles coincide. Code/task/dataset metadata is
-also shown in Markdown and counted against the output budget. Citation counts
-are metadata and never automatic ranking boosts.
-
-SerpAPI Scholar uses deterministic six-term keyword cleanup for long questions.
-PWC and GitHub use four terms, with a two-term fallback only for empty responses.
-No model generates these queries. Provider-specific lexical cleanup can lose
-constraints; the global ranker still receives the original question. Comparisons
-must record the strategy and cannot attribute every change solely to fusion.
-
-For Hub assets, set `Config(huggingface_resource="models")` or `"datasets"`.
-These return model/dataset repository URLs and original README excerpts, with
-appropriate result kinds. The default resource is `"papers"`.
-
-## Bounded retrieval and citation graphs
-
-`search(..., fast=True, deadline=3)` waits for enough text-bearing unique results
-from at least two available providers, then allows a 150ms grace period and
-cancels stragglers. Override the threshold with `fast_min_results`. This is a
-text-availability heuristic, not a guarantee of relevance. `deadline` bounds
-network work across retrieval, page fetching and model ranking; small local
-formatting/cleanup overhead may remain. Cancelled providers are listed separately
-in `response.cancelled`. If ranking times out, the response explicitly reports
-RRF fallback. Cancellation does not guarantee that an upstream request was free.
-Ordinary searches still await all selected providers.
-
-```python
-with Client() as client:
-    graph = client.citation_graph("ARXIV:1706.03762", direction="both", limit=10)
-# Async: await client.acitation_graph(...)
-```
-
-This fetches one hop of Semantic Scholar references and citations, with bounded
-nodes, directed `cites` edges, paper abstracts/identifiers and partial failures.
-It does not recursively crawl, synthesize answers, or promote highly cited papers
-in search results. Graph expansion is explicit and separate from search.
-
-`doctor` and `usage` commands are also available, but operational tooling is
-secondary to source consolidation. `usage` reports only supported provider
-balances (Tavily, Firecrawl, OpenAlex, SerpAPI, GitHub); unknown balances remain
-unknown. `doctor` uses an account endpoint where possible, otherwise a one-result
-search that may consume credits. Account checks do not guarantee search access.
-
-## Did the search find useful evidence?
-
-```python
-response = search("Your research question", mode="scholar", ranker="voyage", assess=True)
-print(response.evidence_assessment)
-```
-
-`assess=True` asks Jev Latest three typed questions per displayed result: the
-five-level relevance score, a yes/no probability of useful answer evidence, and
-a yes/no probability that more source text is needed. Up to 20 results are packed
-per request (normally one request for five results). Assessment uses the **final
-budgeted excerpts**, preserves the search ordering and original model scores,
-and adds reported cost/usage separately. It works after any ranking backend.
-
-`evidence_assessment.results` contains `evidence_probability` and
-`needs_more_text_probability`. `has_potential_evidence` requires at least one
-result with evidence probability >= `assessment_threshold` (default .7) and
-relevance rubric score >= 3. `max_evidence_probability` is just the maximum
-single-result estimate, not a probability that the overall search succeeded.
-No results and unavailable assessment are distinct states. Failures or a missing
-OpenRouter key leave usefulness unknown; they never imply that evidence is absent.
-
-These are model estimates, not validated truth or calibrated success probabilities.
-Voyage scores remain useful for within-query ordering, not as absolute evidence
-probabilities. An arbitrary sigmoid would not calibrate them. Calibrated thresholds
-require held-out passage-usefulness labels and reliability/Brier measurements.
-The model does not establish whether important unseen papers were missed.
-
-See the sampled [original academic evaluation](benchmarks/reports/academic-samples/README.md)
-and [expanded source evaluation](benchmarks/reports/academic-sources/README.md).
-
-## Contribution and related-work reviews
-
-Use the two bounded workflows to search for prior art, not to certify novelty:
-
-```python
-from slingsearch import novelty_search, related_work_search, Claim, load_papers
-
-claims = [
-    Claim("labels", "Generate synthetic training examples with verified labels"),
-    Claim("transfer", "Measure transfer while holding training difficulty fixed"),
-]
-papers = load_papers("related_work.md")  # stable DOI/arXiv/Semantic Scholar links
-
-idea_review = novelty_search(
-    "A proposed method for controlled synthetic training data",
-    claims=claims,
-    related_work=papers,
-    max_queries=6,
-    ranker="jev",
-)
-coverage_review = related_work_search(
-    papers,
-    contribution="A proposed method for controlled synthetic training data",
-    claims=claims,
-    max_queries=6,
-    ranker="jev",
-)
-print(coverage_review.to_markdown())
-# .discoveries, .covered, .query_plan, .searches, .graphs, .to_json()
-```
-
-Async equivalents are `anovelty_search` / `arelated_work_search`, also available
-on pooled `Client` objects. `related_work_search(papers)` without a contribution
-performs neighborhood discovery only; it does not invent contribution claims.
-Inputs can be DOI/arXiv/CorpusId strings, titles, `PaperSeed` objects, or normalized
-`Result` objects. `load_papers` supports a JSON seed list, JSONL, one entry per line,
-or Markdown **stable links only**. It does not infer all references from arbitrary
-bibliographic prose. Prefer stable identifiers over ambiguous title-only entries.
-
-Idea search prioritizes the combined contribution and explicit claim facets;
-seeded search prioritizes a seed title and the combined contribution, then other
-seed neighborhoods. Full-claim and local keyword variants are deterministic,
-recorded in `query_plan`, and can be overridden with `queries=[...]`. Optional
-`Claim.search_terms` provides user/agent terminology. No OpenRouter model generates
-queries, hypotheses or synthesized answers. Explicit claims are recommended;
-a single contribution string is treated as one claim, not silently decomposed by
-a model.
-
-Stable IDs for up to 200 bibliography entries are resolved in batches. Bounded
-title lookups require a unique exact title candidate (and a compatible supplied
-year); ambiguities and lookup failures remain explicit. `max_seeds` (default 5)
-bounds graph expansion, not the entire known-paper exclusion list. One-hop
-reference/citation links retain seed IDs, direction, truncation and failures.
-Known papers are excluded from `.discoveries` using confident identities, not
-fuzzy title matching. Unresolved entries can still be excluded by supplied IDs;
-an unresolved title cannot safely exclude every similar title.
-
-All query outputs and graph neighbors are deduplicated together. Repeated queries
-from one provider do not count as independent provider support: fusion uses the
-best original rank per provider. One optional global ranking stage sees the
-combined shortlist. Existing papers and discoveries have separate display slots,
-so known papers cannot consume every discovery slot.
-
-Packed Jev overlap judgments compare each displayed paper with each explicit claim:
-`same_contribution`, `partial_overlap`, `background`, or `insufficient_evidence`.
-They retain passage indices and a separate probability that more source text is
-needed. A background decision with that probability >= .7 is conservatively
-marked insufficient evidence (`model_relation` preserves the original label).
-This is an inspection heuristic, not a calibrated probability of novelty. A paper
-can overlap with a component without anticipating the complete proposed method.
-No-source-text records cannot receive an affirmative overlap label.
-
-The finding-aware output budget includes paper metadata, excerpts, judgments and
-discovery trails, using the same byte/3 estimate as search. Input claims, seed
-inventory and operational diagnostics are outside that evidence budget. It keeps
-roughly 160 tokens of source text when available, then drops lower-priority
-findings instead of reducing every paper to a title. Judgments are made **after**
-this allocation; any later excerpt reduction invalidates its judgment. Very small
-budgets can return no findings. `usage.output_evidence_tokens` reports the bound.
-
-Defaults: at most 8 query rounds, 5 results/provider/query, 5 graph seeds and
-5 neighbors per direction, 20 globally ranked candidates, 5 discoveries plus
-up to 3 covered papers, and 3,000 evidence tokens. Ordinary ranking defaults to
-free RRF; overlap judging defaults to Jev Latest. Set `judge=None` for a free
-model-free review; missing model credentials leave pairs explicitly unassessed.
-Remote retrieval itself may consume provider credits. Check `searches`, `graphs`,
-warnings and unresolved seeds before interpreting apparent gaps.
-
-```sh
-slingsearch novelty "Your contribution" --claim "Distinguishing claim" --papers related.md --ranker jev
-slingsearch related-work related.md --contribution "Your contribution" --ranker jev --format json
-# No model calls:
-slingsearch related-work related.md --judge none --ranker rrf
-```
-
-These workflows operate on retrieved excerpts, not a complete reading of all
-methods. They identify possible missing prior art and inspection needs. Neither
-an empty result set nor many background labels establishes novelty. Full-text
-inspection and an independent domain review remain necessary for substantive
-novelty claims.
+MIT license. Search and model API usage may incur charges.

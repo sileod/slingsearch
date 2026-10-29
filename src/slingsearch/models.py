@@ -65,4 +65,16 @@ class SearchResponse:
 
     def to_markdown(self):
         from .output import markdown
-        return markdown(self.results)
+        evidence = markdown(self.results)
+        statuses = []
+        cutoff = self.usage.get('relevance_filter')
+        if cutoff:
+            statuses.append(f"Relevance cutoff ≥{cutoff['minimum']}/5: {cutoff['kept']} qualified sources before checks and output limits."
+                            if cutoff['status'] == 'complete' else
+                            'Relevance scoring unavailable; no sources qualified. This is not evidence that no relevant sources exist.')
+        checks = self.usage.get('checks')
+        if checks:
+            statuses.append(f"Required source checks: {checks['kept']} passed all checks before output limits."
+                            if checks['status'] == 'complete' else
+                            'Required source checks unavailable; no sources qualified.')
+        return '\n\n'.join([*statuses, *([evidence] if evidence else [])])
