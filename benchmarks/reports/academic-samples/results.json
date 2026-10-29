@@ -1,0 +1,1313 @@
+{
+  "groups": {
+    "sage_short": {
+      "queries": 12,
+      "primary_metric": "Hit@10",
+      "paired_ids": [
+        "sage_short_computer_science_113",
+        "sage_short_computer_science_136",
+        "sage_short_computer_science_57",
+        "sage_short_healthcare_117",
+        "sage_short_healthcare_72",
+        "sage_short_healthcare_89",
+        "sage_short_humanities_108",
+        "sage_short_humanities_117",
+        "sage_short_humanities_46",
+        "sage_short_natural_science_22",
+        "sage_short_natural_science_66",
+        "sage_short_natural_science_69"
+      ],
+      "methods": {
+        "d1_packed5": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "d1_voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "exa+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.08333333333333333,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "jev_d1_voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "jev_packed5": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "jev_voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "openalex+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "parallel+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.08333333333333333,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.08333333333333333,
+          "all_successful_mean": 0.08333333333333333
+        },
+        "rrf": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": 0.16666666666666666,
+          "product_hit5_paired": 0.08333333333333333,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "search_cli_fusion_port": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": 0.16666666666666666,
+          "product_hit5_paired": 0.08333333333333333,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "semantic_scholar+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:exa": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": 0.16666666666666666,
+          "product_hit5_paired": 0.08333333333333333,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "single:openalex": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:parallel": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.08333333333333333,
+          "full_sample_score": 0.08333333333333333,
+          "product_hit5_paired": 0.08333333333333333,
+          "all_successful_mean": 0.08333333333333333
+        },
+        "single:semantic_scholar": {
+          "successful_queries": 10,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.16666666666666666,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.16666666666666666
+        }
+      },
+      "strongest_reranked_individual": "exa+voyage",
+      "paired_vs_best_single": {
+        "rrf": {
+          "mean_delta": 0.0,
+          "ci95": [
+            -0.25,
+            0.25
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "voyage": {
+          "mean_delta": 0.0,
+          "ci95": [
+            -0.25,
+            0.25
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_packed5": {
+          "mean_delta": 0.0,
+          "ci95": [
+            -0.25,
+            0.25
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "d1_packed5": {
+          "mean_delta": 0.0,
+          "ci95": [
+            -0.25,
+            0.25
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_voyage": {
+          "mean_delta": 0.0,
+          "ci95": [
+            -0.25,
+            0.25
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "d1_voyage": {
+          "mean_delta": 0.0,
+          "ci95": [
+            -0.25,
+            0.25
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_d1_voyage": {
+          "mean_delta": 0.0,
+          "ci95": [
+            -0.25,
+            0.25
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        }
+      },
+      "provider_successes": {
+        "exa": 12,
+        "openalex": 12,
+        "parallel": 12,
+        "semantic_scholar": 10
+      },
+      "pool_recall_at30": 0.25,
+      "by_domain": {
+        "computer_science": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            }
+          }
+        },
+        "healthcare": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.0
+            }
+          }
+        },
+        "humanities": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.0
+            }
+          }
+        },
+        "natural_science": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.6666666666666666
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.6666666666666666
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            }
+          }
+        }
+      }
+    },
+    "sage_open": {
+      "queries": 12,
+      "primary_metric": "WeightedRecall@10",
+      "paired_ids": [
+        "sage_open_computer_science_108",
+        "sage_open_computer_science_37",
+        "sage_open_computer_science_59",
+        "sage_open_healthcare_128",
+        "sage_open_healthcare_34",
+        "sage_open_healthcare_65",
+        "sage_open_humanities_149",
+        "sage_open_humanities_26",
+        "sage_open_humanities_92",
+        "sage_open_natural_science_21",
+        "sage_open_natural_science_62",
+        "sage_open_natural_science_80"
+      ],
+      "methods": {
+        "d1_packed5": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.06190476190476191,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.06190476190476191
+        },
+        "d1_voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.09613095238095237,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.3333333333333333,
+          "all_successful_mean": 0.09613095238095239
+        },
+        "exa+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.06904761904761904,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.06904761904761905
+        },
+        "jev_d1_voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0857142857142857,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.08571428571428572
+        },
+        "jev_packed5": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0857142857142857,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.08571428571428572
+        },
+        "jev_voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.08422619047619047,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.25,
+          "all_successful_mean": 0.08422619047619048
+        },
+        "openalex+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.14500661375661375,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.4166666666666667,
+          "all_successful_mean": 0.14500661375661375
+        },
+        "parallel+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "rrf": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.10505952380952381,
+          "full_sample_score": 0.10505952380952381,
+          "product_hit5_paired": 0.25,
+          "all_successful_mean": 0.10505952380952381
+        },
+        "search_cli_fusion_port": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.10505952380952381,
+          "full_sample_score": 0.10505952380952381,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.10505952380952381
+        },
+        "semantic_scholar+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:exa": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.06904761904761904,
+          "full_sample_score": 0.06904761904761904,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.06904761904761905
+        },
+        "single:openalex": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.14500661375661375,
+          "full_sample_score": 0.14500661375661375,
+          "product_hit5_paired": 0.4166666666666667,
+          "all_successful_mean": 0.14500661375661375
+        },
+        "single:parallel": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:semantic_scholar": {
+          "successful_queries": 8,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 12,
+          "primary_paired": 0.09613095238095237,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.16666666666666666,
+          "all_successful_mean": 0.09613095238095239
+        }
+      },
+      "strongest_reranked_individual": "openalex+voyage",
+      "paired_vs_best_single": {
+        "rrf": {
+          "mean_delta": -0.039947089947089946,
+          "ci95": [
+            -0.13333333333333333,
+            0.047619047619047616
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "voyage": {
+          "mean_delta": -0.04887566137566137,
+          "ci95": [
+            -0.14537037037037037,
+            0.03809523809523809
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_packed5": {
+          "mean_delta": -0.05929232804232804,
+          "ci95": [
+            -0.15578703703703703,
+            0.0291005291005291
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "d1_packed5": {
+          "mean_delta": -0.08310185185185184,
+          "ci95": [
+            -0.16666666666666666,
+            -0.018518518518518517
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_voyage": {
+          "mean_delta": -0.060780423280423275,
+          "ci95": [
+            -0.1595899470899471,
+            0.02857142857142857
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "d1_voyage": {
+          "mean_delta": -0.04887566137566137,
+          "ci95": [
+            -0.14537037037037037,
+            0.03809523809523809
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_d1_voyage": {
+          "mean_delta": -0.05929232804232804,
+          "ci95": [
+            -0.15578703703703703,
+            0.0291005291005291
+          ],
+          "queries": 12,
+          "seed": 0,
+          "samples": 2000
+        }
+      },
+      "provider_successes": {
+        "exa": 12,
+        "openalex": 12,
+        "parallel": 12,
+        "semantic_scholar": 8
+      },
+      "pool_recall_at30": 0.173015873015873,
+      "by_domain": {
+        "computer_science": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.1369047619047619
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.09523809523809523
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.09523809523809523
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.09523809523809523
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.1369047619047619
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.125
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.22023809523809523
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.22023809523809523
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.09523809523809523
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.125
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.1369047619047619
+            }
+          }
+        },
+        "healthcare": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.13333333333333333
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.13333333333333333
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.2
+            }
+          }
+        },
+        "humanities": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 1,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.0
+            }
+          }
+        },
+        "natural_science": {
+          "queries": 3,
+          "methods": {
+            "d1_packed5": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "d1_voyage": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "jev_d1_voyage": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "jev_packed5": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "jev_voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.12169312169312169
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.12169312169312169
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            }
+          }
+        }
+      }
+    },
+    "litqa2": {
+      "queries": 10,
+      "primary_metric": "Recall@30",
+      "paired_ids": [
+        "litqa2_11",
+        "litqa2_156",
+        "litqa2_162",
+        "litqa2_17",
+        "litqa2_176",
+        "litqa2_188",
+        "litqa2_2",
+        "litqa2_26",
+        "litqa2_41",
+        "litqa2_53"
+      ],
+      "methods": {
+        "d1_packed5": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.6
+        },
+        "d1_voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.6
+        },
+        "exa+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.5,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.5
+        },
+        "jev_d1_voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.6,
+          "all_successful_mean": 0.6
+        },
+        "jev_packed5": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.6
+        },
+        "jev_voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.6
+        },
+        "openalex+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.2,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.2,
+          "all_successful_mean": 0.2
+        },
+        "parallel+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.1,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.1
+        },
+        "rrf": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": 0.6,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.6
+        },
+        "search_cli_fusion_port": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": 0.6,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.6
+        },
+        "semantic_scholar+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:exa": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.5,
+          "full_sample_score": 0.5,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.5
+        },
+        "single:openalex": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.2,
+          "full_sample_score": 0.2,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.2
+        },
+        "single:parallel": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.1,
+          "full_sample_score": 0.1,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.1
+        },
+        "single:semantic_scholar": {
+          "successful_queries": 6,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.4,
+          "all_successful_mean": 0.6
+        }
+      },
+      "strongest_reranked_individual": "exa+voyage",
+      "paired_vs_best_single": {
+        "rrf": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        },
+        "voyage": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_packed5": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        },
+        "d1_packed5": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_voyage": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        },
+        "d1_voyage": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        },
+        "jev_d1_voyage": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        }
+      },
+      "provider_successes": {
+        "exa": 10,
+        "openalex": 10,
+        "parallel": 10,
+        "semantic_scholar": 6
+      },
+      "pool_recall_at30": 0.6,
+      "by_domain": {}
+    }
+  },
+  "source_scope": "academic-samples",
+  "protocol": {
+    "per_provider": 10,
+    "shortlist_max": 50,
+    "candidate_tokens": 400,
+    "product_results": 5,
+    "product_tokens": 1500
+  },
+  "limitations": [
+    "Live API adaptation, not the official closed-corpus leaderboard",
+    "Known-positive ID/DOI matching only; SAGE reference positives are incomplete",
+    "Single providers request only ten results; Recall@30 is depth-limited for those baselines",
+    "Main table uses paired complete ranking cases; provider retrieval failure is counted as zero in operational precision/recall",
+    "Search CLI comparison is a Python fusion port with fixed alphabetic bucket ties, not execution of the Rust CLI",
+    "Expanded snapshot adds sources and deterministic lexical query cleanup; not a fresh-query holdout",
+    "No answer correctness or passage usefulness claim follows from finding a paper"
+  ],
+  "implementation_coverage": {
+    "github_repositories": 0,
+    "papers_with_code_links": 0,
+    "papers_with_dataset_links": 0
+  }
+}

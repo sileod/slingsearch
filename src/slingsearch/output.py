@@ -15,6 +15,9 @@ def markdown(results):
         year = f' ({r.year})' if r.year else ''
         found = ', '.join(f'{s.provider} #{s.rank}' for s in r.sources)
         parts = [f'[{i}] {r.title}{year}', r.url, f'Source: {r.id}', f'Found by: {found}']
+        if r.code_urls: parts.append('Code: ' + ', '.join(r.code_urls))
+        if r.tasks: parts.append('Tasks: ' + ', '.join(r.tasks))
+        if r.dataset_urls: parts.append('Datasets: ' + ', '.join(r.dataset_urls))
         parts.extend(f'\nRelevant passage:\n"{p}"' for p in r.passages)
         blocks.append('\n'.join(parts))
     return '\n\n'.join(blocks)

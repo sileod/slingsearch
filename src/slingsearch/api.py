@@ -37,6 +37,44 @@ class Client:
                 return await run(self._http, self.config, question, **kwargs)
         return await run(self._http, self.config, question, **kwargs)
 
+    async def _operation(self, operation, **kwargs):
+        if self._http is None:
+            async with self:
+                return await operation(self._http, self.config, **kwargs)
+        return await operation(self._http, self.config, **kwargs)
+
+    def _sync_operation(self, operation, **kwargs):
+        factory = lambda: self._operation(operation, **kwargs)
+        if self._runner is not None:
+            return self._runner.run(factory())
+        if self._http is not None:
+            raise RuntimeError('Use the async method with an async client')
+        return _sync(factory)
+
+    async def ausage(self, *, providers=None):
+        from .operations import usage
+        return await self._operation(usage, providers=providers)
+
+    def usage(self, *, providers=None):
+        from .operations import usage
+        return self._sync_operation(usage, providers=providers)
+
+    async def adoctor(self, *, providers=None):
+        from .operations import doctor
+        return await self._operation(doctor, providers=providers)
+
+    def doctor(self, *, providers=None):
+        from .operations import doctor
+        return self._sync_operation(doctor, providers=providers)
+
+    async def acitation_graph(self, paper_id, *, direction='both', limit=10):
+        from .graph import citation_graph
+        return await self._operation(citation_graph, paper_id=paper_id, direction=direction, limit=limit)
+
+    def citation_graph(self, paper_id, *, direction='both', limit=10):
+        from .graph import citation_graph
+        return self._sync_operation(citation_graph, paper_id=paper_id, direction=direction, limit=limit)
+
     def __enter__(self):
         try:
             asyncio.get_running_loop()

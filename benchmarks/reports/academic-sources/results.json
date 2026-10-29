@@ -1,0 +1,1210 @@
+{
+  "groups": {
+    "sage_short": {
+      "queries": 12,
+      "primary_metric": "Hit@10",
+      "paired_ids": [
+        "sage_short_natural_science_69"
+      ],
+      "methods": {
+        "exa+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 1.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "huggingface+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "openalex+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "papers_with_code+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "parallel+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.08333333333333333
+        },
+        "rrf": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.08333333333333333,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.08333333333333333
+        },
+        "search_cli_fusion_port": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.08333333333333333,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.08333333333333333
+        },
+        "semantic_scholar+voyage": {
+          "successful_queries": 10,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "serpapi+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:exa": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 1.0,
+          "full_sample_score": 0.16666666666666666,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.16666666666666666
+        },
+        "single:huggingface": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:openalex": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:papers_with_code": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:parallel": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.08333333333333333,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.08333333333333333
+        },
+        "single:semantic_scholar": {
+          "successful_queries": 10,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:serpapi": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "voyage": {
+          "successful_queries": 1,
+          "total_queries": 12,
+          "paired_queries": 1,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        }
+      },
+      "strongest_reranked_individual": "exa+voyage",
+      "paired_vs_best_single": {
+        "rrf": {
+          "mean_delta": -1.0,
+          "ci95": [
+            -1.0,
+            -1.0
+          ],
+          "queries": 1,
+          "seed": 0,
+          "samples": 2000
+        },
+        "voyage": {
+          "mean_delta": -1.0,
+          "ci95": [
+            -1.0,
+            -1.0
+          ],
+          "queries": 1,
+          "seed": 0,
+          "samples": 2000
+        }
+      },
+      "provider_successes": {
+        "exa": 12,
+        "huggingface": 12,
+        "openalex": 12,
+        "papers_with_code": 12,
+        "parallel": 12,
+        "semantic_scholar": 10,
+        "serpapi": 12
+      },
+      "pool_recall_at30": 0.16666666666666666,
+      "by_domain": {
+        "computer_science": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 0,
+              "mean": 0
+            }
+          }
+        },
+        "healthcare": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 0,
+              "mean": 0
+            }
+          }
+        },
+        "humanities": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 0,
+              "mean": 0
+            }
+          }
+        },
+        "natural_science": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.6666666666666666
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.6666666666666666
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 1,
+              "mean": 0.0
+            }
+          }
+        }
+      }
+    },
+    "sage_open": {
+      "queries": 12,
+      "primary_metric": "WeightedRecall@10",
+      "paired_ids": [
+        "sage_open_computer_science_108",
+        "sage_open_computer_science_37"
+      ],
+      "methods": {
+        "exa+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.06904761904761905
+        },
+        "huggingface+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "openalex+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.1875,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.14500661375661375
+        },
+        "papers_with_code+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "parallel+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "rrf": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0625,
+          "full_sample_score": 0.060416666666666674,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.06041666666666667
+        },
+        "search_cli_fusion_port": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0625,
+          "full_sample_score": 0.060416666666666674,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.06041666666666667
+        },
+        "semantic_scholar+voyage": {
+          "successful_queries": 8,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "serpapi+voyage": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:exa": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.06904761904761904,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.06904761904761905
+        },
+        "single:huggingface": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:openalex": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.1875,
+          "full_sample_score": 0.14500661375661375,
+          "product_hit5_paired": 1.0,
+          "all_successful_mean": 0.14500661375661375
+        },
+        "single:papers_with_code": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:parallel": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:semantic_scholar": {
+          "successful_queries": 8,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:serpapi": {
+          "successful_queries": 12,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "voyage": {
+          "successful_queries": 2,
+          "total_queries": 12,
+          "paired_queries": 2,
+          "primary_paired": 0.0625,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0625
+        }
+      },
+      "strongest_reranked_individual": "openalex+voyage",
+      "paired_vs_best_single": {
+        "rrf": {
+          "mean_delta": -0.125,
+          "ci95": [
+            -0.25,
+            0.0
+          ],
+          "queries": 2,
+          "seed": 0,
+          "samples": 2000
+        },
+        "voyage": {
+          "mean_delta": -0.125,
+          "ci95": [
+            -0.25,
+            0.0
+          ],
+          "queries": 2,
+          "seed": 0,
+          "samples": 2000
+        }
+      },
+      "provider_successes": {
+        "exa": 12,
+        "huggingface": 12,
+        "openalex": 12,
+        "papers_with_code": 12,
+        "parallel": 12,
+        "semantic_scholar": 8,
+        "serpapi": 12
+      },
+      "pool_recall_at30": 0.14523809523809522,
+      "by_domain": {
+        "computer_science": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.09523809523809523
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.125
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.041666666666666664
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.041666666666666664
+            },
+            "semantic_scholar+voyage": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.09523809523809523
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.125
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 2,
+              "mean": 0.041666666666666664
+            }
+          }
+        },
+        "healthcare": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.13333333333333333
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.2
+            },
+            "semantic_scholar+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.13333333333333333
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.3333333333333333
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 0,
+              "mean": 0
+            }
+          }
+        },
+        "humanities": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 1,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 1,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 0,
+              "mean": 0
+            }
+          }
+        },
+        "natural_science": {
+          "queries": 3,
+          "methods": {
+            "exa+voyage": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "huggingface+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "openalex+voyage": {
+              "successes": 3,
+              "mean": 0.12169312169312169
+            },
+            "papers_with_code+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "parallel+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "rrf": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "search_cli_fusion_port": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "semantic_scholar+voyage": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "serpapi+voyage": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:exa": {
+              "successes": 3,
+              "mean": 0.047619047619047616
+            },
+            "single:huggingface": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:openalex": {
+              "successes": 3,
+              "mean": 0.12169312169312169
+            },
+            "single:papers_with_code": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:parallel": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "single:semantic_scholar": {
+              "successes": 2,
+              "mean": 0.0
+            },
+            "single:serpapi": {
+              "successes": 3,
+              "mean": 0.0
+            },
+            "voyage": {
+              "successes": 0,
+              "mean": 0
+            }
+          }
+        }
+      }
+    },
+    "litqa2": {
+      "queries": 10,
+      "primary_metric": "Recall@30",
+      "paired_ids": [
+        "litqa2_11",
+        "litqa2_156",
+        "litqa2_162",
+        "litqa2_17",
+        "litqa2_176",
+        "litqa2_188",
+        "litqa2_2",
+        "litqa2_26",
+        "litqa2_41",
+        "litqa2_53"
+      ],
+      "methods": {
+        "exa+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.5,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.5
+        },
+        "huggingface+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "openalex+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.2,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.2,
+          "all_successful_mean": 0.2
+        },
+        "papers_with_code+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "parallel+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.1,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.1
+        },
+        "rrf": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": 0.6,
+          "product_hit5_paired": 0.4,
+          "all_successful_mean": 0.6
+        },
+        "search_cli_fusion_port": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.5,
+          "full_sample_score": 0.5,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.5
+        },
+        "semantic_scholar+voyage": {
+          "successful_queries": 6,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "serpapi+voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.1,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.1
+        },
+        "single:exa": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.5,
+          "full_sample_score": 0.5,
+          "product_hit5_paired": 0.5,
+          "all_successful_mean": 0.5
+        },
+        "single:huggingface": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:openalex": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.2,
+          "full_sample_score": 0.2,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.2
+        },
+        "single:papers_with_code": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:parallel": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.1,
+          "full_sample_score": 0.1,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.1
+        },
+        "single:semantic_scholar": {
+          "successful_queries": 6,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.0,
+          "full_sample_score": 0.0,
+          "product_hit5_paired": 0.0,
+          "all_successful_mean": 0.0
+        },
+        "single:serpapi": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.1,
+          "full_sample_score": 0.1,
+          "product_hit5_paired": 0.1,
+          "all_successful_mean": 0.1
+        },
+        "voyage": {
+          "successful_queries": 10,
+          "total_queries": 10,
+          "paired_queries": 10,
+          "primary_paired": 0.6,
+          "full_sample_score": null,
+          "product_hit5_paired": 0.3,
+          "all_successful_mean": 0.6
+        }
+      },
+      "strongest_reranked_individual": "exa+voyage",
+      "paired_vs_best_single": {
+        "rrf": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        },
+        "voyage": {
+          "mean_delta": 0.1,
+          "ci95": [
+            0.0,
+            0.3
+          ],
+          "queries": 10,
+          "seed": 0,
+          "samples": 2000
+        }
+      },
+      "provider_successes": {
+        "exa": 10,
+        "huggingface": 10,
+        "openalex": 10,
+        "papers_with_code": 10,
+        "parallel": 10,
+        "semantic_scholar": 6,
+        "serpapi": 10
+      },
+      "pool_recall_at30": 0.6,
+      "by_domain": {}
+    }
+  },
+  "source_scope": "academic-sources",
+  "protocol": {
+    "per_provider": 10,
+    "shortlist_max": 50,
+    "candidate_tokens": 400,
+    "product_results": 5,
+    "product_tokens": 1500
+  },
+  "limitations": [
+    "Live API adaptation, not the official closed-corpus leaderboard",
+    "Known-positive ID/DOI matching only; SAGE reference positives are incomplete",
+    "Single providers request only ten results; Recall@30 is depth-limited for those baselines",
+    "Main table uses paired complete ranking cases; provider retrieval failure is counted as zero in operational precision/recall",
+    "Search CLI comparison is a Python fusion port with fixed alphabetic bucket ties, not execution of the Rust CLI",
+    "Expanded snapshot adds sources and deterministic lexical query cleanup; not a fresh-query holdout",
+    "No answer correctness or passage usefulness claim follows from finding a paper"
+  ],
+  "implementation_coverage": {
+    "github_repositories": 226,
+    "papers_with_code_links": 121,
+    "papers_with_dataset_links": 1
+  }
+}

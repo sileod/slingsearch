@@ -25,5 +25,6 @@ class Provider:
     def result(self, row, rank):
         row = dict(row)
         row.setdefault('id', row['url'])
+        row.setdefault('kind', 'paper' if self.mode == 'scholar' else 'web')
         row['sources'] = [Source(self.name, rank)]
         return Result(**row)

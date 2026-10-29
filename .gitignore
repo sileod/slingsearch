@@ -34,3 +34,7 @@ benchmarks/reports/**/budget.lock
 
 !benchmarks/reports/academic-samples/manifest.json
 !benchmarks/reports/decision-audit/d1-summary.json
+
+!benchmarks/reports/academic-samples/results.json
+!benchmarks/reports/academic-samples/search-cli-source.json
+!benchmarks/reports/academic-sources/results.json

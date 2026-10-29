@@ -1,4 +1,5 @@
 import math
+import asyncio
 from copy import deepcopy
 from ..passages import representation
 from ..output import tokens
@@ -11,9 +12,19 @@ class Voyage:
 
     async def rank(self, question, candidates):
         texts = [representation(c, self.text_budget) for c in candidates]
-        response = await self.client.post('https://openrouter.ai/api/v1/rerank',
-            headers={'Authorization': f'Bearer {self.key}'},
-            json={'model': self.model, 'query': question, 'documents': texts, 'top_n': len(texts)})
+        for attempt in range(2):
+            response = await self.client.post('https://openrouter.ai/api/v1/rerank',
+                headers={'Authorization': f'Bearer {self.key}'},
+                json={'model': self.model, 'query': question, 'documents': texts, 'top_n': len(texts)})
+            if response.status_code != 429 or attempt:
+                break
+            try:
+                delay = float(response.headers.get('Retry-After', 2))
+            except ValueError:
+                delay = 2
+            if not 0 <= delay <= 5:
+                break
+            await asyncio.sleep(delay)
         response.raise_for_status()
         data = response.json()
         self.usage = data.get('usage') or {}

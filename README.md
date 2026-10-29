@@ -8,7 +8,23 @@ The hypothesis is measurable: an ensemble plus a global relevance model might
 produce better evidence per token than a single search provider. It might not.
 The included replay tools compare both without changing retrieval outputs.
 
-Requires Python 3.11+. From this checkout:
+Early release: the sampled evaluations do **not** show consistent superiority
+over the strongest individual provider. The 10-question LitQA validation sample
+recovered six target papers versus Exa's five; SAGE exposed harder retrieval and
+ranking failures. Adding all new sources reduced SAGE RRF quality, so ML/code
+sources stay opt-in. Read the [original](benchmarks/reports/academic-samples/README.md)
+and [expanded](benchmarks/reports/academic-sources/README.md) evaluation reports
+for sample sizes, paired comparisons and rate-limit failures.
+
+Requires Python 3.11+. Install the library from GitHub:
+
+```sh
+pip install 'slingsearch @ git+https://github.com/sileod/slingsearch.git'
+```
+
+Set the provider credentials below, then use the examples. Model ranking requires
+an OpenRouter key; `ranker="rrf"` works without one. No PyPI release is implied.
+For development from a checkout:
 
 ```sh
 pip install -e '.[test,bench]'
@@ -86,14 +102,17 @@ TAVILY_API_KEY
 FIRECRAWL_API_KEY
 SEMANTIC_SCHOLAR_API_KEY
 OPENALEX_API_KEY
+SERPAPI_API_KEY
+GITHUB_TOKEN       # optional, public repository search works without it
+HF_TOKEN           # optional, public Hugging Face search works without it
 OPENROUTER_API_KEY
 ```
 
 Missing keys skip providers requiring authentication and produce response
 warnings. OpenAlex and Semantic Scholar can run keyless with lower limits.
 A free [OpenAlex key](https://help.openalex.org/api/authentication/) increases
-its available budget. Keys are sent in headers, not saved in snapshots or
-exception messages. Config representations omit the keys. The library does
+its available budget. Most keys are sent in headers; SerpAPI requires an `api_key` query parameter.
+Keys are never included in result envelopes or exception messages. Config representations omit the keys. The library does
 not log requests; avoid enabling HTTP header logging in your application.
 
 ```python
@@ -267,7 +286,7 @@ the same API; it adds no retrieval or ranking behavior.
 
 ## Validation status
 
-Tests use fixed HTTP responses and cover all seven provider adapters, ranking
+Tests use fixed HTTP responses and cover all eleven provider adapters, ranking
 contracts, failures, pooling, deduplication, budgets and all four dataset
 loaders. No paid API requests or model-quality claims are part of these tests.
 A live one-result smoke check on 2026-10-29 succeeded for all seven retrieval
@@ -307,3 +326,105 @@ the ten official LitQA validation questions. Query text is taken verbatim; refer
 answers, target titles and generation plans are not appended. Downloaded data and per-query labels
 stay local; the manifest records source revisions, hashes and selected IDs.
 See [the evaluation protocol](benchmarks/ACADEMIC_EVAL.md) for metrics and limits.
+
+## Academic and implementation sources
+
+| Provider | Web mode | Scholar mode | Credentials |
+|---|---|---|---|
+| `serpapi` | Google organic search | Google Scholar papers, citations, author/year metadata and PDF links | `SERPAPI_API_KEY` |
+| `github` | Public repositories | Public repositories (kept as repositories) | optional `GITHUB_TOKEN` |
+| `papers_with_code` | Paper catalog | Abstracts, code links, tasks and linked datasets | none |
+| `huggingface` | Papers by default | Papers by default | optional `HF_TOKEN` |
+
+Papers with Code uses the **Hugging Face-maintained `paperswithcode.co` catalog**,
+not the retired `.com` API. It fetches details for each returned paper to obtain
+abstracts and linked repositories. Hugging Face passages use original abstracts
+or repository cards, never AI TLDRs. Its catalog is primarily AI/ML, so it cannot
+replace OpenAlex or Semantic Scholar for broad academic coverage.
+
+```python
+results = search(
+    "Limitations of diffusion models for time-series forecasting",
+    mode="scholar",
+    providers=["exa", "serpapi", "openalex", "semantic_scholar",
+               "papers_with_code", "huggingface"],
+    ranker="voyage",
+)
+```
+
+Default provider lists remain explicit and unchanged pending the expanded
+benchmark results. GitHub is opt-in for implementation discovery. Results expose
+`kind`, `code_urls`, `tasks`, and `dataset_urls`; repository titles are not merged
+with papers merely because their titles coincide. Code/task/dataset metadata is
+also shown in Markdown and counted against the output budget. Citation counts
+are metadata and never automatic ranking boosts.
+
+SerpAPI Scholar uses deterministic six-term keyword cleanup for long questions.
+PWC and GitHub use four terms, with a two-term fallback only for empty responses.
+No model generates these queries. Provider-specific lexical cleanup can lose
+constraints; the global ranker still receives the original question. Comparisons
+must record the strategy and cannot attribute every change solely to fusion.
+
+For Hub assets, set `Config(huggingface_resource="models")` or `"datasets"`.
+These return model/dataset repository URLs and original README excerpts, with
+appropriate result kinds. The default resource is `"papers"`.
+
+## Bounded retrieval and citation graphs
+
+`search(..., fast=True, deadline=3)` waits for enough text-bearing unique results
+from at least two available providers, then allows a 150ms grace period and
+cancels stragglers. Override the threshold with `fast_min_results`. This is a
+text-availability heuristic, not a guarantee of relevance. `deadline` bounds
+network work across retrieval, page fetching and model ranking; small local
+formatting/cleanup overhead may remain. Cancelled providers are listed separately
+in `response.cancelled`. If ranking times out, the response explicitly reports
+RRF fallback. Cancellation does not guarantee that an upstream request was free.
+Ordinary searches still await all selected providers.
+
+```python
+with Client() as client:
+    graph = client.citation_graph("ARXIV:1706.03762", direction="both", limit=10)
+# Async: await client.acitation_graph(...)
+```
+
+This fetches one hop of Semantic Scholar references and citations, with bounded
+nodes, directed `cites` edges, paper abstracts/identifiers and partial failures.
+It does not recursively crawl, synthesize answers, or promote highly cited papers
+in search results. Graph expansion is explicit and separate from search.
+
+`doctor` and `usage` commands are also available, but operational tooling is
+secondary to source consolidation. `usage` reports only supported provider
+balances (Tavily, Firecrawl, OpenAlex, SerpAPI, GitHub); unknown balances remain
+unknown. `doctor` uses an account endpoint where possible, otherwise a one-result
+search that may consume credits. Account checks do not guarantee search access.
+
+## Did the search find useful evidence?
+
+```python
+response = search("Your research question", mode="scholar", ranker="voyage", assess=True)
+print(response.evidence_assessment)
+```
+
+`assess=True` asks Jev Latest three typed questions per displayed result: the
+five-level relevance score, a yes/no probability of useful answer evidence, and
+a yes/no probability that more source text is needed. Up to 20 results are packed
+per request (normally one request for five results). Assessment uses the **final
+budgeted excerpts**, preserves the search ordering and original model scores,
+and adds reported cost/usage separately. It works after any ranking backend.
+
+`evidence_assessment.results` contains `evidence_probability` and
+`needs_more_text_probability`. `has_potential_evidence` requires at least one
+result with evidence probability >= `assessment_threshold` (default .7) and
+relevance rubric score >= 3. `max_evidence_probability` is just the maximum
+single-result estimate, not a probability that the overall search succeeded.
+No results and unavailable assessment are distinct states. Failures or a missing
+OpenRouter key leave usefulness unknown; they never imply that evidence is absent.
+
+These are model estimates, not validated truth or calibrated success probabilities.
+Voyage scores remain useful for within-query ordering, not as absolute evidence
+probabilities. An arbitrary sigmoid would not calibrate them. Calibrated thresholds
+require held-out passage-usefulness labels and reliability/Brier measurements.
+The model does not establish whether important unseen papers were missed.
+
+See the sampled [original academic evaluation](benchmarks/reports/academic-samples/README.md)
+and [expanded source evaluation](benchmarks/reports/academic-sources/README.md).

@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/paperfoot/search-cli",
+  "revision": "7df7b345cf4098c1f8b2fcf52e5aa096815a0268",
+  "path": "src/engine.rs",
+  "sha256": "704597ad8a66d1e843f150337c9545a786ded435eb36a6b0b6cb274336d30e58",
+  "license": "MIT",
+  "scope": "Python port of URL normalization and RRF, shared frozen provider buckets; not execution of the Rust CLI"
+}

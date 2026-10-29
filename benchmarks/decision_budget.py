@@ -66,7 +66,8 @@ class Transport(httpx.AsyncBaseTransport):
         else:
             allowances={'api.exa.ai':.05,'api.parallel.ai':.01,'api.search.brave.com':.01,
                         'api.tavily.com':.02,'api.firecrawl.dev':.05,'api.openalex.org':.01,
-                        'api.semanticscholar.org':0}
+                        'api.semanticscholar.org':0,'serpapi.com':.01,
+                        'api.github.com':0,'paperswithcode.co':0,'huggingface.co':0}
             if host not in allowances:raise ValueError('Provider outside experiment scope')
             amount=allowances[host]
         digest=hashlib.sha256(str(request.url).encode()+request.content).hexdigest()
@@ -94,6 +95,14 @@ class Transport(httpx.AsyncBaseTransport):
         if not response.is_success:cost=0
         self.budget.settle(token,cost)
         if response.is_success:
-            pending=cached.with_suffix('.next.json');pending.write_text(json.dumps(data));pending.replace(cached)
+            secrets = [request.url.params.get('api_key', '')]
+            for name in ('authorization', 'x-api-key', 'x-subscription-token'):
+                value = request.headers.get(name, '')
+                secrets.append(value.removeprefix('Bearer '))
+            serialized = json.dumps(data)
+            for secret in secrets:
+                if len(secret) >= 8:
+                    serialized = serialized.replace(secret, '[REDACTED]')
+            pending=cached.with_suffix('.next.json');pending.write_text(serialized);pending.replace(cached)
         return response
     async def aclose(self):await self.inner.aclose()

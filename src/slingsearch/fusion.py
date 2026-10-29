@@ -69,13 +69,15 @@ def equivalent(a, b):
         return True
     if any(b.identifiers.get(k) == v for k, v in a.identifiers.items()):
         return True
+    if a.kind != b.kind and 'repository' in (a.kind, b.kind):
+        return False
     scholarly = (a.doi or a.identifiers or a.abstract) and (b.doi or b.identifiers or b.abstract)
     return bool(scholarly and title_key(a.title) and title_key(a.title) == title_key(b.title)
                 and (a.year is None or b.year is None or a.year == b.year))
 
 
 def merge(a, b):
-    for name in ('passages', 'authors', 'sources', 'related_urls'):
+    for name in ('passages', 'authors', 'sources', 'related_urls', 'code_urls', 'tasks', 'dataset_urls'):
         target = getattr(a, name)
         target.extend(x for x in getattr(b, name) if x not in target)
     if a.url != b.url and b.url not in a.related_urls:

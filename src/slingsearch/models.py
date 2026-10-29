@@ -25,6 +25,10 @@ class Result:
     venue: str | None = None
     citation_count: int | None = None
     related_urls: list[str] = field(default_factory=list)
+    kind: str = 'web'
+    code_urls: list[str] = field(default_factory=list)
+    tasks: list[str] = field(default_factory=list)
+    dataset_urls: list[str] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, value):
@@ -42,6 +46,7 @@ class SearchResponse:
     successful: list[str] = field(default_factory=list)
     failed: dict[str, str] = field(default_factory=dict)
     skipped: dict[str, str] = field(default_factory=dict)
+    cancelled: dict[str, str] = field(default_factory=dict)
     ranking_backend: str = 'rrf'
     model: str | None = None
     requested_ranker: str = 'jev'
@@ -50,6 +55,7 @@ class SearchResponse:
     usage: dict = field(default_factory=dict)
     cost_usd: float | None = None
     warnings: list[str] = field(default_factory=list)
+    evidence_assessment: dict | None = None
 
     def to_dict(self):
         return asdict(self)
