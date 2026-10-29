@@ -1,0 +1,342 @@
+{
+  "summary": {
+    "bm25": {
+      "successful": 16,
+      "paired_queries": 16,
+      "failed": 0,
+      "nDCG@5": 0.5806371094277546,
+      "nDCG@10": 0.5946257786180096,
+      "R@10": 0.15709446871211577,
+      "R@20": 0.28807567160508335,
+      "aspect_coverage@5": 0.7506325291854088,
+      "metric_query_counts": {
+        "nDCG@5": 16,
+        "nDCG@10": 16,
+        "R@10": 15,
+        "R@20": 15,
+        "aspect_coverage@5": 16
+      },
+      "latency_p50_s": 0.02820744924247265,
+      "latency_p95_s": 0.04651074483990669,
+      "reported_ranking_cost_per_1000_usd": 0,
+      "output_tokens_mean": 1500,
+      "output_nDCG@5": 0.5806371094277546
+    },
+    "random": {
+      "successful": 16,
+      "paired_queries": 16,
+      "failed": 0,
+      "nDCG@5": 0.49863003051259247,
+      "nDCG@10": 0.5083501976679097,
+      "R@10": 0.10181485181485181,
+      "R@20": 0.190989935989936,
+      "aspect_coverage@5": 0.718528537010085,
+      "metric_query_counts": {
+        "nDCG@5": 16,
+        "nDCG@10": 16,
+        "R@10": 15,
+        "R@20": 15,
+        "aspect_coverage@5": 16
+      },
+      "latency_p50_s": 0.014255791902542114,
+      "latency_p95_s": 0.01724245958030224,
+      "reported_ranking_cost_per_1000_usd": 0,
+      "output_tokens_mean": 1500,
+      "output_nDCG@5": 0.49863003051259247,
+      "paired_vs_bm25": {
+        "mean_delta": -0.0820070789151621,
+        "ci95": [
+          -0.17527188444656572,
+          0.0076416567306178546
+        ],
+        "queries": 16,
+        "seed": 0,
+        "samples": 2000
+      }
+    },
+    "jev": {
+      "successful": 16,
+      "paired_queries": 16,
+      "failed": 0,
+      "nDCG@5": 0.7323862820632727,
+      "nDCG@10": 0.7503217598948662,
+      "R@10": 0.3067734661852309,
+      "R@20": 0.5109117244411362,
+      "aspect_coverage@5": 0.766774641807623,
+      "metric_query_counts": {
+        "nDCG@5": 16,
+        "nDCG@10": 16,
+        "R@10": 15,
+        "R@20": 15,
+        "aspect_coverage@5": 16
+      },
+      "latency_p50_s": 25.28000250365585,
+      "latency_p95_s": 34.151597732678056,
+      "reported_ranking_cost_per_1000_usd": 3.8251395,
+      "output_tokens_mean": 1500,
+      "output_nDCG@5": 0.7323862820632727,
+      "paired_vs_bm25": {
+        "mean_delta": 0.15174917263551815,
+        "ci95": [
+          0.0853420704728043,
+          0.22441494403324544
+        ],
+        "queries": 16,
+        "seed": 0,
+        "samples": 2000
+      }
+    },
+    "decider": {
+      "successful": 16,
+      "paired_queries": 16,
+      "failed": 0,
+      "nDCG@5": 0.7537409210567607,
+      "nDCG@10": 0.7607767344739997,
+      "R@10": 0.2888644035702859,
+      "R@20": 0.4696181868240692,
+      "aspect_coverage@5": 0.7752108670407233,
+      "metric_query_counts": {
+        "nDCG@5": 16,
+        "nDCG@10": 16,
+        "R@10": 15,
+        "R@20": 15,
+        "aspect_coverage@5": 16
+      },
+      "latency_p50_s": 25.545880186371505,
+      "latency_p95_s": 40.06965855509043,
+      "reported_ranking_cost_per_1000_usd": 1.28953625,
+      "output_tokens_mean": 1500,
+      "output_nDCG@5": 0.7537409210567607,
+      "paired_vs_bm25": {
+        "mean_delta": 0.17310381162900615,
+        "ci95": [
+          0.10091265200412791,
+          0.2460734626148555
+        ],
+        "queries": 16,
+        "seed": 0,
+        "samples": 2000
+      }
+    },
+    "voyage": {
+      "successful": 16,
+      "paired_queries": 16,
+      "failed": 0,
+      "nDCG@5": 0.7668475651145558,
+      "nDCG@10": 0.781685348576507,
+      "R@10": 0.3522720416838064,
+      "R@20": 0.49175517837282545,
+      "aspect_coverage@5": 0.8023215184482497,
+      "metric_query_counts": {
+        "nDCG@5": 16,
+        "nDCG@10": 16,
+        "R@10": 15,
+        "R@20": 15,
+        "aspect_coverage@5": 16
+      },
+      "latency_p50_s": 0.8488827766850591,
+      "latency_p95_s": 1.0531010497361422,
+      "reported_ranking_cost_per_1000_usd": 0.85953625,
+      "output_tokens_mean": 1500,
+      "output_nDCG@5": 0.7668475651145558,
+      "paired_vs_bm25": {
+        "mean_delta": 0.18621045568680117,
+        "ci95": [
+          0.11171631941510038,
+          0.25650525128855617
+        ],
+        "queries": 16,
+        "seed": 0,
+        "samples": 2000
+      }
+    }
+  },
+  "pairwise": {
+    "voyage_vs_jev": {
+      "mean_delta": 0.034461283051283015,
+      "ci95": [
+        -0.003116153239140891,
+        0.06900036084081823
+      ],
+      "queries": 16,
+      "seed": 0,
+      "samples": 2000
+    },
+    "decider_vs_jev": {
+      "mean_delta": 0.02135463899348801,
+      "ci95": [
+        -0.008784530272335958,
+        0.05515961279068637
+      ],
+      "queries": 16,
+      "seed": 0,
+      "samples": 2000
+    },
+    "voyage_vs_decider": {
+      "mean_delta": 0.013106644057795006,
+      "ci95": [
+        -0.028227969096126765,
+        0.05022133313053749
+      ],
+      "queries": 16,
+      "seed": 0,
+      "samples": 2000
+    }
+  },
+  "paired_query_ids": [
+    "doris-28",
+    "doris-51",
+    "doris-54",
+    "doris-57",
+    "doris-58",
+    "doris-62",
+    "doris-67",
+    "doris-68",
+    "doris-69",
+    "doris-74",
+    "doris-80",
+    "doris-83",
+    "doris-84",
+    "doris-86",
+    "doris-88",
+    "doris-94"
+  ],
+  "manifest": {
+    "dataset": "DORIS-MAE v1",
+    "source": "https://zenodo.org/records/8299749",
+    "seed": 20261029,
+    "size": 16,
+    "indices": [
+      28,
+      51,
+      54,
+      57,
+      58,
+      62,
+      67,
+      68,
+      69,
+      74,
+      80,
+      83,
+      84,
+      86,
+      88,
+      94
+    ],
+    "sampling_frame": [
+      1,
+      8,
+      10,
+      16,
+      23,
+      28,
+      33,
+      37,
+      44,
+      46,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99
+    ],
+    "candidate_policy": "Full released pool; no label-based candidate selection",
+    "candidate_tokens": 400,
+    "models": {
+      "jev": "typesafe/jev-1.14",
+      "decider": "perplexity/pplx-decider-v1.2",
+      "voyage": "voyageai/rerank-3-lite"
+    },
+    "methods": [
+      "bm25",
+      "random",
+      "jev",
+      "decider",
+      "voyage"
+    ],
+    "output_budget": 1500,
+    "max_results": 5,
+    "labels": "Released AnnoGPT per-aspect scores; sum for linear nDCG; mean >= 1 for recall",
+    "ranking_reservation_limit_usd": 2.0,
+    "prior_session_spend_estimate_usd": 1.011467092,
+    "paperfinding_status": "Official dataset gated: anonymous401, cached authenticated account403; access requested",
+    "snapshot_sha256": "b2a3ea6ba0001a44f8a0afeb2cbf50c3c54bee16df8a4e76f278ce2dcda65bde",
+    "candidate_counts": [
+      101,
+      126,
+      119,
+      138,
+      101,
+      103,
+      108,
+      107,
+      116,
+      105,
+      100,
+      101,
+      104,
+      118,
+      103,
+      124
+    ],
+    "text_audit": {
+      "mean_original_estimated_tokens": 428.9588500563698,
+      "fraction_exceeding_document_budget": 0.5834272829763247,
+      "mean_question_estimated_tokens": 337.4375
+    },
+    "runtime_note": "First four complete questions ran at decision concurrency12. Remaining questions run at32 to reduce wall time; query doris-58 partially resumes cached judgments. Inputs and relevance policies unchanged. Latencies describe this mixed-concurrency run; they are not a controlled serving-speed benchmark. Interrupted requests retain reservations; their unreported costs are bounded by those reservations."
+  },
+  "spend": {
+    "requests": 3659,
+    "reserved_usd": 1.5708332559999956,
+    "reported_usd": 0.09808941600000014,
+    "unreported_requests": 0,
+    "scope": "Only this DORIS run; reservations persist across restarts; no retries"
+  }
+}

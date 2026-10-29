@@ -1,0 +1,12 @@
+{
+  "session_limit_usd": 5,
+  "prior_session_reported_plus_estimated_usd": 1.0114670920000002,
+  "doris_reported_usd": 0.09808941600000014,
+  "paperfinding_retrieval_reported_usd": 0.09600000000000003,
+  "paperfinding_parallel_estimated_usd": 0.05999999999999999,
+  "paperfinding_ranking_reported_usd": 0.007923847999999997,
+  "paperfinding_independent_judging_reported_usd": 0.6172124999999998,
+  "new_reported_plus_estimated_usd": 0.8792257640000001,
+  "session_reported_plus_estimated_usd": 1.8906928560000003,
+  "limitation": "Reported costs and listed Parallel estimates, not an invoice. Interrupted in-flight native decisions may have unreported cost; reservations retained. No paid retry or further evaluation is needed."
+}

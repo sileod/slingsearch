@@ -1,0 +1,9 @@
+{
+  "source": "https://zenodo.org/records/8299749",
+  "file": "DORIS-MAE_dataset_v1.json",
+  "bytes": 1081281638,
+  "publisher_checksum": "md5:eb176a948f576d6205d31af4f27be801",
+  "verified_checksum": "md5:eb176a948f576d6205d31af4f27be801",
+  "download_url": "https://zenodo.org/api/records/8299749/files/DORIS-MAE_dataset_v1.json/content",
+  "license": "CC-BY-NC per official DORIS-MAE repository"
+}

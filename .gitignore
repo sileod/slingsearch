@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+dist/
+*.egg-info/
+.env
+comparison*.json
+comparison*.md
+benchmarks/reports/scholar-benchmarks/raw/
+benchmarks/reports/scholar-benchmarks/doris/response-cache/
+benchmarks/reports/scholar-benchmarks/paperfinding/response-cache/
+# Keep published reports small; downloaded corpora and per-query evidence stay local.
+benchmarks/reports/**/*.json
+benchmarks/reports/**/*.jsonl
+benchmarks/reports/**/*.csv
+benchmarks/reports/**/*.pickle
+benchmarks/reports/**/*.pkl
+benchmarks/reports/**/*.py
+!benchmarks/reports/scholar-benchmarks/budget.json
+!benchmarks/reports/scholar-benchmarks/native-source.json
+!benchmarks/reports/scholar-benchmarks/doris/manifest.json
+!benchmarks/reports/scholar-benchmarks/doris/results.json
+!benchmarks/reports/scholar-benchmarks/paperfinding/manifest.json
+!benchmarks/reports/scholar-benchmarks/paperfinding/results.json
+!benchmarks/reports/scholar-benchmarks/paperfinding/diagnostics.json
