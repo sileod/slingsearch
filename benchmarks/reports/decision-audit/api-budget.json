@@ -2,7 +2,7 @@
   "prior_session_estimated_usd": 1.890692856,
   "new_limit_usd": 8.0,
   "uncertainty_allowance_usd": 0.1,
-  "charged_usd": 3.2250802899999744,
+  "charged_usd": 3.2265802899999745,
   "outstanding": {},
   "calls": {
     "typesafe/jev-1.14": 906,
@@ -20,7 +20,8 @@
     "serpapi.com": 75,
     "paperswithcode.co": 162,
     "huggingface.co": 34,
-    "api.github.com": 70
+    "api.github.com": 70,
+    "api.expand.ai": 1
   },
   "cache_hits": 637,
   "scope": "Session-wide experiments including academic evaluation and Semforge novelty/related-work validation; total authorized ceiling USD10",

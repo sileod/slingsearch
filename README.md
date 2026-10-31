@@ -90,15 +90,23 @@ APIs and MCP too. No checks are imposed by default.
 
 - **Web:** Exa, Parallel, Brave.
 - **Scholar:** Exa, Parallel, OpenAlex, Semantic Scholar, Google Scholar via SerpAPI.
-- **Opt-in:** Tavily, Firecrawl, GitHub, Papers with Code, Hugging Face.
+- **Opt-in:** Expand, Tavily, Firecrawl, GitHub, Papers with Code, Hugging Face.
 
 Missing credentials disable the corresponding provider with a warning. Set
 `EXA_API_KEY`, `PARALLEL_API_KEY`, `BRAVE_API_KEY`, `OPENALEX_API_KEY`,
 `SEMANTIC_SCHOLAR_API_KEY`, `SERPAPI_API_KEY`, `TAVILY_API_KEY`, or
-`FIRECRAWL_API_KEY`. GitHub and Hugging Face accept optional `GITHUB_TOKEN` and
+`FIRECRAWL_API_KEY`, or `EXPAND_API_KEY`. GitHub and Hugging Face accept optional `GITHUB_TOKEN` and
 `HF_TOKEN`. No global configuration file is required.
 
-Override with `providers=["exa", "openalex"]`. Scholar fusion gives Semantic
+Override with `providers=["exa", "openalex"]`.
+[Expand](https://expand.ai/docs/search) is available as `providers=["expand"]`
+or alongside other providers. It accepts natural-language questions up to 2,000
+characters and returns at most ten results without pagination. Its excerpts are
+search snippets, not fetched-page verification; native scores are not reused as
+global relevance scores. Expand has no dedicated scholar/year filter here;
+DOI URLs still deduplicate normally, and year filters exclude unknown years.
+[Documented search pricing](https://expand.ai/docs/pricing-and-usage) is 1.5 credits ($0.0015); the response does not report
+USD cost, so `cost_usd` remains unknown rather than presenting an estimate as a bill. Scholar fusion gives Semantic
 Scholar and SerpAPI half-weight votes and one shortlist opportunity each;
 there are no guaranteed final provider slots. This policy is exploratory.
 `Config(scholar_provider_weights={})` restores plain RRF without reservations.

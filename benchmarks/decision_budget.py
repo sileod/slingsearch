@@ -64,7 +64,7 @@ class Transport(httpx.AsyncBaseTransport):
                 group='independent_gpt4o_judge';amount=n*2.5/1e6+512*10/1e6
             else:raise ValueError('OpenRouter request outside experiment scope')
         else:
-            allowances={'api.exa.ai':.05,'api.parallel.ai':.01,'api.search.brave.com':.01,
+            allowances={'api.expand.ai':.0015,'api.exa.ai':.05,'api.parallel.ai':.01,'api.search.brave.com':.01,
                         'api.tavily.com':.02,'api.firecrawl.dev':.05,'api.openalex.org':.01,
                         'api.semanticscholar.org':0,'serpapi.com':.01,
                         'api.github.com':0,'paperswithcode.co':0,'huggingface.co':0}
@@ -96,7 +96,7 @@ class Transport(httpx.AsyncBaseTransport):
         self.budget.settle(token,cost)
         if response.is_success:
             secrets = [request.url.params.get('api_key', '')]
-            for name in ('authorization', 'x-api-key', 'x-subscription-token'):
+            for name in ('authorization', 'x-api-key', 'x-subscription-token', 'x-expand-api-key'):
                 value = request.headers.get(name, '')
                 secrets.append(value.removeprefix('Bearer '))
             serialized = json.dumps(data)

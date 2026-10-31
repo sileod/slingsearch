@@ -105,6 +105,7 @@ PARALLEL_API_KEY
 BRAVE_API_KEY
 TAVILY_API_KEY
 FIRECRAWL_API_KEY
+EXPAND_API_KEY
 SEMANTIC_SCHOLAR_API_KEY
 OPENALEX_API_KEY
 SERPAPI_API_KEY
@@ -291,7 +292,7 @@ the same API; it adds no retrieval or ranking behavior.
 
 ## Validation status
 
-Tests use fixed HTTP responses and cover all eleven provider adapters, ranking
+Tests use fixed HTTP responses and cover all twelve provider adapters, ranking
 contracts, failures, pooling, deduplication, budgets and all four dataset
 loaders. No paid API requests or model-quality claims are part of these tests.
 A live one-result smoke check on 2026-10-29 succeeded for all seven retrieval
@@ -340,6 +341,7 @@ See [the evaluation protocol](../benchmarks/ACADEMIC_EVAL.md) for metrics and li
 | `github` | Public repositories | Public repositories (kept as repositories) | optional `GITHUB_TOKEN` |
 | `papers_with_code` | Paper catalog | Abstracts, code links, tasks and linked datasets | none |
 | `huggingface` | Papers by default | Papers by default | optional `HF_TOKEN` |
+| `expand` | Web search | Optional web discovery; no scholarly metadata | `EXPAND_API_KEY` |
 
 Papers with Code uses the **Hugging Face-maintained `paperswithcode.co` catalog**,
 not the retired `.com` API. It fetches details for each returned paper to obtain

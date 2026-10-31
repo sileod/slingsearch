@@ -4,7 +4,7 @@ import math
 
 WEB = ('exa', 'parallel', 'brave')
 SCHOLAR = ('exa', 'parallel', 'openalex', 'semantic_scholar', 'serpapi')
-NAMES = ('exa', 'parallel', 'brave', 'tavily', 'firecrawl', 'semantic_scholar', 'openalex', 'serpapi', 'github', 'papers_with_code', 'huggingface')
+NAMES = ('expand', 'exa', 'parallel', 'brave', 'tavily', 'firecrawl', 'semantic_scholar', 'openalex', 'serpapi', 'github', 'papers_with_code', 'huggingface')
 MODELS = {'jev': '~typesafe/jev-latest', 'd1': '~liquid/d1-ultra-latest', 'decider': 'perplexity/pplx-decider-v1.2', 'voyage': 'voyageai/rerank-3-lite'}
 
 
