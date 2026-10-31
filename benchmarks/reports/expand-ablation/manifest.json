@@ -1,0 +1,114 @@
+{
+  "seed": 20261031,
+  "selected_ids": [
+    "freshqa_303",
+    "freshqa_265",
+    "freshqa_323",
+    "freshqa_318",
+    "freshqa_341",
+    "freshqa_359",
+    "freshqa_343",
+    "freshqa_369",
+    "sage_short_computer_science_148",
+    "sage_short_healthcare_23",
+    "sage_short_humanities_79",
+    "sage_short_natural_science_149",
+    "sage_open_computer_science_135",
+    "sage_open_healthcare_122",
+    "sage_open_humanities_99",
+    "sage_open_natural_science_105"
+  ],
+  "counts": {
+    "web": 8,
+    "scholar": 8
+  },
+  "query_sha256": "f6119647f8feb17b31311e1ba5b2c4f15ae06e4381312b39ce899e46a9a2d63a",
+  "freshqa_sha256": "6b19d6db20c8d25930cb3d831590ff6dbcfa5e547c760b873b6fb1d4d76c2a6a",
+  "freshqa_source": "https://github.com/freshllms/freshqa",
+  "freshqa_sheet": "1_8mi-yuK30mvoDJu1KQXD6ODem7MKMcIgVAwDSzJkjM",
+  "prior_questions_excluded": 208,
+  "sources": "FreshQA stable true-premise questions and official SAGE, one fresh question per task/domain stratum",
+  "per_provider": 10,
+  "shortlist": 20,
+  "candidate_tokens": 400,
+  "max_results": 5,
+  "output_tokens": 1500,
+  "min_relevance": 0.5,
+  "methods": [
+    "default",
+    "default+expand",
+    "expand"
+  ],
+  "defaults": {
+    "web": [
+      "exa",
+      "parallel",
+      "brave"
+    ],
+    "scholar": [
+      "exa",
+      "parallel",
+      "openalex",
+      "semantic_scholar",
+      "serpapi"
+    ]
+  },
+  "weights": {
+    "semantic_scholar": 0.5,
+    "serpapi": 0.5
+  },
+  "model_requested": "~typesafe/jev-latest",
+  "precommitted_policy": "Paired add-one-provider ablation. No provider weight or cutoff tuning. Missing model calls are not successful default evaluations.",
+  "rrf_policy": "Free supplemental fusion comparison without a relevance cutoff; explicitly not the shipped model default",
+  "source_text_policy": "Identical passage selection and budgets for each arm; no provider scores or synthesized answers used",
+  "frozen_sha256": "667ac2e39b140a2e855a7729ae34ed28420122873054d400650b9d179046bf2e",
+  "default_adoption_rule": "Do not enable by default unless actual Jev+0.5-cutoff comparison completes and paired web mean evidence grade@5 improves with 95% bootstrap CI above zero, direct-answer query coverage does not decline, and operational failures remain acceptable. Otherwise retain opt-in.",
+  "web_judgment_policy": "Blind assessor receives only question, reference answers, title, URL and actual displayed excerpts. Grades 0 unrelated/contradictory, 1 topical without useful evidence, 2 partial evidence, 3 directly supports the answer. Report assistant assessment separately from human or benchmark document qrels.",
+  "free_alternative": {
+    "model": "respan/span-01-lite:free",
+    "selection": "Only verified live free Decisions route among the tested score/Noul models; not claimed best in quality",
+    "question_type": "noul",
+    "predicate": "At least partial concrete evidence for the complete question, rather than topical similarity",
+    "cutoff": 0.5,
+    "candidate_tokens": 400,
+    "batch_size": 10,
+    "reported_smoke_cost_usd": 0,
+    "limitations": "Different scoring contract from Jev ordinal rubric; no numerical calibration equivalence claimed",
+    "rate_policy": "Sequential batches with 3.1s pacing; failures recorded, no silent fallback"
+  },
+  "independent_judge": {
+    "requested_model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "selection": "Availability-only: Gemma free probe returned 504; Nemotron free probe returned valid grade and zero cost",
+    "input": "Actual displayed web excerpts; provider/method/ranks/model scores removed; reference answers supplied for correctness only",
+    "scope": "Independent model judgment, not human/source-verified labels; no use as retrieval ranker",
+    "primary_metric": "Per-query mean 0-3 evidence grade among returned sources (maximum five); empty output scores zero",
+    "secondary_metrics": [
+      "Useful-source precision (grade >=2)",
+      "Direct-evidence query coverage (at least one grade 3)",
+      "Useful sources per 1000 output tokens",
+      "Returned source count"
+    ],
+    "batch_size": 15
+  },
+  "sage_source_sha256": {
+    "sage_open_computer_science.json": "44867de83d8737fa8da8f2f32d9d4525ce5c38738aa16fbfb14dd3b94b4641b7",
+    "sage_open_healthcare.json": "3a40df03030eb5d07e2812eabd2faaf06b9866f703ee1033bd19862c62b07179",
+    "sage_open_humanities.json": "5916a424a9121cf2c7965b31b51d1dd7727f402567096bb3014f2a4706d85581",
+    "sage_open_natural_science.json": "60d163e7f32f65dc2ff92cd69c025fd73351c68233b16f76d1d4f9bbb490c19e",
+    "sage_short_computer_science.json": "63f1575f3db3e309b5fc2776d889257d7ae82cddce81f74a0faf29198ac09f06",
+    "sage_short_healthcare.json": "7739c02064d4df118b97786006f22713c807b7d3973d91b0f31d941977443d0a",
+    "sage_short_humanities.json": "9df2af0b18ccb4e61f78f05e667a1c8da28429e9583f727b652e6e917768a479",
+    "sage_short_natural_science.json": "905fc6bb8e22aa726615c37f79f11e2759213105d77e4f5c93985a8ce0bc9463"
+  },
+  "source_manifest_sha256": "6b0973ecd96adc7568432f03a78dbbd0c220c06f2ee33a5f5317b330903457e4",
+  "ranking_snapshot_sha256": {
+    "rrf-rankings.private.jsonl": "a0801e067efc8a604171819ac27f26e424d3d7220182df2e43b96cbbba2e8cf4",
+    "free-rankings.private.jsonl": "9bcf5b903c972e322479414d4cf1e92d13c95168f0cd34982c508f34f0447001",
+    "blinded.private.json": "642fea9f1c25a47fa4c80c3349016f98fa263ad88e4a248529a335fe4b5d72cb"
+  },
+  "evaluation_input_sha256": {
+    "gold-metadata.private.json": "5e12c304f21dedd1b25af7dcd43543431b249bd4f85a1922b0e4a6de2f105580",
+    "web-judgments.private.json": "f61b083d8ec01081b6a47832ddba772e36cba2b29ed183c5c84a518f3352d779",
+    "assistant-spotcheck-grades.private.json": "d66a3c2470f3e9694fb0f8bfae6f75cc75a007c6092a08973f3374081ff33556"
+  }
+}

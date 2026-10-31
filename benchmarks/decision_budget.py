@@ -54,10 +54,14 @@ class Transport(httpx.AsyncBaseTransport):
         payload=json.loads(request.content) if request.content else {}
         group=host
         if host=='openrouter.ai':
-            if path=='/api/alpha/decisions' and payload.get('model') in ['typesafe/jev-1.14','~typesafe/jev-latest','perplexity/pplx-decider-v1.2','liquid/d1-ultra','~liquid/d1-ultra-latest']:
+            if path=='/api/alpha/decisions' and payload.get('model') in ['inception/mercury-decide:free','respan/span-01-lite:free','respan/span-01-lite']:
+                group=payload['model'];amount=0
+            elif path=='/api/alpha/decisions' and payload.get('model') in ['typesafe/jev-1.14','~typesafe/jev-latest','perplexity/pplx-decider-v1.2','liquid/d1-ultra','~liquid/d1-ultra-latest']:
                 group=payload['model'];amount=max(.0002,len(request.content)*.000000042*3)
             elif path=='/api/v1/rerank' and payload.get('model')=='voyageai/rerank-3-lite':
                 group='voyage';amount=max(.0001,len(request.content)*.00000002*3)
+            elif path=='/api/v1/chat/completions' and payload.get('model') in ['google/gemma-4-31b-it:free','nvidia/nemotron-3-ultra-550b-a55b:free'] and payload.get('max_tokens',0)<=2048:
+                group='independent_free_judge';amount=0
             elif path=='/api/v1/chat/completions' and payload.get('model')=='openai/gpt-4o-2024-11-20' and payload.get('max_tokens')==512:
                 import tiktoken
                 n=sum(len(tiktoken.get_encoding('o200k_base').encode(m['content'])) for m in payload['messages'])+200

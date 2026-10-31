@@ -183,6 +183,13 @@ individual provider**. A frozen exploratory sample of 24 SAGE and 10 LitQA queri
 OpenAlex alone scored .145 on the open-ended sample, above the blend.
 These are fusion results, not evidence that Jev or the cutoff improves quality.
 The half weights were explored on reused queries, not independently validated.
+A [16-question Expand ablation](benchmarks/reports/expand-ablation/README.md)
+used free Span ranking and a separate blinded free-model evaluator. On eight web
+questions, adding Expand changed useful-source precision from 62.5% to 60%,
+while direct-answer coverage rose from 7/8 to 8/8. It added no new known-positive
+paper matches on eight SAGE questions. The sample and assessor are limited, and
+Jev could not be tested because of its key cap. Expand remains opt-in.
+
 A separate 12-query DORIS pilot scored Voyage .768 versus packed Jev .758 nDCG@10;
 it is too small to establish a winner. Jev is an operational default, not a proven best reranker.
 
