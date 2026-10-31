@@ -1,0 +1,63 @@
+{
+  "queries": 2,
+  "rows": [
+    {
+      "query_id": 0,
+      "providers": {
+        "exa": {
+          "status": "complete",
+          "count": 5,
+          "text_bearing": 5,
+          "seconds": 1.351587187498808,
+          "urls_absent_from_other_two": 5
+        },
+        "expand": {
+          "status": "complete",
+          "count": 5,
+          "text_bearing": 5,
+          "seconds": 1.53283635340631,
+          "urls_absent_from_other_two": 5
+        },
+        "you": {
+          "status": "complete",
+          "count": 5,
+          "text_bearing": 5,
+          "seconds": 1.3557578809559345,
+          "urls_absent_from_other_two": 5
+        }
+      }
+    },
+    {
+      "query_id": 1,
+      "providers": {
+        "exa": {
+          "status": "complete",
+          "count": 5,
+          "text_bearing": 5,
+          "seconds": 0.9887576885521412,
+          "urls_absent_from_other_two": 5
+        },
+        "expand": {
+          "status": "complete",
+          "count": 5,
+          "text_bearing": 5,
+          "seconds": 1.8305554818361998,
+          "urls_absent_from_other_two": 5
+        },
+        "you": {
+          "status": "complete",
+          "count": 5,
+          "text_bearing": 5,
+          "seconds": 1.4923982825130224,
+          "urls_absent_from_other_two": 5
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "No relevance judgments; URL diversity is not evidence quality",
+    "Two hand-picked questions, five results per provider, not an independent benchmark",
+    "No model ranking or answer generation; exact responses cached privately",
+    "Different URLs can be copies or versions of the same document; this is not document-level novelty"
+  ]
+}

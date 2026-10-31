@@ -42,3 +42,5 @@ benchmarks/reports/**/budget.lock
 !benchmarks/reports/provider-audit/results.json
 
 !benchmarks/reports/snippet-pilot/summary.json
+
+!benchmarks/reports/new-provider-pilot/summary.json

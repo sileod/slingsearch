@@ -4,12 +4,13 @@ import math
 
 WEB = ('exa', 'parallel', 'brave')
 SCHOLAR = ('exa', 'parallel', 'openalex', 'semantic_scholar', 'serpapi')
-NAMES = ('expand', 'exa', 'parallel', 'brave', 'tavily', 'firecrawl', 'semantic_scholar', 'openalex', 'serpapi', 'github', 'papers_with_code', 'huggingface')
+NAMES = ('you', 'expand', 'exa', 'parallel', 'brave', 'tavily', 'firecrawl', 'semantic_scholar', 'openalex', 'serpapi', 'github', 'papers_with_code', 'huggingface')
 MODELS = {'jev': '~typesafe/jev-latest', 'd1': '~liquid/d1-ultra-latest', 'decider': 'perplexity/pplx-decider-v1.2', 'voyage': 'voyageai/rerank-3-lite'}
 
 
 def environment_keys():
     keys = {name: os.environ.get(name.upper() + '_API_KEY', '') for name in (*NAMES, 'openrouter')}
+    keys['you'] = keys['you'] or os.environ.get('YDC_API_KEY', '')
     keys['github'] = os.environ.get('GITHUB_TOKEN') or keys['github']
     keys['huggingface'] = os.environ.get('HF_TOKEN') or keys['huggingface']
     return keys

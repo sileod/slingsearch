@@ -1,3 +1,4 @@
+from .you import You
 from .expand import Expand
 from .exa import Exa
 from .parallel import Parallel
@@ -11,4 +12,4 @@ from .github import GitHub
 from .huggingface import HuggingFace
 from .papers_with_code import PapersWithCode
 
-PROVIDERS = {p.name: p for p in (Expand, Exa, Parallel, Brave, Tavily, Firecrawl, SemanticScholar, OpenAlex, SerpAPI, GitHub, PapersWithCode, HuggingFace)}
+PROVIDERS = {p.name: p for p in (You, Expand, Exa, Parallel, Brave, Tavily, Firecrawl, SemanticScholar, OpenAlex, SerpAPI, GitHub, PapersWithCode, HuggingFace)}

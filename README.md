@@ -90,12 +90,12 @@ APIs and MCP too. No checks are imposed by default.
 
 - **Web:** Exa, Parallel, Brave.
 - **Scholar:** Exa, Parallel, OpenAlex, Semantic Scholar, Google Scholar via SerpAPI.
-- **Opt-in:** Expand, Tavily, Firecrawl, GitHub, Papers with Code, Hugging Face.
+- **Opt-in:** You.com, Expand, Tavily, Firecrawl, GitHub, Papers with Code, Hugging Face.
 
 Missing credentials disable the corresponding provider with a warning. Set
 `EXA_API_KEY`, `PARALLEL_API_KEY`, `BRAVE_API_KEY`, `OPENALEX_API_KEY`,
 `SEMANTIC_SCHOLAR_API_KEY`, `SERPAPI_API_KEY`, `TAVILY_API_KEY`, or
-`FIRECRAWL_API_KEY`, or `EXPAND_API_KEY`. GitHub and Hugging Face accept optional `GITHUB_TOKEN` and
+`FIRECRAWL_API_KEY`, `EXPAND_API_KEY`, or `YOU_API_KEY` (also accepts `YDC_API_KEY`). GitHub and Hugging Face accept optional `GITHUB_TOKEN` and
 `HF_TOKEN`. No global configuration file is required.
 
 Override with `providers=["exa", "openalex"]`.
@@ -106,7 +106,16 @@ search snippets, not fetched-page verification; native scores are not reused as
 global relevance scores. Expand has no dedicated scholar/year filter here;
 DOI URLs still deduplicate normally, and year filters exclude unknown years.
 [Documented search pricing](https://expand.ai/docs/pricing-and-usage) is 1.5 credits ($0.0015); the response does not report
-USD cost, so `cost_usd` remains unknown rather than presenting an estimate as a bill. Scholar fusion gives Semantic
+USD cost, so `cost_usd` remains unknown rather than presenting an estimate as a bill. [You.com](https://you.com/docs/api-reference/search/v1-search) is opt-in as
+`providers=["you"]`. It uses POST search with query-aware highlights (up to 50
+results), falling back to supplied snippets when highlights are absent. It does
+not call Answer, Research, or paid full-page extraction. Base search is
+[$5 per 1,000 calls](https://you.com/docs/administration/billing), including
+highlights. Page dates are not treated as scholarly publication years.
+The [two-query discovery pilot](benchmarks/reports/new-provider-pilot/README.md)
+checks coverage and URL overlap, not relevance or superiority.
+
+Scholar fusion gives Semantic
 Scholar and SerpAPI half-weight votes and one shortlist opportunity each;
 there are no guaranteed final provider slots. This policy is exploratory.
 `Config(scholar_provider_weights={})` restores plain RRF without reservations.

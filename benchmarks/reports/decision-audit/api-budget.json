@@ -2,12 +2,12 @@
   "prior_session_estimated_usd": 1.890692856,
   "new_limit_usd": 8.0,
   "uncertainty_allowance_usd": 0.1,
-  "charged_usd": 3.2265802899999745,
+  "charged_usd": 3.2535802899999746,
   "outstanding": {},
   "calls": {
     "typesafe/jev-1.14": 906,
     "voyage": 389,
-    "api.exa.ai": 61,
+    "api.exa.ai": 63,
     "api.parallel.ai": 61,
     "api.openalex.org": 53,
     "api.semanticscholar.org": 367,
@@ -21,7 +21,8 @@
     "paperswithcode.co": 162,
     "huggingface.co": 34,
     "api.github.com": 70,
-    "api.expand.ai": 1
+    "api.expand.ai": 3,
+    "ydc-index.io": 2
   },
   "cache_hits": 637,
   "scope": "Session-wide experiments including academic evaluation and Semforge novelty/related-work validation; total authorized ceiling USD10",
